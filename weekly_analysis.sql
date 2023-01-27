@@ -1,3 +1,8 @@
+#=========== check and fix Reason: SQL Error [1292] [22001]: Data truncation: Incorrect date value: '0000-00-00' for column `test`.`tbl collection`.`transfer date` at row 1 ======
+select @@global.sql_mode global, @@session.sql_mode session;
+set sql_mode = '', global sql_mode = '';
+
+
 -- ________________________________________________ Analysis for contact_numbers_to_lcc ________________________________________________ --
 -- 1)create table
 CREATE TABLE `all_unique_analysis_weekly` (
