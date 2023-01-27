@@ -417,6 +417,7 @@ delete from contact_numbers_to_lcc where id in (select id from removed_duplicate
 
 
 -- 02) _______Second method ________
+-- _________________________ Export table  _________________________
 C:\Users\Advice>mysqldump -u root -p -h localhost --port 3306 contact_data_db file_details contact_numbers all_unique_contact_numbers contact_numbers_to_lcc removed_duplicate temp_merge_data valid_contact_numbers invalid_contact_numbers payment > D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\new_contact_number_20230127.sql
 Enter password:
 
