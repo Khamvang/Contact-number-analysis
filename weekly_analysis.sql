@@ -146,6 +146,7 @@ where c.inputdate >= '2023-01-03' or n.inputdate >= '2023-01-03'; -- please chce
 
 -- 4) import data from database lalco_pbx to database contact_data_db
 select * from all_unique_analysis_weekly where priority_type = 'pbx_cdr' order by pbxcdr_id desc;
+
 insert into all_unique_analysis_weekly  
 select null id, callee_number 'contact_no',
 	case when status = 'FAILED' or status = 'BUSY' or status = 'VOICEMAIL' then 'NO ANSWER' else status end status ,
@@ -180,7 +181,6 @@ select id, row_numbers, now() `time` from (
 
 delete from all_unique_analysis_weekly where id in (select id from removed_duplicate_2 );
 
-delete from all_unique_analysis_weekly where date_created < '2022-09-21';
 
 -- 6)check data
 select priority_type, status, count(*) from all_unique_analysis_weekly where date_updated >= '2022-10-25' group by priority_type, status 
@@ -191,11 +191,8 @@ order by field(priority_type, "contracted", "ringi_not_contract", "aseet_not_con
 			"X", "S", "A", "B", "C", "F", "G", "G1", "G2", "ANSWERED", "NO ANSWER", "FAILED", "BUSY", "VOICEMAIL") ;
 
 
-
 select count(*)  from contact_numbers_to_lcc ;
 select * from all_unique_analysis_weekly auaw where priority_type = 'prospect_sabc' and status = '';
-
-
 
 
 -- ________________________________________________ update status for contact_numbers_to_lcc ________________________________________________ --
