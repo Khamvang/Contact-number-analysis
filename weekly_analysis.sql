@@ -41,9 +41,10 @@ delete from all_unique_analysis where id in (select id from removed_duplicate_2 
 -- delete before import new
 delete from all_unique_analysis_weekly ;
 
--- 2) Export data to contact_data_db analysis  
+-- 2) Export data from lalco LMS to contact_data_db analysis  
 -- (1) contracted: export from database lalco to analysis in database contact_data_db table all_unique_analysis
 select * from all_unique_analysis_weekly where priority_type = 'contracted' order by date_created desc;
+
 SELECT * FROM (
 SELECT 
 	NULL `id`,
@@ -67,6 +68,7 @@ WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2022-12-30'; -- copy 
 
 -- (2) ringi not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
 select * from all_unique_analysis_weekly where priority_type = 'ringi_not_contract' order by date_created desc;
+
 SELECT * FROM (
 SELECT 
 	NULL `id`,
@@ -92,6 +94,7 @@ WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2022-12-31'; -- copy 
 
 -- (3) asset not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
 select * from all_unique_analysis_weekly where priority_type = 'aseet_not_contract' order by date_created desc;
+
 SELECT * FROM (
 SELECT 
 	NULL `id`,
@@ -125,6 +128,7 @@ WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2022-12-30'; -- copy 
 
 -- 3) import from database lalcodb to analysis in database contact_data_db
 select * from all_unique_analysis_weekly where priority_type = 'prospect_sabc' order by custtbl_id desc;
+
 select '' "id",
 	case
 		when left(right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8), 1)= '0' then CONCAT('903', right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8))
@@ -137,7 +141,7 @@ select '' "id",
 	date(now()) "date_updated",
 	c.id "custtbl_id"
 from custtbl c left join negtbl n on (c.id = n.custid)
-where c.inputdate >= '2022-10-26' or n.inputdate >= '2023-01-03'; -- please chcek this date_created date from table all_unique_analysis
+where c.inputdate >= '2023-01-03' or n.inputdate >= '2023-01-03'; -- please chcek this date_created date from table all_unique_analysis
 
 
 -- 4) import data from database lalco_pbx to database contact_data_db
