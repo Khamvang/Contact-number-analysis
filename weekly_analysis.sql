@@ -88,7 +88,7 @@ end `contact_no`,
 FROM tblcontract c right join tblprospect p on (p.id = c.prospect_id)
 left join tblcustomer cu on (cu.id = p.customer_id)
 WHERE c.status not in (4,6,7) or p.status != 3 ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2022-12-30'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2022-12-31'; -- copy last date_created to here
 
 -- (3) asset not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
 select * from all_unique_analysis_weekly where priority_type = 'aseet_not_contract' order by date_created desc;
