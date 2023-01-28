@@ -50,7 +50,52 @@ group by cu.id;
 
 
 -- 2) export customers info form lalcodb to contact_data_db
-
+select 
+null"id",null "file_id",
+	case
+		when left(right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8), 1)= '0' then CONCAT('903', right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8))
+		when LENGTH( translate (c.tel, translate(c.tel, '0123456789', ''), '')) = 7 then CONCAT('9030', right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8))
+		else CONCAT('9020', right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8))
+	end "contact_no",
+	concat (firstname, ' ' ,lastname) "name",
+	case when province ='Attapeu' then 'ATTAPUE'
+		when province ='Bokeo' then 'BORKEO'
+		when province ='Bolikhamxai' then 'BORLIKHAMXAY '
+		when province ='Champasak' then 'CHAMPASACK'
+		when province ='Houaphan' then 'HUAPHAN'
+		when province ='Khammouan' then 'KHAMMOUAN'
+		when province ='Louang Namtha' then 'LUANGNAMTHA '
+		when province ='Louangphrabang' then 'LUANG PRABANG'
+		when province ='Oudomxai' then 'OUDOMXAY'
+		when province ='Phongsali' then 'PHONGSALY'
+		when province ='Saravan' then 'SALAVANH '
+		when province ='Savannakhet' then 'SAVANNAKHET'
+		when province ='Vientiane Cap' then 'VIENTIANE CAPITAL'
+		when province ='Vientiane province' then 'VIENTIANE PROVINCE'
+		when province ='Xaignabouri' then 'XAYABOULY '
+		when province ='Xaisomboun' then 'XAYSOMBOUN'
+		when province ='Xekong' then 'XEKONG'
+		when province ='Xiangkhoang' then 'XIENGKHUANG  '
+		else null 
+	end "province_eng",
+	null "province_laos",
+	null "district_eng",
+	district "district_laos",
+	addr "village",
+null "type",
+maker  "maker",
+model  "model",
+"year",
+null "remark_1",
+null "remark_2",
+null "remark_3",
+null "branch_name",
+null "status",
+null "file_no",
+null "date_received",
+null "date_updated",
+null "pbxcdr_time"
+from custtbl c
 
 
 
