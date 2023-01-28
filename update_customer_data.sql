@@ -93,9 +93,9 @@ left join tblvillage v on (v.id=cu.address_village_id);
 
 
 
--- 2) export customers info form lalcodb to contact_data_db
+-- 3) export customers info form lalcodb to contact_data_db
 select 
-null"id",null "file_id",
+	null"id",
 	case
 		when left(right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8), 1)= '0' then CONCAT('903', right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8))
 		when LENGTH( translate (c.tel, translate(c.tel, '0123456789', ''), '')) = 7 then CONCAT('9030', right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8))
@@ -122,24 +122,10 @@ null"id",null "file_id",
 		when province ='Xiangkhoang' then 'XIENGKHUANG  '
 		else null 
 	end "province_eng",
-	null "province_laos",
-	null "district_eng",
-	district "district_laos",
-	addr "village",
-null "type",
-maker  "maker",
-model  "model",
-"year",
-null "remark_1",
-null "remark_2",
-null "remark_3",
-null "branch_name",
-null "status",
-null "file_no",
-null "date_received",
-null "date_updated",
-null "pbxcdr_time"
-from custtbl c
+	null "province_laos", null "district_eng", district "district_laos", addr "village", village_id ,
+	maker  "maker", model  "model", "year",
+	3 "priority"
+from custtbl c;
 
 
 
