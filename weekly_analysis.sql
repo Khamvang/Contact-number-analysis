@@ -201,7 +201,7 @@ select * from all_unique_analysis_weekly auaw where priority_type = 'prospect_sa
 
 
 -- ________________________________________________ update status for contact_numbers_to_lcc ________________________________________________ --
--- 001 priority_type = 'contracted'
+-- __________________________________________________ 001 priority_type = 'contracted' __________________________________________________
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
@@ -230,7 +230,7 @@ delete from temp_update_any ;
 select now(); -- datetime on this time
 
 
--- 002 priority_type = 'ringi_not_contract'
+-- __________________________________________________ 002 priority_type = 'ringi_not_contract' __________________________________________________
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
@@ -258,7 +258,7 @@ delete from temp_update_any ;
 select now(); -- datetime on this time
 
 
--- 003 priority_type = 'ringi_not_contract'
+-- __________________________________________________ 003 priority_type = 'aseet_not_contract' __________________________________________________
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
@@ -285,22 +285,24 @@ select now(); -- datetime on this time
 delete from temp_update_any ;
 select now(); -- datetime on this time
 
--- 004 priority_type = 'prospect_sabc' 
--- 7)insert data to temp_update_any
+-- __________________________________________________ 004 priority_type = 'prospect_sabc' __________________________________________________
+-- 7)insert data to temp_update_any -- 1st method, we can use this method via Mysql server
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'prospect_sabc' -- and aua.date_created >= '2022-11-26';
 
--- 
+-- 7)insert data to temp_update_any -- 2nd method
 insert into temp_update_any 
 select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
 from all_unique_analysis_weekly  aua 
 where aua.priority_type = 'prospect_sabc' -- and aua.date_created >= '2022-11-26';
-
+ 
+-- table A: if use 2nd method, we need to export this data and then import to temp_update_any to update
 select cntl.id, cntl.contact_no, 'prospect_sabc' `remark_3`, null status, 0 `pbxcdr_time` from contact_numbers_to_lcc cntl 
 where cntl.contact_no in (select contact_no from temp_update_any tua);
 
+-- and also export this, and then do vlookup remark_3 and status from this to table A
 select * from temp_update_any tua ;
 
 select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
@@ -324,7 +326,7 @@ delete from temp_update_any ;
 select now(); -- datetime on this time
 
 
--- 005 aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' and cntl.status != 'ANSWERED'
+-- __________________________________________________ 005 aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' and cntl.status != 'ANSWERED' __________________________________________________
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
@@ -363,7 +365,7 @@ delete from temp_update_any ;
 select now(); -- datetime on this time
 
 
--- 006 aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER'
+-- __________________________________________________ 006 aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER' __________________________________________________
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
