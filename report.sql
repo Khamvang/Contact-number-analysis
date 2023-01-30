@@ -52,7 +52,7 @@ select * , count(*) from
 	) t
 group by branch_name , province_eng , `type` , category , category2 , `address`, `car_info`, `result` ;
 
--- ____________________________________ Export to report monthly ____________________________________ --
+-- ____________________________________ Export to report source monthly ____________________________________ --
 select * , count(*) from 
 	(
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2 ,
