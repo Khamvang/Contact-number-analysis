@@ -31,7 +31,7 @@ select * , count(*) from
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2 ,
 		case when cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null then 'have_address' else 'no_address' end `address`,
 		case when fd.category = '①GOVERNMENT' then 'business_owner' else 'no' end `business_owner`,
-		case when cntl.maker is not null and cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
+		case when cntl.maker is not null or cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
 		case when cntl.remark_3 = 'contracted' then 'contracted'
 			when cntl.remark_3 = 'ringi_not_contract' then 'ringi_not_contract'
 			when cntl.remark_3 = 'aseet_not_contract' then 'aseet_not_contract'
@@ -58,7 +58,7 @@ select * , count(*) from
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2 ,
 		case when cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null then 'have_address' else 'no_address' end `address`,
 		case when fd.category = '①GOVERNMENT' then 'business_owner' else 'no' end `business_owner`,
-		case when cntl.maker is not null and cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
+		case when cntl.maker is not null or cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
 		case when cntl.remark_3 = 'contracted' then 'contracted'
 			when cntl.remark_3 = 'ringi_not_contract' then 'ringi_not_contract'
 			when cntl.remark_3 = 'aseet_not_contract' then 'aseet_not_contract'
@@ -106,7 +106,7 @@ select * , count(*) from
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2 ,
 		case when cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null then 'have_address' else 'no_address' end `address`,
 		case when fd.category = '①GOVERNMENT' then 'business_owner' else 'no' end `business_owner`,
-		case when cntl.maker is not null and cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
+		case when cntl.maker is not null or cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
 		case when cntl.remark_3 = 'contracted' then 'contracted'
 			when cntl.remark_3 = 'ringi_not_contract' then 'ringi_not_contract'
 			when cntl.remark_3 = 'aseet_not_contract' then 'aseet_not_contract'
@@ -164,7 +164,7 @@ select * , count(*) from
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2 ,
 		case when cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null then 'have_address' else 'no_address' end `address`,
 		case when fd.category = '①GOVERNMENT' then 'business_owner' else 'no' end `business_owner`,
-		case when cntl.maker is not null and cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
+		case when cntl.maker is not null or cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
 		case when cntl.remark_3 = 'contracted' then 'contracted'
 			when cntl.remark_3 = 'ringi_not_contract' then 'ringi_not_contract'
 			when cntl.remark_3 = 'aseet_not_contract' then 'aseet_not_contract'
@@ -193,7 +193,7 @@ select * , count(*) from
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2 ,
 		case when cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null then 'have_address' else 'no_address' end `address`,
 		case when fd.category = '①GOVERNMENT' then 'business_owner' else 'no' end `business_owner`,
-		case when cntl.maker is not null and cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
+		case when cntl.maker is not null or cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
 		case when cntl.remark_3 = 'contracted' then 'contracted'
 			when cntl.remark_3 = 'ringi_not_contract' then 'ringi_not_contract'
 			when cntl.remark_3 = 'aseet_not_contract' then 'aseet_not_contract'
