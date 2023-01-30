@@ -327,13 +327,13 @@ select now(); -- datetime on this time
 
 
 -- __________________________________________________ 005 aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' and cntl.status != 'ANSWERED' __________________________________________________
--- 7)insert data to temp_update_any
+-- 7)insert data to temp_update_any -- 1st method
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
 from contact_numbers_to_lcc cntl inner join all_unique_analysis_weekly aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' and cntl.status != 'ANSWERED' -- and aua.date_created >= '2022-11-26';
 
--- 7)insert data to temp_update_any
+-- 7)insert data to temp_update_any -- 2nd method
 insert into temp_update_any 
 select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
 from all_unique_analysis_weekly  aua 
@@ -366,19 +366,19 @@ select now(); -- datetime on this time
 
 
 -- __________________________________________________ 006 aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER' __________________________________________________
--- 7)insert data to temp_update_any
+-- 7)insert data to temp_update_any -- 1st method
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly aua on (cntl.contact_no = aua.contact_no)
-where aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER' and aua.date_created >= '2022-11-26';
+where aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER' -- and aua.date_created >= '2022-11-26';
 
--- 7)insert data to temp_update_any
+-- 7)insert data to temp_update_any -- 2nd method
 insert into temp_update_any 
 select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
 from all_unique_analysis_weekly  aua 
 where aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' -- and aua.date_created >= '2022-11-26';
 
-select cntl.id, cntl.contact_no, 'pbx_cdr' `remark_3`, null status, 0 `pbxcdr_time` from contact_numbers_to_lcc cntl 
+select cntl.id, cntl.contact_no, 'pbx_cdr' `remark_3`, 'NO ANSWER' status, 0 `pbxcdr_time` from contact_numbers_to_lcc cntl 
 where cntl.contact_no in (select contact_no from temp_update_any tua);
 
 select * from temp_update_any tua ;
