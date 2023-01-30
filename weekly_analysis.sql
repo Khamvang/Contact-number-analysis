@@ -372,12 +372,13 @@ select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pb
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER' -- and aua.date_created >= '2022-11-26';
 
--- 7)insert data to temp_update_any -- 2nd method
+-- 7)insert data to temp_update_any -- 2nd method: run in mysql server, because xampp server can't run this
 insert into temp_update_any 
 select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
 from all_unique_analysis_weekly  aua 
 where aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' -- and aua.date_created >= '2022-11-26';
 
+-- select and exoptr to xampp server table temp_update_any
 select cntl.id, cntl.contact_no, 'pbx_cdr' `remark_3`, 'NO ANSWER' status, 0 `pbxcdr_time` from contact_numbers_to_lcc cntl 
 where cntl.contact_no in (select contact_no from temp_update_any tua);
 
