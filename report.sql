@@ -87,15 +87,15 @@ select * , count(*) from
 			when cntl.remark_2 = 'Telecom' and cntl.status_updated = 'SMS_Failed' then 'Telecom_inactive'
 			else cntl.remark_2 
 		end `new_result`
-	from contact_for_202211_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+	from contact_for_202301_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 	) t
 group by branch_name ,  province_eng , `type` , category , category2 , `address`, `car_info`, `result`, `new_result` ;
 
 
-update contact_for_202211_lcc set remark_2 = null where remark_2 not in ('contracted','ringi_not_contract','aseet_not_contract','prospect_sabc','pbx_cdr','Telecom')
+update contact_for_202301_lcc set remark_2 = null where remark_2 not in ('contracted','ringi_not_contract','aseet_not_contract','prospect_sabc','pbx_cdr','Telecom')
 
 
-select id , contact_no, remark_2 , status_updated from contact_for_202211_lcc cfl where remark_2 = 'contracted' or (remark_2 = 'prospect_sabc' and status_updated in ('X'))
+select id , contact_no, remark_2 , status_updated from contact_for_202301_lcc cfl where remark_2 = 'contracted' or (remark_2 = 'prospect_sabc' and status_updated in ('X'))
 
 
 -- ____________________________________ Export to report source all that not yet call last month ____________________________________ --
@@ -120,7 +120,7 @@ select * , count(*) from
 			else cntl.remark_3 
 		end `result` 
 	from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
-	where cntl.id in (select id from contact_for_202211_lcc where status_updated is not null) -- to export the rank F & G the SMS success
+	where cntl.id in (select id from contact_for_202301_lcc where status_updated is not null) -- to export the rank F & G the SMS success
 	) t
 group by branch_name , province_eng , `type` , category , category2 , `address`, `car_info`, `result` ;
 
