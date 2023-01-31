@@ -14,7 +14,7 @@ create table `contact_for_202211_lcc` (
   `maker` varchar(255) DEFAULT NULL,
   `model` varchar(255) DEFAULT NULL,
   `year` varchar(255) DEFAULT NULL,
-  `remark_1` varchar(255) DEFAULT null COMMENT '1=Ringi_Asset_SABC,2=Prospect_F&G that SMS success, 3=Telecom_active or SMS success, 4=ANSWERED and SMS success, 5=SMS success but NO ANSWER',
+  `remark_1` varchar(255) DEFAULT null COMMENT '1=Have car info,2=Business owner, 3=Have address',
   `remark_2` varchar(255) DEFAULT NULL,
   `remark_3` varchar(255) DEFAULT NULL,
   `branch_name` varchar(255) DEFAULT NULL,
