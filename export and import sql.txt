@@ -1,0 +1,24 @@
+
+C:\Users\Lalco_Admin>mysqldump -u root -p -h localhost --port 3308 contact_data_db contact_numbers_to_lcc  > D:\database_backup\contact_data_db\contact_numbers_to_lcc_20220728.sql
+Enter password: Mysql_kham2021
+
+
+C:\Users\Lalco_Admin>mysqldump -u root -p -h localhost --port 3308 contact_data_db > D:\database_backup\contact_data_db\contact_data_db_20220917.sql
+Enter password: Mysql_kham2021
+
+
+_______________________________________ export all table contact for 2021 lcc _____________________________________
+C:\Users\Lalco_Admin>mysqldump -u root -p -h localhost --port 3308 contact_data_db contact_for_202109 contact_for_202110 contact_for_202111 contact_for_202111_report contact_for_202111_ringi_asset_prospect contact_for_202112_contact contact_for_202112_lcc contact_for_202112_prospect contact_for_202112_signboard contact_for_202112_village_master > D:\database_backup\contact_data_db\table_contact_for_lcc_2021.sql
+Enter password: Mysql_kham2021
+
+
+*********** Direct to folder in OneDrive *************
+C:\Users\Lalco_Admin>mysqldump -u root -p -h localhost --port 3308 contact_data_db > D:\"My OneDrive"\Database\"OneDrive - lalcokham"\contact_data_db\contact_data_db_20220725.sql
+Enter password: Mysql_kham2021
+
+___________________________________________________________________________________________________________
+Import
+mysql -u root -p -h localhost --port 3308 contact_data_db < D:\database_backup\contact_data_db\contact_data_db_20230127.sql
+
+_____________________________________________________2022-09-14______________________________________________________
+mysqldump -u root -p -h localhost --port 3308 contact_data_db contact_numbers_to_lcc contact_for_202209_lcc temp_sms_chairman > D:\database_backup\contact_data_db\migration_to_i7_20220914.sql

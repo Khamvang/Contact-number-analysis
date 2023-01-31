@@ -1,0 +1,12 @@
+-- ======00 update active and inactive ETL contact numbers 00=====
+delete from temp_update_any ;
+select count(*) from contact_numbers_to_lcc cntl  -- 2,239,179
+-- insert into temp_update_any select id, contact_no , remark_3, status, pbxcdr_time from contact_numbers_to_lcc cntl 
+where file_id < 1052 and status is null and left(contact_no, 5) in ('90302', '90202'); 
+
+select * from temp_update_any tua where status is null ; contact_no in (select contact_no from temp_etl_active_numbers tean);
+update temp_update_any set remark_3 = 'Telecom', status = 'ETL_inactive' where contact_no not in (select contact_no from temp_etl_active_numbers tean);
+
+update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.id = tua.id) 
+set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = date(now())
+where cntl.id in (select id from temp_update_any );
