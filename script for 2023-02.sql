@@ -64,3 +64,16 @@ or cntl.id in (select id from temp_etl_active_numbers tean2 ) ) -- ETL active
 
 
 
+# ____________________________________________________________________________________________________________________ #
+
+select count(*) 
+from contact_numbers_to_lcc cntl
+where cntl.branch_name in ('Attapue','Bokeo','Head Office','Houaphan','LuangNamtha','Luangprabang','Oudomxay','Paksan','Pakse','Salavan','Savannakhet','Thakek','Vientiane province','Xainyabuli','Xiengkhouang'
+)
+and ( cntl.remark_3 = 'ringi_not_contract' or cntl.remark_3 = 'aseet_not_contract' 
+or (cntl.remark_3 = 'prospect_sabc' and cntl.status in ('S','A','B','C'))
+or (cntl.remark_3 = 'pbx_cdr' and cntl.status = 'ANSWERED')
+or (cntl.remark_3 = 'Telecom' and cntl.status = 'ETL_active')
+or (cntl.remark_3 = 'Telecom' and cntl.status = 'SMS_success') ); -- 3021720
+
+
