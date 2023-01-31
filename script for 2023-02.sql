@@ -64,7 +64,7 @@ or cntl.id in (select id from temp_etl_active_numbers tean2 ) ) -- ETL active
 
 
 
-# ____________________________________________________________________________________________________________________ #
+# ______________________________________________________ Check ______________________________________________________________ #
 -- 1)
 select count(*) 
 from contact_numbers_to_lcc cntl
@@ -90,9 +90,21 @@ or cntl.id in (select id from temp_etl_active_numbers tean2 ) ) -- ETL active
 
 
 
+# ______________________________________________________ insert into contact_for_202302_lcc ______________________________________________________________ #
 
-
-
+insert into contact_for_202302_lcc
+select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
+	'1' `remark_1`,null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`
+-- select count(*) -- 23571
+from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+where cntl.branch_name in ('Attapue','Bokeo','Head Office','Houaphan','LuangNamtha','Luangprabang','Oudomxay','Paksan','Pakse','Salavan','Savannakhet','Thakek','Vientiane province','Xainyabuli','Xiengkhouang'
+)
+and ( cntl.remark_3 = 'ringi_not_contract' or cntl.remark_3 = 'aseet_not_contract' 
+or (cntl.remark_3 = 'prospect_sabc' and cntl.status in ('S','A','B','C'))
+or (cntl.remark_3 = 'pbx_cdr' and cntl.status = 'ANSWERED')
+or (cntl.remark_3 = 'Telecom' and cntl.status = 'ETL_active')
+or (cntl.remark_3 = 'Telecom' and cntl.status = 'SMS_success') )
+and cntl.id not in (select id from contact_for_202302_lcc);
 
 
 
