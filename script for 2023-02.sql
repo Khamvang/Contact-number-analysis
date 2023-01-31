@@ -65,7 +65,7 @@ or cntl.id in (select id from temp_etl_active_numbers tean2 ) ) -- ETL active
 
 
 # ____________________________________________________________________________________________________________________ #
-
+-- 1)
 select count(*) 
 from contact_numbers_to_lcc cntl
 where cntl.branch_name in ('Attapue','Bokeo','Head Office','Houaphan','LuangNamtha','Luangprabang','Oudomxay','Paksan','Pakse','Salavan','Savannakhet','Thakek','Vientiane province','Xainyabuli','Xiengkhouang'
@@ -75,5 +75,27 @@ or (cntl.remark_3 = 'prospect_sabc' and cntl.status in ('S','A','B','C'))
 or (cntl.remark_3 = 'pbx_cdr' and cntl.status = 'ANSWERED')
 or (cntl.remark_3 = 'Telecom' and cntl.status = 'ETL_active')
 or (cntl.remark_3 = 'Telecom' and cntl.status = 'SMS_success') ); -- 3021720
+
+-- 2)
+select count(*) 
+from contact_numbers_to_lcc cntl
+where cntl.branch_name in ('Attapue','Bokeo','Head Office','Houaphan','LuangNamtha','Luangprabang','Oudomxay','Paksan','Pakse','Salavan','Savannakhet','Thakek','Vientiane province','Xainyabuli','Xiengkhouang'
+)
+and ( (cntl.remark_3 = 'prospect_sabc' and cntl.status in ('F')) 
+	or (cntl.remark_3 = 'prospect_sabc' and cntl.status in ('G','G1','G2') )
+	or (cntl.remark_3 = 'pbx_cdr' and cntl.status = 'NO ANSWER') )
+and (cntl.id in (select id from temp_sms_chairman tean where status = 1 ) -- SMS check
+or cntl.id in (select id from temp_etl_active_numbers tean2 ) ) -- ETL active
+
+
+
+
+
+
+
+
+
+
+
 
 
