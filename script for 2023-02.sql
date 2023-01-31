@@ -30,6 +30,22 @@ create table `contact_for_202302_lcc` (
 
 
 
+-- --------------------------------Check and update ------------------------------------
+select cntl.id, cntl.branch_name 
+from contact_numbers_to_lcc cntl
+where cntl.branch_name is null
+and ( cntl.remark_3 = 'ringi_not_contract' or cntl.remark_3 = 'aseet_not_contract' 
+or (cntl.remark_3 = 'prospect_sabc' and cntl.status in ('S','A','B','C'))
+or (cntl.remark_3 = 'pbx_cdr' and cntl.status = 'ANSWERED')
+or (cntl.remark_3 = 'Telecom' and cntl.status = 'ETL_active')
+or (cntl.remark_3 = 'Telecom' and cntl.status = 'SMS_success') ); -- 1639
 
+update contact_numbers_to_lcc cntl set cntl.branch_name = 'Bokeo'
+where cntl.branch_name is null
+and ( cntl.remark_3 = 'ringi_not_contract' or cntl.remark_3 = 'aseet_not_contract' 
+or (cntl.remark_3 = 'prospect_sabc' and cntl.status in ('S','A','B','C'))
+or (cntl.remark_3 = 'pbx_cdr' and cntl.status = 'ANSWERED')
+or (cntl.remark_3 = 'Telecom' and cntl.status = 'ETL_active')
+or (cntl.remark_3 = 'Telecom' and cntl.status = 'SMS_success') ); -- 1639
 
 
