@@ -123,3 +123,34 @@ or cntl.id in (select id from temp_etl_active_numbers tean2 ) ) -- ETL active
  and cntl.id not in (select id from contact_for_202302_lcc);
 
 
+
+# ______________________________________________________ update priority contact_for_202302_lcc ______________________________________________________________ #
+update contact_for_202302_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+set remark_1 = 
+	case when cntl.maker != '' or cntl.model != '' then 1
+		when fd.category = '①GOVERNMENT' then 2
+		when cntl.province_eng != '' and cntl.district_eng != '' and cntl.village != '' then 3
+		else 4
+	end;
+
+
+# ______________________________________________________ export to create campaign on LCC for contact_for_202302_lcc ______________________________________________________________ #
+
+'Attapue','Bokeo','Head Office','Houaphan','LuangNamtha','Luangprabang','Oudomxay','Paksan','Pakse','Salavan','Savannakhet','Thakek','Vientiane province','Xainyabuli','Xiengkhouang'
+
+
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202302_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '①Have Car' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('1', '2') order by cntl.remark_1;
+
+
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202302_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '①Have Car' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('3', '4') order by cntl.remark_1;
+
+
+
