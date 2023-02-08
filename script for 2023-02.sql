@@ -139,14 +139,14 @@ set remark_1 =
 'Attapue','Bokeo','Head Office','Houaphan','LuangNamtha','Luangprabang','Oudomxay','Paksan','Pakse','Salavan','Savannakhet','Thakek','Vientiane province','Xainyabuli','Xiengkhouang'
 
 -- ____________________________________________________ 1 Have car ____________________________________________________
--- 1) Have car: priority 1&2 
+-- 1) Have car: priority 1&2 -- Campaign name: 1_Old_ATTAPUE_ATP Team_20230201-12
 -- select count(*) 
  select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202302_lcc cntl 
 where branch_name = 'Attapue' and `type` in( '①Have Car' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
 	and cntl.remark_1 in ('1', '2') order by cntl.remark_1;
 
--- 1) Have car: priority 3&4
+-- 1) Have car: priority 3&4 -- Campaign name: 1_Old_ATTAPUE_ATP Team_20230201-34
 -- select count(*) 
  select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202302_lcc cntl 
@@ -154,14 +154,14 @@ where branch_name = 'Attapue' and `type` in( '①Have Car' ) -- '①Have Car' '�
 	and cntl.remark_1 in ('3', '4') order by cntl.remark_1;
 
 -- ____________________________________________________ 2 Need loan ____________________________________________________
--- 2) Need loan: priority 1&2 
+-- 2) Need loan: priority 1&2 -- Campaign name: 2_Old_ATTAPUE_ATP Team_20230201-12
 -- select count(*) 
  select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202302_lcc cntl 
 where branch_name = 'Attapue' and `type` in( '②Need loan' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
 	and cntl.remark_1 in ('1', '2') order by cntl.remark_1;
 
--- 2) Need loan: priority 3&4
+-- 2) Need loan: priority 3&4 -- Campaign name: 2_Old_ATTAPUE_ATP Team_20230201-34
 -- select count(*) 
  select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202302_lcc cntl 
@@ -170,14 +170,14 @@ where branch_name = 'Attapue' and `type` in( '②Need loan' ) -- '①Have Car' '
 
 
 -- ____________________________________________________ 3 Have address ____________________________________________________
--- 3) Have address: priority 1&2 
+-- 3) Have address: priority 1&2 -- Campaign name: 3_Old_ATTAPUE_ATP Team_20230201-12
 -- select count(*) 
  select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202302_lcc cntl 
 where branch_name = 'Attapue' and `type` in( '③Have address' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
 	and cntl.remark_1 in ('1', '2') order by cntl.remark_1;
 
--- 3) Have address: priority 3&4
+-- 3) Have address: priority 3&4 -- Campaign name: 3_Old_ATTAPUE_ATP Team_20230201-34
 -- select count(*) 
  select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202302_lcc cntl 
@@ -186,14 +186,14 @@ where branch_name = 'Attapue' and `type` in( '③Have address' ) -- '①Have Car
 
 
 -- ____________________________________________________ 4 Telecom ____________________________________________________
--- 4) Telecom: priority 1&2 
+-- 4) Telecom: priority 1&2 -- Campaign name: 4_Old_ATTAPUE_ATP Team_20230201-12
 -- select count(*) 
  select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202302_lcc cntl 
 where branch_name = 'Attapue' and `type` in( '④Telecom' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
 	and cntl.remark_1 in ('1', '2') order by cntl.remark_1;
 
--- 4) Telecom: priority 3&4
+-- 4) Telecom: priority 3&4 -- Campaign name: 4_Old_ATTAPUE_ATP Team_20230201-34
 -- select count(*) 
  select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202302_lcc cntl 
