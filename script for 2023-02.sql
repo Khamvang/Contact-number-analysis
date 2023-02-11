@@ -227,3 +227,24 @@ limit 39125
 
 
 
+-- ____________________________________________________ 2 Need loan ____________________________________________________
+-- 2) Need loan: priority 1&2 -- Campaign name: 2_Old_HO_Team2_20230201-12
+ select count(*), count(*)/3
+; select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202302_lcc cntl 
+where branch_name = 'Head Office' and `type` in( '②Need loan' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('1', '2') -- order by cntl.remark_1;
+	 and cntl.id > 33605596
+limit 2961
+
+-- 2) Need loan: priority 3&4 -- Campaign name: 2_Old_HO_Team2_20230201-34
+ select count(*), count(*)/9
+; select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202302_lcc cntl 
+where branch_name = 'Head Office' and `type` in( '②Need loan' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('3', '4') -- order by cntl.remark_1;
+	 and cntl.id > 21039573
+limit 19378
+
+
+
