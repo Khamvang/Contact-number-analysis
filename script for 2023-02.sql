@@ -247,4 +247,25 @@ where branch_name = 'Head Office' and `type` in( '②Need loan' ) -- '①Have Ca
 limit 19378
 
 
+-- ____________________________________________________ 3 Have address ____________________________________________________
+-- 3) Have address: priority 1&2 -- Campaign name: 3_Old_HO_Team2_20230201-12
+ select count(*), count(*)/9
+; select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202302_lcc cntl 
+where branch_name = 'Head Office' and `type` in( '③Have address' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('1', '2') -- order by cntl.remark_1;
+	 and cntl.id > 7603716
+limit 26919
+
+-- 3) Have address: priority 3&4 -- Campaign name: 3_Old_HO_Team2_20230201-34
+ select count(*), count(*)/9
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202302_lcc cntl 
+where branch_name = 'Head Office' and `type` in( '③Have address' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('3', '4') -- order by cntl.remark_1;
+	-- and cntl.id > 1
+limit 1
+
+
+
 
