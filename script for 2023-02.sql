@@ -264,7 +264,7 @@ from contact_for_202302_lcc cntl
 where branch_name = 'Head Office' and `type` in( '③Have address' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
 	and cntl.remark_1 in ('3', '4') -- order by cntl.remark_1;
 	-- and cntl.id > 1
-limit 1
+limit 18413
 
 
 
