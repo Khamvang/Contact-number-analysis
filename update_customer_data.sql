@@ -1,3 +1,31 @@
+#================ How to update contact data as address, car info by sync data from LALCO portal, LALCO moneymax, LALCO CRM, LALCO LCC =============
+-- I. Create tabel for inporting data from LMS LALCO, Moneymax, CRM, LCC
+create table `temp_imort_data_from_lms_crm` (
+  `id` int(11) not null auto_increment COMMENT 'use phone number int=7 for 030 and int=8 for 020',
+  `contact_no` varchar(255) default null,
+  `name` varchar(255) default null,
+  `province_eng` varchar(255) default null,
+  `province_laos` varchar(255) default null,
+  `district_eng` varchar(255) default null,
+  `district_laos` varchar(255) default null,
+  `village` varchar(255) default null,
+  `village_id` varchar(255) default null,
+  `maker` varchar(255) default null,
+  `model` varchar(255) default null,
+  `year` varchar(255) default null,
+  `priority` int not null COMMENT '1=Lalco LMS, 2=Moneymax LMS, 3=CRM, 4=LCC',
+  primary key (`id`)
+) engine=InnoDB auto_increment=1 default CHARSET=utf8mb4;
+
+
+
+
+
+
+
+
+
+
 
 -- 1) export customer info form LMS to contact_data_db
 select 
