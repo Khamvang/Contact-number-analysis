@@ -164,6 +164,7 @@ select
 from custtbl c;
 
 
+-- 4) export customers info form lcc to contact_data_db
 
 
 -- 5) Query date to expot into table removed duplicate 
