@@ -1,0 +1,68 @@
+
+D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\contact_data_db_20220922.sql
+
+
+-- _________________________ Export _________________________ 
+C:\Users\Advice>mysqldump -u root -p -h localhost --port 3306 contact_data_db > D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\contact_data_db_20230215.sql
+Enter password:
+-- _________________________ Import _________________________ 
+C:\Users\Advice>mysql -u root -p -h localhost --port 3306 contact_data_db < D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\contact_data_db_20230206.sql
+Enter password:
+
+
+
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+__________all_unique_contact_numbers ______________________________________________________________________________________________________________________________________________________________________________________________
+
+-- _________________________ Export table  _________________________ 
+C:\Users\Advice>mysqldump -u root -p -h localhost --port 3306 contact_data_db all_unique_contact_numbers > D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\all_unique_contact_numbers_20230127.sql
+Enter password:
+-- _________________________ Import table  _________________________ 
+C:\Users\Advice>mysql -u root -p -h localhost --port 3306 contact_data_db < D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\all_unique_contact_numbers_20230127.sql
+Enter password:
+
+
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+-- _________________________ Export tables to update new contact number  _________________________ 
+C:\Users\Advice>mysqldump -u root -p -h localhost --port 3306 contact_data_db file_details contact_numbers all_unique_contact_numbers contact_numbers_to_lcc removed_duplicate temp_merge_data valid_contact_numbers invalid_contact_numbers payment > D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\new_contact_number_20230127.sql
+Enter password:
+-- _________________________ Import table  _________________________ 
+C:\Users\Advice>mysql -u root -p -h localhost --port 3306 contact_data_db < D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\new_contact_number_20230127.sql
+Enter password:
+
+
+
+
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+-- _________________________ Export tables of each contact_for___lcc  _________________________ 
+C:\Users\Advice>mysqldump -u root -p -h localhost --port 3306 contact_data_db contact_for_202109 contact_for_202110 contact_for_202111 contact_for_202111_report contact_for_202111_ringi_asset_prospect contact_for_202112_contact contact_for_202112_lcc contact_for_202112_prospect contact_for_202112_signboard contact_for_202112_village_master contact_for_202201_lcc contact_for_202202_lcc contact_for_202203_lcc contact_for_202204_lcc contact_for_202205_lcc contact_for_202206_lcc contact_for_202207_lcc contact_for_202208_lcc contact_for_202209_lcc contact_for_202210_lcc contact_for_202211_lcc contact_for_202212_lcc > D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\contac_for_lcc2021to2022.sql
+Enter password:
+-- _________________________ Import table  _________________________ 
+C:\Users\Advice>mysql -u root -p -h localhost --port 3306 contact_data_db < D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\new_contact_number_20230127.sql
+Enter password:
+
+
+
+
+
+
+
+
+
+
+
+
+______________________________________________________ Mysql _____________________________________________________
+
+-- _________________________ Import _________________________ 
+C:\Users\Advice>mysql -u root -p -h localhost --port 3308 contact_data_db < D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\temp_update_any_202301301843.sql
+Enter password:
+
+
+
+
+
