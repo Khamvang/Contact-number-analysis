@@ -177,7 +177,7 @@ select id, row_numbers, now() `time` from (
 		) as t1
 	where row_numbers > 1;
 
--- 13) check and remove duplicate Delete from all unique where id = id in table removed duplicate 
+-- 6) check and remove duplicate Delete from all unique where id = id in table removed duplicate 
 select * from removed_duplicate_ where `time` >= '2023-02-18';
 
 delete from all_unique_contact_numbers 
