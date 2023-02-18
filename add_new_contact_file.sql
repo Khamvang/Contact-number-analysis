@@ -136,10 +136,10 @@ select id, row_numbers, now() `time` from (
 	where row_numbers > 1; -- done <= 1068
 
 -- 13) check and remove duplicate Delete from all unique where id = id in table removed duplicate 
-select * from removed_duplicate where `time` >= '2023-01-26';
+select * from removed_duplicate where `time` >= '2023-02-18';
 
 delete from all_unique_contact_numbers 
-where id in (select id from removed_duplicate where `time` >= '2023-01-26'); -- done <= 1068
+where id in (select id from removed_duplicate where `time` >= '2023-02-18'); -- done <= 1068
 
 -- 14) check and import date from contact_numbers to contact_numbers_to_lcc
 select distinct province_eng from contact_numbers where file_id >= 1068;
