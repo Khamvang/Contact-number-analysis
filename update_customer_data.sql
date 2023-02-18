@@ -80,7 +80,10 @@ left join tblvillage v on (v.id=cu.address_village_id);
 
 -- 2) export customer info form Moneymax to contact_data_db
 select 
-	null`id`,
+	case when left (right (REPLACE ( cu.main_contact_no, ' ', '') ,8),1) = '0' then right (REPLACE ( cu.main_contact_no, ' ', '') ,8)
+    	when length (REPLACE ( cu.main_contact_no, ' ', '')) = 7 then REPLACE( cu.main_contact_no, ' ', '')
+   		else right(REPLACE ( cu.main_contact_no, ' ', '') , 8)
+	end `id`,
 	case when left (right (REPLACE ( cu.main_contact_no, ' ', '') ,8),1) = '0' then CONCAT('903',right (REPLACE ( cu.main_contact_no, ' ', '') ,8))
     	when length (REPLACE ( cu.main_contact_no, ' ', '')) = 7 then CONCAT('9030',REPLACE ( cu.main_contact_no, ' ', ''))
    		else CONCAT('9020', right(REPLACE ( cu.main_contact_no, ' ', '') , 8))
@@ -113,6 +116,7 @@ select
 		WHEN cu.address_village_id != 0 THEN CONVERT(CAST(CONVERT(v.village_name_lao using latin1) as binary) using utf8)
 		ELSE CONVERT(CAST(CONVERT(cu.address_village using latin1) as binary) using utf8) 
 	END `village`,
+	v.pvd_id `village_id`,
 	car.car_make  `maker`, car.car_model `model`, av.collateral_year  `year`, 2 `priority`
 from tblcustomer cu 
 left join tblcity t on (cu.address_city=t.id)
