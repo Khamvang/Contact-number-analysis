@@ -124,8 +124,8 @@ or cntl.id in (select id from temp_etl_active_numbers tean2 ) ) -- ETL active
  
  
  --3 Export to ACC: email subject: Call list for ACC
-insert into contact_for_202302_lcc
-;select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
+insert into contact_for_acc_jan2023_acc
+select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
 	'1' `remark_1`,null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, date(now()) `date_provided`
 -- select count(*) -- 1199586
 from contact_numbers_to_lcc cntl
