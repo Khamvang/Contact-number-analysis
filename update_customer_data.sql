@@ -174,18 +174,18 @@ from custtbl c;
 -- 5) Query date to expot into table removed duplicate 
 -- partition by contact_no === check duplicate by contact_no
 -- order by FIELD(`type` , "①Have Car","②Need loan","③Have address","④Telecom"), id === order priorities by type and id
-insert into removed_duplicate_
+insert into removed_duplicate_2
 select id, row_numbers, now() `time` from ( 
-		select id, row_number() over (partition by contact_no order by FIELD(`type` , "①Have Car","②Need loan","③Have address","④Telecom"), id) as row_numbers  
-		from all_unique_contact_numbers 
+		select id, row_number() over (partition by id order by FIELD(`priority` , 1,2,3), id) as row_numbers  
+		from temp_imort_data_from_lms_crm 
 		) as t1
 	where row_numbers > 1;
 
 -- 6) check and remove duplicate Delete from all unique where id = id in table removed duplicate 
-select * from removed_duplicate_ where `time` >= '2023-02-18';
+select * from removed_duplicate_2 where `time` >= '2023-02-22';
 
-delete from all_unique_contact_numbers 
-where id in (select id from removed_duplicate_ where `time` >= '2023-02-18'); -- done <= 1068
+delete from temp_imort_data_from_lms_crm 
+where id in (select id from removed_duplicate_2 where `time` >= '2023-02-22'); 
 
 
 
