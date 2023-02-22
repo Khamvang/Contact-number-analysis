@@ -171,9 +171,12 @@ from custtbl c;
 -- 4) export customers info form lcc to contact_data_db
 
 
--- 5) Query date to expot into table removed duplicate 
+-- 5) clear table removed_duplicate_2
+delete from removed_duplicate_2;
+
+-- 6) Query date to expot into table removed duplicate_2 
 -- partition by contact_no === check duplicate by contact_no
--- order by FIELD(`type` , "①Have Car","②Need loan","③Have address","④Telecom"), id === order priorities by type and id
+-- order by FIELD(`priority` , 1=lalco, 2=moneymax, 3=crm), id === order priorities by type and id
 insert into removed_duplicate_2
 select id, row_numbers, now() `time` from ( 
 		select id, row_number() over (partition by id order by FIELD(`priority` , 1,2,3), id) as row_numbers  
@@ -181,7 +184,7 @@ select id, row_numbers, now() `time` from (
 		) as t1
 	where row_numbers > 1;
 
--- 6) check and remove duplicate Delete from all unique where id = id in table removed duplicate 
+-- 7) check and remove duplicate Delete from all unique where id = id in table removed duplicate 
 select * from removed_duplicate_2 where `time` >= '2023-02-22';
 
 delete from temp_imort_data_from_lms_crm 
