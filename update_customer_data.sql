@@ -14,7 +14,7 @@ create table `temp_imort_data_from_lms_crm` (
   `model` varchar(255) default null,
   `year` varchar(255) default null,
   `priority` int not null COMMENT '1=Lalco LMS, 2=Moneymax LMS, 3=CRM, 4=LCC',
-  primary key (`id`)
+  key (`id`)
 ) engine=InnoDB auto_increment=1 default CHARSET=utf8mb4;
 
 
