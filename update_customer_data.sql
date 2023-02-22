@@ -131,7 +131,11 @@ left join tblvillage v on (v.id=cu.address_village_id);
 
 -- 3) export customers info form lalcodb to contact_data_db
 select 
-	null"id",
+	case
+		when left(right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8), 1)= '0' then right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8)
+		when LENGTH( translate (c.tel, translate(c.tel, '0123456789', ''), '')) = 7 then right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8)
+		else right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8)
+	end "id",
 	case
 		when left(right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8), 1)= '0' then CONCAT('903', right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8))
 		when LENGTH( translate (c.tel, translate(c.tel, '0123456789', ''), '')) = 7 then CONCAT('9030', right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8))
@@ -140,22 +144,22 @@ select
 	concat (firstname, ' ' ,lastname) "name",
 	case when province ='Attapeu' then 'ATTAPUE'
 		when province ='Bokeo' then 'BORKEO'
-		when province ='Bolikhamxai' then 'BORLIKHAMXAY '
+		when province ='Bolikhamxai' then 'BORLIKHAMXAY '
 		when province ='Champasak' then 'CHAMPASACK'
 		when province ='Houaphan' then 'HUAPHAN'
 		when province ='Khammouan' then 'KHAMMOUAN'
-		when province ='Louang Namtha' then 'LUANGNAMTHA '
+		when province ='Louang Namtha' then 'LUANGNAMTHA '
 		when province ='Louangphrabang' then 'LUANG PRABANG'
 		when province ='Oudomxai' then 'OUDOMXAY'
 		when province ='Phongsali' then 'PHONGSALY'
-		when province ='Saravan' then 'SALAVANH '
+		when province ='Saravan' then 'SALAVANH '
 		when province ='Savannakhet' then 'SAVANNAKHET'
 		when province ='Vientiane Cap' then 'VIENTIANE CAPITAL'
 		when province ='Vientiane province' then 'VIENTIANE PROVINCE'
-		when province ='Xaignabouri' then 'XAYABOULY '
+		when province ='Xaignabouri' then 'XAYABOULY '
 		when province ='Xaisomboun' then 'XAYSOMBOUN'
 		when province ='Xekong' then 'XEKONG'
-		when province ='Xiangkhoang' then 'XIENGKHUANG  '
+		when province ='Xiangkhoang' then 'XIENGKHUANG  '
 		else null 
 	end "province_eng",
 	null "province_laos", null "district_eng", district "district_laos", addr "village", village_id ,
