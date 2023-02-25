@@ -46,6 +46,7 @@ delete from all_unique_analysis where id in (select id from removed_duplicate_2 
 -- delete before import new
 delete from all_unique_analysis_weekly ;
 
+-- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 2) Export data from lalco LMS to contact_data_db analysis  
 -- (1) contracted: export from database lalco to analysis in database contact_data_db table all_unique_analysis
 select * from all_unique_analysis_weekly where priority_type = 'contracted' order by date_created desc;
@@ -69,8 +70,9 @@ end `contact_no`,
 FROM tblcontract c left join tblprospect p on (p.id = c.prospect_id)
 left join tblcustomer cu on (cu.id = p.customer_id)
 WHERE c.status in (4,6,7) ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2022-12-30'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-01-26'; -- copy last date_created to here
 
+-- _____________________________________________________________________ 00 _____________________________________________________________________
 -- (2) ringi not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
 select * from all_unique_analysis_weekly where priority_type = 'ringi_not_contract' order by date_created desc;
 
@@ -95,8 +97,9 @@ end `contact_no`,
 FROM tblcontract c right join tblprospect p on (p.id = c.prospect_id)
 left join tblcustomer cu on (cu.id = p.customer_id)
 WHERE c.status not in (4,6,7) or p.status != 3 ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2022-12-31'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-01-26'; -- copy last date_created to here
 
+-- _____________________________________________________________________ 00 _____________________________________________________________________
 -- (3) asset not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
 select * from all_unique_analysis_weekly where priority_type = 'aseet_not_contract' order by date_created desc;
 
@@ -129,8 +132,9 @@ left join tblprospect p on (p.id = pa.prospect_id)
 left join tblcustomer cu2 on (p.customer_id = cu2.id)
 WHERE av.status != 2 or p.status != 3 
 ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2022-12-30'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-01-26'; -- copy last date_created to here
 
+-- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 3) import from database lalcodb to analysis in database contact_data_db
 select * from all_unique_analysis_weekly where priority_type = 'prospect_sabc' order by custtbl_id desc;
 
@@ -146,9 +150,9 @@ select '' "id",
 	date(now()) "date_updated",
 	c.id "custtbl_id"
 from custtbl c left join negtbl n on (c.id = n.custid)
-where c.inputdate >= '2023-01-03' or n.inputdate >= '2023-01-03'; -- please chcek this date_created date from table all_unique_analysis
+where c.inputdate >= '2023-01-03' or n.inputdate >= '2023-01-27'; -- please chcek this date_created date from table all_unique_analysis
 
-
+-- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 4) import data from database lalco_pbx to database contact_data_db
 select * from all_unique_analysis_weekly where priority_type = 'pbx_cdr' order by pbxcdr_id desc;
 
@@ -165,11 +169,11 @@ select null id, callee_number 'contact_no',
 from lalco_pbx.pbx_cdr pc 
 where -- status = 'ANSWERED' and communication_type = 'Outbound'
 	   status in ('NO ANSWER', 'FAILED', 'BUSY', 'VOICEMAIL' ) and communication_type = 'Outbound'
- and date_format(`time`, '%Y-%m-%d') >= '2022-12-26' -- please chcek this date from table all_unique_analysis
+ and date_format(`time`, '%Y-%m-%d') >= '2023-01-26' -- please chcek this date from table all_unique_analysis
  and CONCAT(LENGTH(callee_number), left( callee_number, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290209')
 group by callee_number ;
 
-
+-- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 5)delete duplicate
 delete from removed_duplicate_2;
 select count(*) from all_unique_analysis_weekly; -- 4406803 >> 399473
@@ -206,7 +210,7 @@ select * from all_unique_analysis_weekly auaw where priority_type = 'prospect_sa
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
-where aua.priority_type = 'contracted' -- and aua.date_created >= '2022-11-26' ;
+where aua.priority_type = 'contracted' ;
 select now(); -- datetime on this time
 
 select status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by status;
@@ -235,7 +239,7 @@ select now(); -- datetime on this time
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
-where aua.priority_type = 'ringi_not_contract'-- and aua.date_created >= '2022-11-26' ;
+where aua.priority_type = 'ringi_not_contract';
 
 select status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by status;
 
@@ -263,7 +267,7 @@ select now(); -- datetime on this time
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
-where aua.priority_type = 'aseet_not_contract' -- and aua.date_created >= '2022-11-26';
+where aua.priority_type = 'aseet_not_contract';
 
 select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
 
@@ -290,7 +294,7 @@ select now(); -- datetime on this time
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
-where aua.priority_type = 'prospect_sabc' -- and aua.date_created >= '2022-11-26';
+where aua.priority_type = 'prospect_sabc';
 
 -- 7)insert data to temp_update_any -- 2nd method
 insert into temp_update_any 
@@ -331,7 +335,7 @@ select now(); -- datetime on this time
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
 from contact_numbers_to_lcc cntl inner join all_unique_analysis_weekly aua on (cntl.contact_no = aua.contact_no)
-where aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' and cntl.status != 'ANSWERED' -- and aua.date_created >= '2022-11-26';
+where aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' and cntl.status != 'ANSWERED' ;
 
 -- 7)insert data to temp_update_any -- 2nd method
 insert into temp_update_any 
@@ -370,7 +374,7 @@ select now(); -- datetime on this time
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly aua on (cntl.contact_no = aua.contact_no)
-where aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER' -- and aua.date_created >= '2022-11-26';
+where aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER' ;
 
 -- 7)insert data to temp_update_any -- 2nd method: run in mysql server, because xampp server can't run this
 insert into temp_update_any 
