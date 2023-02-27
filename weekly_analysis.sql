@@ -212,7 +212,8 @@ select * from all_unique_analysis_weekly auaw where priority_type = 'prospect_sa
 -- __________________________________________________ 001 priority_type = 'contracted' __________________________________________________
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
-select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
+select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
+	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'contracted' ;
 select now(); -- datetime on this time
@@ -241,7 +242,8 @@ select now(); -- datetime on this time
 -- __________________________________________________ 002 priority_type = 'ringi_not_contract' __________________________________________________
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
-select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
+select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
+	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'ringi_not_contract';
 
@@ -269,7 +271,8 @@ select now(); -- datetime on this time
 -- __________________________________________________ 003 priority_type = 'aseet_not_contract' __________________________________________________
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
-select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
+select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
+	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'aseet_not_contract';
 
@@ -296,18 +299,22 @@ select now(); -- datetime on this time
 -- __________________________________________________ 004 priority_type = 'prospect_sabc' __________________________________________________
 -- 7)insert data to temp_update_any -- 1st method, we can use this method via Mysql server
 insert into temp_update_any 
-select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
+select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
+	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'prospect_sabc';
 
 -- 7)insert data to temp_update_any -- 2nd method
 insert into temp_update_any 
-select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
+select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
+	case when left(aua.contact_no,4) = '9020' then right(aua.contact_no,8) when left(aua.contact_no,4) = '9030' then right(aua.contact_no,7) end `contact_id`
 from all_unique_analysis_weekly  aua 
 where aua.priority_type = 'prospect_sabc' -- and aua.date_created >= '2022-11-26';
  
 -- table A: if use 2nd method, we need to export this data and then import to temp_update_any to update
-select cntl.id, cntl.contact_no, 'prospect_sabc' `remark_3`, null status, 0 `pbxcdr_time` from contact_numbers_to_lcc cntl 
+select cntl.id, cntl.contact_no, 'prospect_sabc' `remark_3`, null status, 0 `pbxcdr_time`,
+	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
+from contact_numbers_to_lcc cntl 
 where cntl.contact_no in (select contact_no from temp_update_any tua);
 
 -- and also export this, and then do vlookup remark_3 and status from this to table A
@@ -337,17 +344,22 @@ select now(); -- datetime on this time
 -- __________________________________________________ 005 aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' and cntl.status != 'ANSWERED' __________________________________________________
 -- 7)insert data to temp_update_any -- 1st method
 insert into temp_update_any 
-select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
+select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` ,
+	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
 from contact_numbers_to_lcc cntl inner join all_unique_analysis_weekly aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' and cntl.status != 'ANSWERED' ;
 
--- 7)insert data to temp_update_any -- 2nd method
+-- 7)insert data to temp_update_any -- 2nd method run on Xampp
 insert into temp_update_any 
-select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
+select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
+	case when left(aua.contact_no,4) = '9020' then right(aua.contact_no,8) when left(aua.contact_no,4) = '9030' then right(aua.contact_no,7) end `contact_id`
 from all_unique_analysis_weekly  aua 
 where aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' -- and aua.date_created >= '2022-11-26';
 
-select cntl.id, cntl.contact_no, 'pbx_cdr' `remark_3`, 'ANSWERED' status, 0 `pbxcdr_time` from contact_numbers_to_lcc cntl 
+-- run on Mysql
+select cntl.id, cntl.contact_no, 'pbx_cdr' `remark_3`, 'ANSWERED' status, 0 `pbxcdr_time`,
+	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
+from contact_numbers_to_lcc cntl 
 where cntl.contact_no in (select contact_no from temp_update_any tua);
 
 select * from temp_update_any tua ;
@@ -376,18 +388,22 @@ select now(); -- datetime on this time
 -- __________________________________________________ 006 aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER' __________________________________________________
 -- 7)insert data to temp_update_any -- 1st method
 insert into temp_update_any 
-select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
+select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
+	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER' ;
 
 -- 7)insert data to temp_update_any -- 2nd method: run in mysql server, because xampp server can't run this
 insert into temp_update_any 
-select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` 
+select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
+	case when left(aua.contact_no,4) = '9020' then right(aua.contact_no,8) when left(aua.contact_no,4) = '9030' then right(aua.contact_no,7) end `contact_id`
 from all_unique_analysis_weekly  aua 
 where aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' -- and aua.date_created >= '2022-11-26';
 
--- select and exoptr to xampp server table temp_update_any
-select cntl.id, cntl.contact_no, 'pbx_cdr' `remark_3`, 'NO ANSWER' status, 0 `pbxcdr_time` from contact_numbers_to_lcc cntl 
+-- -- run on Mysql and export to xampp server table temp_update_any
+select cntl.id, cntl.contact_no, 'pbx_cdr' `remark_3`, 'NO ANSWER' status, 0 `pbxcdr_time`,
+	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
+from contact_numbers_to_lcc cntl 
 where cntl.contact_no in (select contact_no from temp_update_any tua);
 
 select * from temp_update_any tua ;
