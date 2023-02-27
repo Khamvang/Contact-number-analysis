@@ -19,6 +19,10 @@ CREATE TABLE `all_unique_analysis_weekly` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
+alter table temp_update_any add `contact_id` int(11) ;
+
+alter table temp_update_any add key `contact_id` (`contact_id`);
+
 
 # Backup data from all_unique_analysis_weekly to all_unique_analysis 
 select count(*) from all_unique_analysis_weekly auaw -- 399473
