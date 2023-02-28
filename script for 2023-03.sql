@@ -88,8 +88,8 @@ create table `contact_for_202303_lcc` (
 	  `staff_id` varchar(255) DEFAULT NULL,
 	  `pvd_id` varchar(255) DEFAULT NULL,
 	  `contact_id` int(11) not null comment 'the phone number without 9020 and 9030',
-	  `condition` int(11) not null comment '①『TELECOM』, ②「Need Loan」, ③「Have Car」, ④「Have Address」　＆　『GOVERNMENT』　OR  『Yellow Page』, ⑤「Have Address」　＆　others, ⑥『EXPECT』(SAB)  ＆ 　≠『EXITING』『 DORMACCY』, ⑦『EXPECT』(C)  ＆ 　≠『EXITING』『 DORMACCY』 ＆　『CAR INFORMATOIN』, ⑧have address, ⑨no address',
-	  `group` int(11) not null comment '1=condition 2,3,4,6,7, 2=condition 5,8',
+	  `condition` int(11) not null comment '①「Need Loan」, ②「Have Car」, ③「Have Address」　＆　『GOVERNMENT』　OR  『Yellow Page』, ④「Have Address」　＆　others, ⑤『EXPECT』(SAB)  ＆ 　≠『EXITING』『 DORMACCY』, ⑥『EXPECT』(C)  ＆ 　≠『EXITING』『 DORMACCY』 ＆　『CAR INFORMATOIN』, ⑦『TELECOM』have address, ⑧『TELECOM』no address',
+	  `group` int(11) not null comment '1=condition 1,2,3,5,6, 2=condition 4,7, 3=condition 8',
 	  PRIMARY KEY (`id`),
 	  key `contact_no` (`contact_no`),
 	  key `fk_file_id` (`file_id`),
@@ -99,10 +99,11 @@ create table `contact_for_202303_lcc` (
 
 
 
+
 # ______________________________________________________ insert into contact_for_202303_lcc ______________________________________________________________ #
 -- 1)
 insert into contact_for_202303_lcc
-select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
+;select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
 	case when cntl.status is null then 1
 		when TIMESTAMPDIFF(MONTH, cntl.`date_updated`, date(now())) = 0 then 3 -- current month
 		when TIMESTAMPDIFF(MONTH, cntl.`date_updated`, date(now())) = 1 then 3 -- before current month
@@ -110,16 +111,18 @@ select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_l
 	end`remark_1`,
 	null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
 	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`, 
-	case when cntl.`type` = '①Have Car' then 3
-		when cntl.`type` = '②Need loan' then 2
-		when cntl.`type` = '③Have address' and fd.category = '①GOVERNMENT' then 4
-		when cntl.`type` = '③Have address' and fd.category != '①GOVERNMENT' then 5
-		when cntl.`type` = '④Telecom' then 1
+	case when cntl.`type` = '①Have Car' then 2
+		when cntl.`type` = '②Need loan' then 1
+		when cntl.`type` = '③Have address' and fd.category = '①GOVERNMENT' then 3
+		when cntl.`type` = '③Have address' and fd.category != '①GOVERNMENT' then 4
+		when cntl.`type` = '④Telecom' and (cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null ) then 7
+		when cntl.`type` = '④Telecom' then 8
 	end `condition`, 
 	case when cntl.`type` in ('①Have Car', '②Need loan') then 1
 		when cntl.`type` = '③Have address' and fd.category = '①GOVERNMENT' then 1
 		when cntl.`type` = '③Have address' and fd.category != '①GOVERNMENT' then 2
-		when cntl.`type` = '④Telecom' then 4
+		when cntl.`type` = '④Telecom' and (cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null ) then 2
+		when cntl.`type` = '④Telecom' then 3
 	end `group`
 -- select count(*) --  4,278,841
 from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
@@ -137,7 +140,7 @@ where (cntl.remark_3 = 'contracted' or cntl.remark_3 = 'ringi_not_contract' or c
 		) -- 2
 	or cntl.status is null -- new number
 
- 
+
 
 
 
