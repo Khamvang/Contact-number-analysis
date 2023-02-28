@@ -413,5 +413,5 @@ select * , count(*) from
 		end `new_result`
 	from contact_for_202302_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 	) t
-group by branch_name ,  province_eng , `type` , category , category2 , `address`, `car_info`, `result`, `new_result` ;
+group by branch_name ,  province_eng , `type` , category , category2 , `priority`, `address`, `car_info`, `result`, `new_result` ;
 
