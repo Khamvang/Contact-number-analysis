@@ -144,6 +144,130 @@ where (cntl.remark_3 = 'contracted' or cntl.remark_3 = 'ringi_not_contract' or c
 
 
 
+# ______________________________________________________ export to create campaign on LCC for contact_for_202303_lcc ______________________________________________________________ #
+
+'Attapue','Bokeo','Head Office','Houaphan','LuangNamtha','Luangprabang','Oudomxay','Paksan','Pakse','Salavan','Savannakhet','Thakek','Vientiane province','Xainyabuli','Xiengkhouang'
+
+-- ____________________________________________________ 1 Have car ____________________________________________________
+-- 1) Have car: priority 1&2 and condition 2 -- Campaign name: 1_Old_ATTAPUE_ATP Team_20230301_p12c2-1
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202303_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '①Have Car' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('1', '2') and cntl.`condition` = 2 ;
+
+
+-- 1) Have car: priority 3 and condition 2 -- Campaign name: 1_Old_ATTAPUE_ATP Team_20230301_p3c2-1
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202303_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '①Have Car' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('3') and cntl.`condition` = 2 ;
+
+
+-- ____________________________________________________ 2 Need loan ____________________________________________________
+-- 1) Need loan: priority 1&2 and condition 1 -- Campaign name: 2_Old_ATTAPUE_ATP Team_20230301_p12c1-1
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202303_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '②Need loan' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('1', '2') and cntl.`condition` = 1 ;
+
+
+-- 1) Need loan: priority 3 and condition 1 -- Campaign name: 2_Old_ATTAPUE_ATP Team_20230301_p3c1-1
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202303_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '②Need loan' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('3') and cntl.`condition` = 1 ;
+
+
+-- ____________________________________________________ 3 Have address ____________________________________________________
+-- 1) Have address: priority 1&2 and condition 3 -- Campaign name: 3_Old_ATTAPUE_ATP Team_20230301_p12c3-1
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202303_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '③Have address' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('1', '2') and cntl.`condition` = 3 ;
+
+
+-- 2) Have address: priority 3 and condition 3 -- Campaign name: 3_Old_ATTAPUE_ATP Team_20230301_p3c3-1
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202303_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '③Have address' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('3') and cntl.`condition` = 3 ;
+
+
+-- 3) Have address: priority 1&2 and condition 4 -- Campaign name: 3_Old_ATTAPUE_ATP Team_20230301_p12c4-1
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202303_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '③Have address' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('1', '2') and cntl.`condition` = 4 ;
+
+
+-- 4) Have address: priority 3 and condition 4 -- Campaign name: 3_Old_ATTAPUE_ATP Team_20230301_p3c4-1
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202303_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '③Have address' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('3') and cntl.`condition` = 4 ;
+
+
+-- ____________________________________________________ prospect ____________________________________________________
+-- 1) Have address: priority 1&2 and condition 56 -- Campaign name: p_Old_ATTAPUE_ATP Team_20230301_p12c56-1
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202303_lcc cntl 
+where branch_name = 'Attapue' and `type` in( 'prospect' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('1', '2') and cntl.`condition` in (5,6) ;
+
+
+-- 2) Have address: priority 3 and condition 56 -- Campaign name: p_Old_ATTAPUE_ATP Team_20230301_p3c4-1
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202303_lcc cntl 
+where branch_name = 'Attapue' and `type` in( 'prospect' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('3') and cntl.`condition` in (5,6) ;
+
+
+-- ____________________________________________________ 4 Telecom ____________________________________________________
+-- 1) Telecom: priority 1&2 and condition 7 -- Campaign name: p_Old_ATTAPUE_ATP Team_20230301_p12c7-1
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202303_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '④Telecom' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('1', '2') and cntl.`condition` = 7 ;
+
+
+-- 2) Telecom: priority 3 and condition 7 -- Campaign name: p_Old_ATTAPUE_ATP Team_20230301_p3c7-1
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202303_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '④Telecom' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('3') and cntl.`condition` = 7 ;
+
+
+-- 3) Telecom: priority 1&2 and condition 8 -- Campaign name: p_Old_ATTAPUE_ATP Team_20230301_p12c8-1
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202303_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '④Telecom' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('1', '2') and cntl.`condition` = 8 ;
+
+
+-- 4) Telecom: priority 3 and condition 8 -- Campaign name: p_Old_ATTAPUE_ATP Team_20230301_p3c8-1
+-- select count(*) 
+ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202303_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '④Telecom' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	and cntl.remark_1 in ('3') and cntl.`condition` = 8 ;
+
+
+
+
+
 
 
 
