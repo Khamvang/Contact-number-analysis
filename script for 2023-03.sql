@@ -266,6 +266,37 @@ where branch_name = 'Attapue' and `type` in( '④Telecom' ) -- '①Have Car' '�
 
 
 
+-- ____________________________________________________________ for ACC ____________________________________________________________
+
+select count(*) from contact_for_202303_lcc cfl where id in (select id from contact_for_acc_jan2023_acc where date_provided = '2023-03-02');
+
+update contact_for_202303_lcc set branch_name = 'Head office - ACC' where id in (select id from contact_for_acc_jan2023_acc where date_provided = '2023-03-02');
+
+
+select count(*) from contact_numbers_to_lcc cntl  where id in (select id from contact_for_acc_jan2023_acc where date_provided = '2023-03-02');
+
+update contact_numbers_to_lcc set branch_name = 'Head office - ACC' where id in (select id from contact_for_acc_jan2023_acc where date_provided = '2023-03-02');
+
+
+-- __________________________ 3 Export to ACC: email subject: Call list for ACC __________________________
+insert into contact_for_acc_jan2023_acc
+select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
+	'1' `remark_1`,null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, date(now()) `date_provided`
+-- select count(*) -- 1199586
+from contact_numbers_to_lcc cntl
+where cntl.branch_name in ('Head Office')
+and ( (cntl.remark_3 = 'prospect_sabc' and cntl.status in ('F')) 
+	or (cntl.remark_3 = 'prospect_sabc' and cntl.status in ('G','G1','G2') )
+	or (cntl.remark_3 = 'pbx_cdr' and cntl.status = 'ANSWERED') )
+and (cntl.id in (select id from temp_sms_chairman tean where status = 1 ) -- SMS check
+or cntl.id in (select id from temp_etl_active_numbers tean2 ) ) -- ETL active
+and cntl.id not in (select id from contact_for_acc_jan2023_acc) 
+limit 18000;
+
+
+
+
+
 
 
 
