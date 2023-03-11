@@ -446,8 +446,12 @@ select count(*) from contact_numbers_to_lcc cntl where file_id = 1059; order by 
 select * from payment p order by id desc;
 
 
+-- create contact_id
+alter table contact_numbers_to_lcc add `contact_id` int(11) not null;
 
+alter table contact_numbers_to_lcc add key `contact_id` (`contact_id`);
 
+update contact_numbers_to_lcc set contact_id = case when left(contact_no,4) = '9020' then right(contact_no,8) when left(contact_no,4) = '9030' then right(contact_no,7) end ;
 
 
 
