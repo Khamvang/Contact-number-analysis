@@ -57,7 +57,7 @@ delete from all_unique_analysis_weekly ;
 -- (1) contracted: export from database lalco to analysis in database contact_data_db table all_unique_analysis
 select * from all_unique_analysis_weekly where priority_type = 'contracted' order by date_created desc;
 
-SELECT * FROM (
+SELECT *, case when left(`contact_no`, 4) = '9020' then right(`contact_no`, 8) when left(`contact_no`, 4) = '9030' then right(`contact_no`, 7) end 'contact_id' FROM (
 SELECT 
 	NULL `id`,
 case when left (right (REPLACE ( cu.main_contact_no, ' ', '') ,8),1) = '0' then CONCAT('903',right (REPLACE ( cu.main_contact_no, ' ', '') ,8))
@@ -82,7 +82,7 @@ WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-02-24'; -- copy 
 -- (2) ringi not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
 select * from all_unique_analysis_weekly where priority_type = 'ringi_not_contract' order by date_created desc;
 
-SELECT * FROM (
+SELECT *, case when left(`contact_no`, 4) = '9020' then right(`contact_no`, 8) when left(`contact_no`, 4) = '9030' then right(`contact_no`, 7) end 'contact_id' FROM (
 SELECT 
 	NULL `id`,
 case when left (right (REPLACE ( cu.main_contact_no, ' ', '') ,8),1) = '0' then CONCAT('903',right (REPLACE ( cu.main_contact_no, ' ', '') ,8))
@@ -109,7 +109,7 @@ WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-02-24'; -- copy 
 -- (3) asset not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
 select * from all_unique_analysis_weekly where priority_type = 'aseet_not_contract' order by date_created desc;
 
-SELECT * FROM (
+SELECT *, case when left(`contact_no`, 4) = '9020' then right(`contact_no`, 8) when left(`contact_no`, 4) = '9030' then right(`contact_no`, 7) end 'contact_id' FROM (
 SELECT 
 	NULL `id`,
 case when cu.id is null or cu.id = '' then
@@ -144,6 +144,7 @@ WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-02-24'; -- copy 
 -- 3) import from database lalcodb to analysis in database contact_data_db
 select * from all_unique_analysis_weekly where priority_type = 'prospect_sabc' order by custtbl_id desc;
 
+SELECT *, case when left(contact_no, 4) = '9020' then right(contact_no, 8) when left(contact_no, 4) = '9030' then right(contact_no, 7) end "contact_id" FROM (
 select '' "id",
 	case
 		when left(right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8), 1)= '0' then CONCAT('903', right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8))
@@ -156,7 +157,8 @@ select '' "id",
 	date(now()) "date_updated",
 	c.id "custtbl_id"
 from custtbl c left join negtbl n on (c.id = n.custid)
-where c.inputdate >= '2023-01-03' or n.inputdate >= '2023-02-25'; -- please chcek this date_created date from table all_unique_analysis
+) t
+WHERE LENGTH(contact_no) IN (11,12) and date_created >= '2023-02-25'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 4) import data from database lalco_pbx to database contact_data_db
@@ -178,6 +180,34 @@ where -- status = 'ANSWERED' and communication_type = 'Outbound'
  and date_format(`time`, '%Y-%m-%d') >= '2023-02-24' -- please chcek this date from table all_unique_analysis
  and CONCAT(LENGTH(callee_number), left( callee_number, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290209')
 group by callee_number ;
+
+
+-- _____________________________________________________________________ 0 update contact_no and contact_id 0 _____________________________________________________________________
+-- alter table all_unique_analysis_weekly add `contact_id` int(11) not null;
+-- alter table all_unique_analysis_weekly add key `contact_id` (`contact_id`);
+
+update all_unique_analysis_weekly set contact_no = 
+	case when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '021')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '21' )
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 6)
+		then concat('9021',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 021
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 11 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '020')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 10 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '20')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),1) in ('2','5','7','8','9'))
+		then concat('9020',right(regexp_replace(contact_no , '[^[:digit:]]', ''),8)) -- for 020
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 10 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '030')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '30')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 7 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),1) in ('2','4','5','7','9'))
+		then concat('9030',right(regexp_replace(contact_no , '[^[:digit:]]', ''),7)) -- for 030
+		when left (right (regexp_replace(contact_no , '[^[:digit:]]', ''),8),1) in ('0','1','') then concat('9030',right(regexp_replace(contact_no , '[^[:digit:]]', ''),7))
+		when left (right (regexp_replace(contact_no , '[^[:digit:]]', ''),8),1) in ('2','5','7','8','9')
+		then concat('9020',right(regexp_replace(contact_no , '[^[:digit:]]', ''),8))
+		else concat('9020',right(regexp_replace(contact_no , '[^[:digit:]]', ''),8))
+	end
+;
+
+update all_unique_analysis_weekly set contact_id = case when left(contact_no,4) = '9020' then right(contact_no,8) when left(contact_no,4) = '9030' then right(contact_no,7) end ;
+
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 5)delete duplicate
@@ -214,8 +244,7 @@ select * from all_unique_analysis_weekly auaw where priority_type = 'prospect_sa
 -- __________________________________________________ 001 priority_type = 'contracted' __________________________________________________
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
-select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
-	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
+select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'contracted' ;
 select now(); -- datetime on this time
@@ -244,8 +273,7 @@ select now(); -- datetime on this time
 -- __________________________________________________ 002 priority_type = 'ringi_not_contract' __________________________________________________
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
-select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
-	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
+select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'ringi_not_contract';
 
@@ -273,8 +301,7 @@ select now(); -- datetime on this time
 -- __________________________________________________ 003 priority_type = 'aseet_not_contract' __________________________________________________
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
-select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
-	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
+select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'aseet_not_contract';
 
@@ -301,8 +328,7 @@ select now(); -- datetime on this time
 -- __________________________________________________ 004 priority_type = 'prospect_sabc' __________________________________________________
 -- 7)insert data to temp_update_any -- 1st method, we can use this method via Mysql server
 insert into temp_update_any 
-select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
-	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
+select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'prospect_sabc';
 
@@ -346,21 +372,18 @@ select now(); -- datetime on this time
 -- __________________________________________________ 005 aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' and cntl.status != 'ANSWERED' __________________________________________________
 -- 7)insert data to temp_update_any -- 1st method
 insert into temp_update_any 
-select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` ,
-	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
+select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
 from contact_numbers_to_lcc cntl inner join all_unique_analysis_weekly aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' and cntl.status != 'ANSWERED' ;
 
 -- 7)insert data to temp_update_any -- 2nd method run on Xampp
 insert into temp_update_any 
-select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
-	case when left(aua.contact_no,4) = '9020' then right(aua.contact_no,8) when left(aua.contact_no,4) = '9030' then right(aua.contact_no,7) end `contact_id`
+select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
 from all_unique_analysis_weekly  aua 
 where aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' -- and aua.date_created >= '2022-11-26';
 
 -- run on Mysql
-select cntl.id, cntl.contact_no, 'pbx_cdr' `remark_3`, 'ANSWERED' status, 0 `pbxcdr_time`,
-	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
+select cntl.id, cntl.contact_no, 'pbx_cdr' `remark_3`, 'ANSWERED' status, 0 `pbxcdr_time`, cntl.`contact_id`
 from contact_numbers_to_lcc cntl 
 where cntl.contact_no in (select contact_no from temp_update_any tua);
 
@@ -390,21 +413,18 @@ select now(); -- datetime on this time
 -- __________________________________________________ 006 aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER' __________________________________________________
 -- 7)insert data to temp_update_any -- 1st method
 insert into temp_update_any 
-select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
-	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
+select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly aua on (cntl.contact_no = aua.contact_no)
 where aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER' ;
 
 -- 7)insert data to temp_update_any -- 2nd method: run in mysql server, because xampp server can't run this
 insert into temp_update_any 
-select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
-	case when left(aua.contact_no,4) = '9020' then right(aua.contact_no,8) when left(aua.contact_no,4) = '9030' then right(aua.contact_no,7) end `contact_id`
+select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
 from all_unique_analysis_weekly  aua 
 where aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' -- and aua.date_created >= '2022-11-26';
 
 -- -- run on Mysql and export to xampp server table temp_update_any
-select cntl.id, cntl.contact_no, 'pbx_cdr' `remark_3`, 'NO ANSWER' status, 0 `pbxcdr_time`,
-	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
+select cntl.id, cntl.contact_no, 'pbx_cdr' `remark_3`, 'NO ANSWER' status, 0 `pbxcdr_time`, cntl.`contact_id`
 from contact_numbers_to_lcc cntl 
 where cntl.contact_no in (select contact_no from temp_update_any tua);
 
