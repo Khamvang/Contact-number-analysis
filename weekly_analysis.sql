@@ -245,14 +245,14 @@ select * from all_unique_analysis_weekly auaw where priority_type = 'prospect_sa
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
-from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
+from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_id = aua.contact_id)
 where aua.priority_type = 'contracted' ;
 select now(); -- datetime on this time
 
 select status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by status;
 
 -- 8)update status in table contact_numbers_to_lcc 
-update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.id = tua.id) 
+update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = date(now())
 where cntl.id in (select id from temp_update_any );
 select now(); -- datetime on this time
@@ -260,7 +260,7 @@ select now(); -- datetime on this time
 select status, status_updated, count(*)  from contact_for_202303_lcc cntl where cntl.id in (select id from temp_update_any)  group by status, status_updated ;
 
 -- 8)update status in table contact_for_202303_lcc 
-update contact_for_202303_lcc cntl left join temp_update_any tua on (cntl.id = tua.id) 
+update contact_for_202303_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.id in (select id from temp_update_any );
 select now(); -- datetime on this time
@@ -274,13 +274,13 @@ select now(); -- datetime on this time
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
-from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
+from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_id = aua.contact_id)
 where aua.priority_type = 'ringi_not_contract';
 
 select status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by status;
 
 -- 8)update status in table contact_numbers_to_lcc 
-update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.id = tua.id) 
+update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = date(now())
 where cntl.id in (select id from temp_update_any) and (cntl.status is null or cntl.remark_3 not in ('contracted'));
 select now(); -- datetime on this time
@@ -288,7 +288,7 @@ select now(); -- datetime on this time
 select status, status_updated, count(*)  from contact_for_202303_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
 
 -- 8)update status in table contact_for_202303_lcc 
-update contact_for_202303_lcc cntl left join temp_update_any tua on (cntl.id = tua.id) 
+update contact_for_202303_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.id in (select id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted'));
 select now(); -- datetime on this time
@@ -302,13 +302,13 @@ select now(); -- datetime on this time
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
-from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
+from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_id = aua.contact_id)
 where aua.priority_type = 'aseet_not_contract';
 
 select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
 
 -- 8)update status in table contact_numbers_to_lcc 
-update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.id = tua.id) 
+update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = date(now())
 where cntl.id in (select id from temp_update_any) and (cntl.status is null or cntl.remark_3 not in ('contracted'));
 select now(); -- datetime on this time
@@ -316,7 +316,7 @@ select now(); -- datetime on this time
 select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
 
 -- 8)update status in table contact_for_202303_lcc 
-update contact_for_202303_lcc cntl left join temp_update_any tua on (cntl.id = tua.id) 
+update contact_for_202303_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.id in (select id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted'));
 select now(); -- datetime on this time
@@ -329,19 +329,17 @@ select now(); -- datetime on this time
 -- 7)insert data to temp_update_any -- 1st method, we can use this method via Mysql server
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
-from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_no = aua.contact_no)
+from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_id = aua.contact_id)
 where aua.priority_type = 'prospect_sabc';
 
 -- 7)insert data to temp_update_any -- 2nd method
 insert into temp_update_any 
-select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`,
-	case when left(aua.contact_no,4) = '9020' then right(aua.contact_no,8) when left(aua.contact_no,4) = '9030' then right(aua.contact_no,7) end `contact_id`
+select aua.id, aua.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
 from all_unique_analysis_weekly  aua 
 where aua.priority_type = 'prospect_sabc' -- and aua.date_created >= '2022-11-26';
  
 -- table A: if use 2nd method, we need to export this data and then import to temp_update_any to update
-select cntl.id, cntl.contact_no, 'prospect_sabc' `remark_3`, null status, 0 `pbxcdr_time`,
-	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`
+select cntl.id, cntl.contact_no, 'prospect_sabc' `remark_3`, null status, 0 `pbxcdr_time`, cntl.`contact_id`
 from contact_numbers_to_lcc cntl 
 where cntl.contact_no in (select contact_no from temp_update_any tua);
 
@@ -351,7 +349,7 @@ select * from temp_update_any tua ;
 select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
 
 -- 8)update status in table contact_numbers_to_lcc 
-update contact_numbers_to_lcc cntl inner join temp_update_any tua on (cntl.id = tua.id) 
+update contact_numbers_to_lcc cntl inner join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = date(now())
 where cntl.id in (select id from temp_update_any ) and (cntl.status is null or cntl.remark_3 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract'));
 select now(); -- datetime on this time
@@ -359,7 +357,7 @@ select now(); -- datetime on this time
 select status, status_updated, count(*) from contact_for_202303_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
 
 -- 8)update status in table contact_for_202303_lcc 
-update contact_for_202303_lcc cntl left join temp_update_any tua on (cntl.id = tua.id) 
+update contact_for_202303_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.id in (select id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract'));
 select now(); -- datetime on this time
@@ -372,9 +370,9 @@ select now(); -- datetime on this time
 -- __________________________________________________ 005 aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' and cntl.status != 'ANSWERED' __________________________________________________
 -- 7)insert data to temp_update_any -- 1st method
 insert into temp_update_any 
-select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
-from contact_numbers_to_lcc cntl inner join all_unique_analysis_weekly aua on (cntl.contact_no = aua.contact_no)
-where aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' and cntl.status != 'ANSWERED' ;
+select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time` , cntl.`contact_id`
+from contact_numbers_to_lcc cntl inner join all_unique_analysis_weekly aua on (cntl.contact_id = aua.contact_id)
+where aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' ; -- and cntl.status != 'ANSWERED' 
 
 -- 7)insert data to temp_update_any -- 2nd method run on Xampp
 insert into temp_update_any 
@@ -392,7 +390,7 @@ select * from temp_update_any tua ;
 select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
 
 -- 8)update status in table contact_numbers_to_lcc 
-update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.id = tua.id) 
+update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = date(now())
 where cntl.id in (select id from temp_update_any ) and (cntl.status is null or cntl.remark_3 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract', 'prospect_sabc'));
 select now(); -- datetime on this time
@@ -400,7 +398,7 @@ select now(); -- datetime on this time
 select status, status_updated, count(*) from contact_for_202303_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
 
 -- 8)update status in table contact_for_202303_lcc 
-update contact_for_202303_lcc cntl left join temp_update_any tua on (cntl.id = tua.id) 
+update contact_for_202303_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.id in (select id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract', 'prospect_sabc'));
 select now(); -- datetime on this time
@@ -414,8 +412,8 @@ select now(); -- datetime on this time
 -- 7)insert data to temp_update_any -- 1st method
 insert into temp_update_any 
 select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
-from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly aua on (cntl.contact_no = aua.contact_no)
-where aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER' ;
+from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly aua on (cntl.contact_id = aua.contact_id)
+where aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' ; --  and cntl.status != 'NO ANSWER'
 
 -- 7)insert data to temp_update_any -- 2nd method: run in mysql server, because xampp server can't run this
 insert into temp_update_any 
@@ -433,7 +431,7 @@ select * from temp_update_any tua ;
 select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
 
 -- 8)update status in table contact_numbers_to_lcc 
-update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.id = tua.id) 
+update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = date(now())
 where cntl.id in (select id from temp_update_any ) and (cntl.status is null or cntl.status in ('SMS_success', 'ETL_active'));
 select now(); -- datetime on this time
@@ -441,7 +439,7 @@ select now(); -- datetime on this time
 select status, status_updated, count(*) from contact_for_202303_lcc cntl where cntl.id in (select id from temp_update_any)  group by status, status_updated ;
 
 -- 8)update status in table contact_for_202303_lcc 
-update contact_for_202303_lcc cntl left join temp_update_any tua on (cntl.id = tua.id) 
+update contact_for_202303_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.id in (select id from temp_update_any ) and (cntl.status_updated is null or cntl.status_updated in ('SMS_success', 'ETL_active'));
 select now(); -- datetime on this time
