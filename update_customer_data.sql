@@ -1,6 +1,6 @@
 #================ How to update contact data as address, car info by sync data from LALCO portal, LALCO moneymax, LALCO CRM, LALCO LCC =============
 -- I. Create tabel for inporting data from LMS LALCO, Moneymax, CRM, LCC
-create table `temp_imort_data_from_lms_crm_v2` (
+create table `temp_imort_data_from_lms_crm` (
 	`id` int(11) not null auto_increment,
 	`contact_id` int(11) not null COMMENT 'use phone number int=7 for 030 and int=8 for 020',
 	`contact_no` varchar(255) default null,
