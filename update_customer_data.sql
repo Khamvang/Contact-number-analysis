@@ -18,7 +18,12 @@ create table `temp_imort_data_from_lms_crm` (
 ) engine=InnoDB auto_increment=1 default CHARSET=utf8mb4;
 
 
+-- create contact_id
+alter table temp_imort_data_from_lms_crm add `contact_id` int(11) not null;
 
+alter table temp_imort_data_from_lms_crm add key `contact_id` (`contact_id`);
+
+update temp_imort_data_from_lms_crm set contact_id = case when left(contact_no,4) = '9020' then right(contact_no,8) when left(contact_no,4) = '9030' then right(contact_no,7) end ;
 
 
 
