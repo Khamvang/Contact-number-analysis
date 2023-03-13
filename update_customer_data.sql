@@ -235,6 +235,16 @@ delete from contact_for_updating;
 insert into contact_for_updating 
 select * from contact_numbers_to_lcc cntl where contact_id in (select contact_id from temp_imort_data_from_lms_crm );
 
+ -- do temp update 
+select priority, count(*)  from temp_imort_data_from_lms_crm  group by priority;
+
+select * from temp_imort_data_from_lms_crm limit 10,2 -- 2 rows after row number = 10
+
+insert into temp_imort_data_from_lms_crm_v2
+select null 'id', id 'contact_id',contact_no,name,province_eng,province_laos,district_eng,district_laos,village,village_id,maker,model,year,priority
+from temp_imort_data_from_lms_crm tidflc 
+
+
 
 
 
