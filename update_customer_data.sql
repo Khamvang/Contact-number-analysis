@@ -1,20 +1,22 @@
 #================ How to update contact data as address, car info by sync data from LALCO portal, LALCO moneymax, LALCO CRM, LALCO LCC =============
 -- I. Create tabel for inporting data from LMS LALCO, Moneymax, CRM, LCC
-create table `temp_imort_data_from_lms_crm` (
-  `id` int(11) not null auto_increment COMMENT 'use phone number int=7 for 030 and int=8 for 020',
-  `contact_no` varchar(255) default null,
-  `name` varchar(255) default null,
-  `province_eng` varchar(255) default null,
-  `province_laos` varchar(255) default null,
-  `district_eng` varchar(255) default null,
-  `district_laos` varchar(255) default null,
-  `village` varchar(255) default null,
-  `village_id` varchar(255) default null,
-  `maker` varchar(255) default null,
-  `model` varchar(255) default null,
-  `year` varchar(255) default null,
-  `priority` int not null COMMENT '1=Lalco LMS, 2=Moneymax LMS, 3=CRM, 4=LCC',
-  key (`id`)
+create table `temp_imort_data_from_lms_crm_v2` (
+	`id` int(11) not null auto_increment,
+	`contact_id` int(11) not null COMMENT 'use phone number int=7 for 030 and int=8 for 020',
+	`contact_no` varchar(255) default null,
+	`name` varchar(255) default null,
+	`province_eng` varchar(255) default null,
+	`province_laos` varchar(255) default null,
+	`district_eng` varchar(255) default null,
+	`district_laos` varchar(255) default null,
+	`village` varchar(255) default null,
+	`village_id` varchar(255) default null,
+	`maker` varchar(255) default null,
+	`model` varchar(255) default null,
+	`year` varchar(255) default null,
+	`priority` int not null COMMENT '1=Lalco LMS, 2=Moneymax LMS, 3=CRM, 4=LCC',
+	primary key (`id`),
+	key `contact_id` (`contact_id`)
 ) engine=InnoDB auto_increment=1 default CHARSET=utf8mb4;
 
 
@@ -66,7 +68,7 @@ select
 	case when left (right (REPLACE ( cu.main_contact_no, ' ', '') ,8),1) = '0' then right (REPLACE ( cu.main_contact_no, ' ', '') ,8)
     	when length (REPLACE ( cu.main_contact_no, ' ', '')) = 7 then REPLACE( cu.main_contact_no, ' ', '')
    		else right(REPLACE ( cu.main_contact_no, ' ', '') , 8)
-	end `id`,
+	end `contact_id`,
 	case when left (right (REPLACE ( cu.main_contact_no, ' ', '') ,8),1) = '0' then CONCAT('903',right (REPLACE ( cu.main_contact_no, ' ', '') ,8))
     	when length (REPLACE ( cu.main_contact_no, ' ', '')) = 7 then CONCAT('9030',REPLACE ( cu.main_contact_no, ' ', ''))
    		else CONCAT('9020', right(REPLACE ( cu.main_contact_no, ' ', '') , 8))
@@ -117,7 +119,7 @@ select
 	case when left (right (REPLACE ( cu.main_contact_no, ' ', '') ,8),1) = '0' then right (REPLACE ( cu.main_contact_no, ' ', '') ,8)
     	when length (REPLACE ( cu.main_contact_no, ' ', '')) = 7 then REPLACE( cu.main_contact_no, ' ', '')
    		else right(REPLACE ( cu.main_contact_no, ' ', '') , 8)
-	end `id`,
+	end `contact_id`,
 	case when left (right (REPLACE ( cu.main_contact_no, ' ', '') ,8),1) = '0' then CONCAT('903',right (REPLACE ( cu.main_contact_no, ' ', '') ,8))
     	when length (REPLACE ( cu.main_contact_no, ' ', '')) = 7 then CONCAT('9030',REPLACE ( cu.main_contact_no, ' ', ''))
    		else CONCAT('9020', right(REPLACE ( cu.main_contact_no, ' ', '') , 8))
@@ -169,7 +171,7 @@ select
 		when left(right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8), 1)= '0' then right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8)
 		when LENGTH( translate (c.tel, translate(c.tel, '0123456789', ''), '')) = 7 then right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8)
 		else right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8)
-	end "id",
+	end "contact_id",
 	case
 		when left(right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8), 1)= '0' then CONCAT('903', right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8))
 		when LENGTH( translate (c.tel, translate(c.tel, '0123456789', ''), '')) = 7 then CONCAT('9030', right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8))
@@ -231,7 +233,7 @@ delete from contact_for_updating;
 
 -- 9) insert data from contact_numbers_to_lcc to contact_for_updating 
 insert into contact_for_updating 
-select * from contact_numbers_to_lcc cntl where contact_id in (select id from temp_imort_data_from_lms_crm );
+select * from contact_numbers_to_lcc cntl where contact_id in (select contact_id from temp_imort_data_from_lms_crm );
 
 
 
