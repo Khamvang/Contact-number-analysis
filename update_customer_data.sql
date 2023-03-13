@@ -226,7 +226,12 @@ where id in (select id from removed_duplicate_2 where `time` >= '2023-02-22');
 
 
 
+-- 8) clear table contact_for_updating
 
+
+-- 9)
+insert into contact_for_updating 
+select * from contact_numbers_to_lcc cntl where contact_id in (select id from temp_imort_data_from_lms_crm );
 
 
 
