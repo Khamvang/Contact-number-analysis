@@ -273,5 +273,5 @@ select cfu.`id`,cfu.`file_id`,cfu.`contact_no`,
 	cfu.`date_updated`, cfu.`pbxcdr_time`,cfu.`contact_id`
 from contact_for_updating cfu left join temp_imort_data_from_lms_crm td on (td.contact_id = cfu.contact_id) ;
 
-
+-- 12) open the table contact_for_updating then export as replace to contact_numbers_to_lcc
 
