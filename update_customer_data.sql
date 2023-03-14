@@ -247,8 +247,16 @@ from temp_imort_data_from_lms_crm tidflc
 
 
 -- 10) insert into contact_for_updating from contact_numbers_to_lcc
+-- 1st method --
+insert into contact_for_updating 
+select * from contact_numbers_to_lcc cntl where contact_id in (select id from temp_imort_data_from_lms_crm );
+
+-- 2nd method
 insert into contact_for_updating select * from contact_numbers_to_lcc cntl where contact_id in (select contact_id from temp_imort_data_from_lms_crm where id between 1 and 10000 );
 insert into contact_for_updating select * from contact_numbers_to_lcc cntl where contact_id in (select contact_id from temp_imort_data_from_lms_crm where id between 10001 and 20000 );
+
+
+
 
 
 
