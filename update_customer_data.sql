@@ -256,7 +256,22 @@ insert into contact_for_updating select * from contact_numbers_to_lcc cntl where
 insert into contact_for_updating select * from contact_numbers_to_lcc cntl where contact_id in (select contact_id from temp_imort_data_from_lms_crm where id between 10001 and 20000 );
 
 
-
+-- 11) replace data to update 
+replace into contact_for_updating
+select cfu.`id`,cfu.`file_id`,cfu.`contact_no`,
+	case when td.name = '' or td.name is null then cfu.name else td.name end `name` ,
+	case when td.province_eng = '' or td.province_eng is null then cfu.province_eng else td.province_eng end `province_eng` ,
+	case when td.province_laos = '' or td.province_laos is null then cfu.province_laos else td.province_laos end `province_laos` ,
+	case when td.district_eng = '' or td.district_eng is null then cfu.district_eng else td.district_eng end `district_eng` ,
+	case when td.district_laos = '' or td.district_laos is null then cfu.district_laos else td.district_laos end `district_laos` ,
+	case when td.village = '' or td.village is null then cfu.village else td.village end `village` ,
+	cfu.`type`,
+	case when td.maker = '' or td.maker is null then cfu.maker else td.maker end `maker` ,
+	case when td.model = '' or td.model is null then cfu.model else td.model end `model` ,
+	case when td.`year` = '' or td.`year` is null then cfu.`year` else td.`year` end `year`, 
+	cfu.`remark_1`, cfu.`remark_2`, cfu.`remark_3`, cfu.`branch_name`, cfu.`status`, cfu.`file_no`, cfu.`date_received`, 
+	cfu.`date_updated`, cfu.`pbxcdr_time`,cfu.`contact_id`
+from contact_for_updating cfu left join temp_imort_data_from_lms_crm td on (td.contact_id = cfu.contact_id) ;
 
 
 
