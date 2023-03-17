@@ -87,7 +87,7 @@ delete from removed_duplicate_2;
 -- insert duplicate 
 insert into removed_duplicate_2
 select id, row_numbers, now() `time` from ( 
-		select id, row_number() over (partition by contact_no order by id desc) as row_numbers  
+		select id, row_number() over (partition by contact_no order by id ) as row_numbers  
 		from all_unique_contact_numbers 
 		-- where file_id <= 1068
 		) as t1
