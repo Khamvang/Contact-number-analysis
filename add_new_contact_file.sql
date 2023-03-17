@@ -122,6 +122,10 @@ from contact_numbers
 where CONCAT(LENGTH(contact_no), left( contact_no, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290208','1290209')
 	and file_id >= 1068; -- done <= 1068
 
+-- please go to run the query for Sales promotion first then will go to next step
+https://github.com/Khamvang/Contact-number-analysis/edit/main/add_new_contact_file_sp.sql
+
+
 select file_id , `type`, count(*)  from all_unique_contact_numbers aucn where file_id >= 1068 group by file_id , `type`
 
 -- 12) Query date to expot into table removed duplicate 
@@ -144,7 +148,7 @@ where id in (select id from removed_duplicate where `time` >= '2023-02-18'); -- 
 -- 14) check and import date from contact_numbers to contact_numbers_to_lcc
 select distinct province_eng from contact_numbers where file_id >= 1068;
 
-insert into contact_numbers_to_lcc (`id`,`file_id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`,`branch_name`,`status`,`file_no`,`date_received`,`date_updated`,`pbxcdr_time`)
+insert into contact_numbers_to_lcc (`id`,`file_id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`,`branch_name`,`status`,`file_no`,`date_received`,`date_updated`,`pbxcdr_time`, `contact_id`)
 select cn.`id`,cn.`file_id`,cn.`contact_no`,
 	case when cn.`name` = '' then null else cn.`name` end `name`, 
 	case when cn.`province_eng` = '' then null else cn.`province_eng` end `province_eng`,
@@ -179,7 +183,8 @@ select cn.`id`,cn.`file_id`,cn.`contact_no`,
 		when cn.province_eng is null then fd.branch_name 
 		else null 
 	end `branch_name` ,
-	null `status`,fd.`file_no`,fd.`date_received`,date(now()) `date_updated`, 0 `pbxcdr_time`
+	null `status`,fd.`file_no`,fd.`date_received`,date(now()) `date_updated`, 0 `pbxcdr_time`,
+	case when left(contact_no,4) = '9020' then right(contact_no,8) when left(contact_no,4) = '9030' then right(contact_no,7) end `contact_id`
 from contact_numbers cn left join file_details fd on (fd.id = cn.file_id)
 where CONCAT(LENGTH(cn.contact_no), left( cn.contact_no, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290208','1290209')
 	and file_id >= 1068; -- done <= 1068
