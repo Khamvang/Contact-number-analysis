@@ -239,7 +239,7 @@ update all_unique_analysis_weekly set contact_id = case when left(contact_no,4) 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 6)delete duplicate and check data
 delete from removed_duplicate_2;
-select count(*) from all_unique_analysis_weekly; -- 4406803 >> 399473
+select count(*) from all_unique_analysis_weekly; -- 6667318 >> 
 insert into removed_duplicate_2 
 select id, row_numbers, now() `time` from ( 
 		select id , row_number() over (partition by contact_no order by field(priority_type, "contracted", "ringi_not_contract", "aseet_not_contract",
