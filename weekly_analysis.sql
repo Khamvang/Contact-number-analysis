@@ -475,6 +475,36 @@ select now(); -- datetime on this time
 delete from temp_update_any ;
 select now(); -- datetime on this time
 
+
+-- __________________________________________________ 007 priority_type = 'lcc' __________________________________________________
+-- 7)insert data to temp_update_any
+insert into temp_update_any 
+select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
+from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_id = aua.contact_id)
+where aua.priority_type = 'lcc';
+
+select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
+
+-- 8)update status in table contact_numbers_to_lcc 
+update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = date(now())
+where cntl.id in (select id from temp_update_any) and (cntl.status is null or cntl.remark_3 not in ('contracted'));
+select now(); -- datetime on this time
+
+select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
+
+-- 8)update status in table contact_for_202303_lcc 
+update contact_for_202303_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = date(now())
+where cntl.id in (select id from temp_update_any ) and (cntl.status_updated is null or cntl.status_updated = 'NO ANSWER');
+select now(); -- datetime on this time
+
+-- 9)delete data from temp_update_any
+delete from temp_update_any ;
+select now(); -- datetime on this time
+
+
+
 insert into temp_update_any 
 select id, concat('90', contact_no) 'contact_no', '' remark_3, '' status, 0 pbxcdr_time from temp_sms_chairman where date_updated >= '2022-09-01' and status = 2
 
