@@ -237,16 +237,16 @@ update all_unique_analysis_weekly set contact_id = case when left(contact_no,4) 
 
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
--- 5)delete duplicate
+-- 6)delete duplicate and check data
 delete from removed_duplicate_2;
 select count(*) from all_unique_analysis_weekly; -- 4406803 >> 399473
 insert into removed_duplicate_2 
 select id, row_numbers, now() `time` from ( 
 		select id , row_number() over (partition by contact_no order by field(priority_type, "contracted", "ringi_not_contract", "aseet_not_contract",
-			"prospect_sabc", "pbx_cdr") ,
+			"prospect_sabc", "pbx_cdr", "lcc") ,
 		FIELD(`status` , "Active", "Closed", "Refinance", "Disbursement Approval", "Pending Disbursement", "Pending Approval", "Pending",
 		"Approved", "Pending Approval from Credit", "Asset Assessed", "Pending Assessment", "Draft", "Cancelled", "Deleted",
-			"X", "S", "A", "B", "C", "F", "G", "G1", "G2", "ANSWERED", "NO ANSWER", "FAILED", "BUSY", "VOICEMAIL"), id desc) as row_numbers  
+		"X", "S", "A", "B", "C", "F", "G", "G1", "G2", "ANSWERED", "NO ANSWER", "Block need_to_block", "FF1 not_answer", "FF2 power_off", "FFF can_not_contact"), id desc) as row_numbers  
 		from all_unique_analysis_weekly  
 		) as t1
 	where row_numbers > 1;
@@ -254,7 +254,7 @@ select id, row_numbers, now() `time` from (
 delete from all_unique_analysis_weekly where id in (select id from removed_duplicate_2 );
 
 
--- 6)check data
+--  and check data
 select priority_type, status, count(*) from all_unique_analysis_weekly where date_updated >= '2022-10-25' group by priority_type, status 
 order by field(priority_type, "contracted", "ringi_not_contract", "aseet_not_contract",
 			"prospect_sabc", "pbx_cdr") ,
