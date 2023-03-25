@@ -246,7 +246,7 @@ select id, row_numbers, now() `time` from (
 			"prospect_sabc", "pbx_cdr", "lcc") ,
 		FIELD(`status` , "Active", "Closed", "Refinance", "Disbursement Approval", "Pending Disbursement", "Pending Approval", "Pending",
 		"Approved", "Pending Approval from Credit", "Asset Assessed", "Pending Assessment", "Draft", "Cancelled", "Deleted",
-		"X", "S", "A", "B", "C", "F", "G", "G1", "G2", "ANSWERED", "NO ANSWER", "Block need_to_block", "FF1 not_answer", "FF2 power_off", "FFF can_not_contact"), id desc) as row_numbers  
+		"X", "S", "A", "B", "C", "F", "G", "G1", "G2", "ANSWERED", "NO ANSWER", "Block need_to_block", "FF1 not_answer", "FF2 power_off", "FFF can_not_contact"), date_created desc) as row_numbers  
 		from all_unique_analysis_weekly  
 		) as t1
 	where row_numbers > 1;
