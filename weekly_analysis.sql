@@ -25,6 +25,8 @@ alter table temp_update_any add `contact_id` int(11) ;
 
 alter table temp_update_any add key `contact_id` (`contact_id`);
 
+alter table all_unique_analysis_weekly add `lcc_id` int(11) NOT NULL DEFAULT 0;
+
 
 # Backup data from all_unique_analysis_weekly to all_unique_analysis 
 select count(*) from all_unique_analysis_weekly auaw -- 399473
@@ -174,7 +176,8 @@ select null id, callee_number 'contact_no',
 	0 custtbl_id ,
 	id `pbxcdr_id` ,
 	0 `pbxcdr_called_time` ,
-	0 `contract_id`
+	0 `contract_id`,
+	0 `lcc_id`
 from lalco_pbx.pbx_cdr pc 
 where -- status = 'ANSWERED' and communication_type = 'Outbound'
 	   status in ('NO ANSWER', 'FAILED', 'BUSY', 'VOICEMAIL' ) and communication_type = 'Outbound'
