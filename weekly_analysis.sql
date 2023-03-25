@@ -182,6 +182,29 @@ where -- status = 'ANSWERED' and communication_type = 'Outbound'
  and CONCAT(LENGTH(callee_number), left( callee_number, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290209')
 group by callee_number ;
 
+-- _____________________________________________________________________ 00 _____________________________________________________________________
+-- 5) import data from database callcenterdb and qhcallenter_db to database contact_data_db
+select phone `contact_no`, 
+	case when c.`rank` = 1 then 'S need loan today/tomorrow'
+		when c.`rank` = 2 then 'A need loan in this week'
+		when c.`rank` = 3 then 'B need loan in this month'
+		when c.`rank` = 4 then 'C need loan in next month'
+		when c.`rank` = 5 then 'F know car info but not need loan'
+		when c.`rank` = 6 then 'G know address'
+		when c.`rank` = 7 then 'Block need_to_block'
+		when c.`rank` = 8 then 'FF1 not_answer'
+		when c.`rank` = 9 then 'FF2 power_off'
+		when c.`rank` = 10 then 'FFF can_not_contact'
+		else null
+	end `status`,
+	'lcc' `priority_type`,
+	date_format(updated_at, '%Y-%m-%d') `date_created`,
+	date(now()) `date_updated`,
+	case when left(`phone`, 4) = '9020' then right(`phone`, 8) when left(`phone`, 4) = '9030' then right(`phone`, 7) else 0 end `contact_id`,
+	id `lcc_id`
+from customers c
+where `rank` between 7 and 10;
+
 
 -- _____________________________________________________________________ 0 update contact_no and contact_id 0 _____________________________________________________________________
 -- alter table all_unique_analysis_weekly add `contact_id` int(11) not null;
