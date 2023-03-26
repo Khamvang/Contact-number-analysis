@@ -483,7 +483,15 @@ select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pb
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_id = aua.contact_id)
 where aua.priority_type = 'lcc';
 
+
+insert into temp_update_any1
+select `id`, `contact_no`, `remark_3`, `status`, 0 `pbxcdr_time`, `contact_id`  from contact_for_202303_lcc cfl where status_updated = 'NO ANSWER'
+
+insert into all_unique_analysis_weekly1 
+select * from all_unique_analysis_weekly where contact_id in (select contact_id from temp_update_any1 )
+
 select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
+
 
 -- 8)update status in table contact_numbers_to_lcc 
 update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
@@ -495,7 +503,7 @@ select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id
 
 -- 8)update status in table contact_for_202303_lcc 
 update contact_for_202303_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
-set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = date(now())
+set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.id in (select id from temp_update_any ) and (cntl.status_updated is null or cntl.status_updated = 'NO ANSWER');
 select now(); -- datetime on this time
 
