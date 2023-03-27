@@ -78,7 +78,7 @@ select cn.`id`,cn.`file_id`,cn.`contact_no`,
 	case when left(contact_no,4) = '9020' then right(contact_no,8) when left(contact_no,4) = '9030' then right(contact_no,7) end `contact_id`
 from contact_numbers cn left join file_details fd on (fd.id = cn.file_id)
 where CONCAT(LENGTH(cn.contact_no), left( cn.contact_no, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290208','1290209')
-	and file_id >= 1068; -- done <= 1068
+	and file_id >= 1091; -- done <= 1068
 
 
 -- 4) clear 
@@ -94,9 +94,9 @@ select id, row_numbers, now() `time` from (
 	where row_numbers > 1; -- done <= 1068
 
 -- ) check and remove duplicate Delete from all unique where id = id in table removed duplicate 
-select * from removed_duplicate_2 where `time` >= '2023-02-18';
+select * from removed_duplicate_2 where `time` >= '2023-03-27';
 
 delete from contact_numbers_to_sp 
-where id in (select id from removed_duplicate_2 where `time` >= '2023-02-18'); -- done <= 1068
+where id in (select id from removed_duplicate_2 where `time` >= '2023-03-27'); -- done <= 1068
 
 
