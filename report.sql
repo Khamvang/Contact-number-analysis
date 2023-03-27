@@ -441,6 +441,10 @@ select * , count(*) from
 			when cntl.remark_3 = 'Telecom' and cntl.status = 'ETL_inactive' then 'Telecom_inactive'
 			when cntl.remark_3 = 'Telecom' and cntl.status = 'SMS_success' then 'Telecom_active'
 			when cntl.remark_3 = 'Telecom' and cntl.status = 'SMS_Failed' then 'Telecom_inactive'
+			when cntl.remark_3 = 'lcc' and cntl.status = 'Block need_to_block' then 'Block need_to_block'
+			when cntl.remark_3 = 'lcc' and cntl.status = 'FF1 not_answer' then 'FF1 not_answer'
+			when cntl.remark_3 = 'lcc' and cntl.status = 'FF2 power_off' then 'FF2 power_off'
+			when cntl.remark_3 = 'lcc' and cntl.status = 'FFF can_not_contact' then 'FFF can_not_contact'
 			else cntl.remark_3 
 		end `result`,
 		case when cntl.remark_2 = 'contracted' then 'contracted'
@@ -459,6 +463,10 @@ select * , count(*) from
 			when cntl.remark_2 = 'Telecom' and cntl.status_updated = 'ETL_inactive' then 'Telecom_inactive'
 			when cntl.remark_2 = 'Telecom' and cntl.status_updated = 'SMS_success' then 'Telecom_active'
 			when cntl.remark_2 = 'Telecom' and cntl.status_updated = 'SMS_Failed' then 'Telecom_inactive'
+			when cntl.remark_2 = 'lcc' and cntl.status_updated = 'Block need_to_block' then 'Block need_to_block'
+			when cntl.remark_2 = 'lcc' and cntl.status_updated = 'FF1 not_answer' then 'FF1 not_answer'
+			when cntl.remark_2 = 'lcc' and cntl.status_updated = 'FF2 power_off' then 'FF2 power_off'
+			when cntl.remark_2 = 'lcc' and cntl.status_updated = 'FFF can_not_contact' then 'FFF can_not_contact'
 			else cntl.remark_2 
 		end `new_result`
 	from contact_for_202303_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
