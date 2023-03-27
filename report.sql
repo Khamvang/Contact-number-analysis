@@ -377,7 +377,7 @@ group by branch_name , province_eng , `type` , category , category2 , `address`,
 -- ____________________________________ Export to report source monthly update 2023-02-28 ____________________________________ --
 select * , count(*) from 
 	(
-	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2 , cntl.remark_1 `priority`,
+	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2 , cntl.remark_1 `priority`, null `condition`,
 		case when cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null then 'have_address' else 'no_address' end `address`,
 		case when fd.category = '①GOVERNMENT' then 'business_owner' else 'no' end `business_owner`,
 		case when cntl.maker is not null or cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
@@ -399,7 +399,10 @@ select * , count(*) from
 		case when cntl.remark_2 = 'contracted' then 'contracted'
 			when cntl.remark_2 = 'ringi_not_contract' then 'ringi_not_contract'
 			when cntl.remark_2 = 'aseet_not_contract' then 'aseet_not_contract'
-			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('S','A','B','C') then 'prospect_sabc'
+			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('S') then 'prospect_s'
+			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('A') then 'prospect_a'
+			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('B') then 'prospect_b'
+			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('C') then 'prospect_c'
 			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('F') then 'prospect_f'
 			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('G','G1','G2') then 'prospect_g'
 			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('X') then 'contracted'
@@ -411,9 +414,9 @@ select * , count(*) from
 			when cntl.remark_2 = 'Telecom' and cntl.status_updated = 'SMS_Failed' then 'Telecom_inactive'
 			else cntl.remark_2 
 		end `new_result`
-	from contact_for_202302_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+	from contact_for_202303_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 	) t
-group by branch_name ,  province_eng , `type` , category , category2 , `priority`, `address`, `car_info`, `result`, `new_result` ;
+group by branch_name ,  province_eng , `type` , category , category2 , `priority`, `condition`, `address`, `car_info`, `result`, `new_result` ;
 
 
 
