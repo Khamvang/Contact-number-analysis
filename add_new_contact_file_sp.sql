@@ -88,7 +88,7 @@ delete from removed_duplicate_2;
 insert into removed_duplicate_2
 select id, row_numbers, now() `time` from ( 
 		select id, row_number() over (partition by contact_no order by id ) as row_numbers  
-		from all_unique_contact_numbers 
+		from contact_numbers_to_sp 
 		-- where file_id <= 1068
 		) as t1
 	where row_numbers > 1; -- done <= 1068
@@ -96,7 +96,7 @@ select id, row_numbers, now() `time` from (
 -- ) check and remove duplicate Delete from all unique where id = id in table removed duplicate 
 select * from removed_duplicate_2 where `time` >= '2023-02-18';
 
-delete from all_unique_contact_numbers 
+delete from contact_numbers_to_sp 
 where id in (select id from removed_duplicate_2 where `time` >= '2023-02-18'); -- done <= 1068
 
 
