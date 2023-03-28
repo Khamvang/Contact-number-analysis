@@ -61,8 +61,59 @@ from contact_numbers_to_sp cntl left join file_details fd on (fd.id = cntl.file_
 
 
 
-
-
+-- Export from lalcodb to contact_for_202304_lcc for condition 5&6
+select * , case when left(contact_no, 4) = '9020' then right(contact_no, 8) when left(contact_no, 4) = '9030' then right(contact_no, 7) end "contact_id",
+	case when status in ('S','A','B') then '5' when status = 'C' and (maker !='' or model != '') then 6 else 6 end "condition",
+	'1' "group"
+from (
+	select
+		null "id",
+		case
+			when left(right (translate (tel, translate(tel, '0123456789', ''), ''), 8), 1)= '0' then CONCAT('903', right (translate (tel, translate(tel, '0123456789', ''), ''), 8))
+			when LENGTH( translate (tel, translate(tel, '0123456789', ''), '')) = 7 then CONCAT('9030', right (translate (tel, translate(tel, '0123456789', ''), ''), 8))
+			else CONCAT('9020', right (translate (tel, translate(tel, '0123456789', ''), ''), 8))
+		end "contact_no",
+		translate (concat(firstname, ' ', lastname), '.,:,', '') "name",
+		case
+			when province = 'Attapeu' then 'ATTAPUE'
+			when province = 'Bokeo' then 'BORKEO'
+			when province = 'Bolikhamxai' then 'BORLIKHAMXAY'
+			when province = 'Champasak' then 'CHAMPASACK'
+			when province = 'Houaphan' then 'HUAPHAN'
+			when province = 'Khammouan' then 'KHAMMOUAN'
+			when province = 'Louang Namtha' then 'LUANGNAMTHA'
+			when province = 'Louangphrabang' then 'LUANG PRABANG'
+			when province = 'Oudomxai' then 'OUDOMXAY'
+			when province = 'Phongsali' then 'PHONGSALY'
+			when province = 'Saravan' then 'SALAVANH'
+			when province = 'Savannakhet' then 'SAVANNAKHET'
+			when province = 'Vientiane Cap' then 'VIENTIANE CAPITAL'
+			when province = 'Vientiane province' then 'VIENTIANE PROVINCE'
+			when province = 'Xaignabouri' then 'XAYABOULY'
+			when province = 'Xaisomboun' then 'XAYSOMBOUN'
+			when province = 'Xekong' then 'XEKONG'
+			when province = 'Xiangkhoang' then 'XIENGKHUANG'
+			else null
+		end "province_eng",
+		null "province_laos",
+		translate (district, '.,:,', '') "district_eng",
+		null "district_laos",
+		translate (c.addr , '.,:,`', '') "village",
+		'prospect' "type",
+		translate (maker, '.,:,`', '') "maker",
+		translate (model, '.,:,`', '') "model",
+		"year",
+		null "remark_1",
+		null "remark_2",
+		'prospect_sabc' "remark_3",
+		null "branch_name",
+		rank1 "status",
+		null "staff_id",
+		tua.new_village_id "pvd_id"
+	from custtbl c left join temp_update_address tua on (c.id = tua.id)
+	where c.rank1 in ('S','A','B') or (c.rank1 = 'C' and (c.maker !='' or c.model != '') )
+	order by inputdate desc ) t
+where CONCAT(LENGTH("contact_no"), left( "contact_no", 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290209');
 
 
 
