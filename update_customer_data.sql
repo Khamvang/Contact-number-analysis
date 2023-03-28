@@ -290,7 +290,7 @@ select td.`id`,td.`file_id`,td.`contact_no`,
 	case when td.maker = '' or td.maker is null then cfu.maker else td.maker end `maker` ,
 	case when td.model = '' or td.model is null then cfu.model else td.model end `model` ,
 	case when td.`year` = '' or td.`year` is null then cfu.`year` else td.`year` end `year`, 
-	cfu.`remark_1`, cfu.`remark_2`, cfu.`remark_3`, 
+	null `remark_1`, null `remark_2`, cfu.`remark_3`, 
 	case when td.`branch_name` = '' or td.branch_name is null then cfu.branch_name else td.branch_name end `branch_name` , 
 	cfu.`status`, td.`file_no`, td.`date_received`, 
 	cfu.`date_updated`, cfu.`pbxcdr_time`,cfu.`contact_id`
