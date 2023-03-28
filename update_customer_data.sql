@@ -278,6 +278,10 @@ from contact_for_updating cfu left join temp_imort_data_from_lms_crm td on (td.c
 
 
 -- 13) replace data to update from old data to new data
+
+insert into contact_numbers_to_copy 
+select * from contact_numbers_to_lcc where contact_id in (select contact_id from contact_numbers_to_sp )
+
 replace into contact_numbers_to_sp
 select td.`id`,td.`file_id`,td.`contact_no`,
 	case when td.name = '' or td.name is null then cfu.name else td.name end `name` ,
