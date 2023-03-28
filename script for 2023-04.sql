@@ -172,7 +172,7 @@ update contact_numbers_to_lcc set pbxcdr_time = 3 where contact_id in (select co
 -- 3) Priority3: 3=①「Need Loan」, ②「Have Car」 before 2019
 insert into contact_for_202304_lcc
  select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
-	'2' `remark_1`,
+	'3' `remark_1`,
 	null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
 	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`, 
 	case when cntl.`type` = '①Have Car' then 2
