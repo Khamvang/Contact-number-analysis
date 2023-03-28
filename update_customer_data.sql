@@ -275,3 +275,27 @@ from contact_for_updating cfu left join temp_imort_data_from_lms_crm td on (td.c
 
 -- 12) open the table contact_for_updating then export as replace to contact_numbers_to_lcc
 
+
+
+-- 13) replace data to update from old data to new data
+replace into contact_numbers_to_sp
+select td.`id`,td.`file_id`,td.`contact_no`,
+	case when td.name = '' or td.name is null then cfu.name else td.name end `name` ,
+	case when td.province_eng = '' or td.province_eng is null then cfu.province_eng else td.province_eng end `province_eng` ,
+	case when td.province_laos = '' or td.province_laos is null then cfu.province_laos else td.province_laos end `province_laos` ,
+	case when td.district_eng = '' or td.district_eng is null then cfu.district_eng else td.district_eng end `district_eng` ,
+	case when td.district_laos = '' or td.district_laos is null then cfu.district_laos else td.district_laos end `district_laos` ,
+	case when td.village = '' or td.village is null then cfu.village else td.village end `village` ,
+	td.`type`,
+	case when td.maker = '' or td.maker is null then cfu.maker else td.maker end `maker` ,
+	case when td.model = '' or td.model is null then cfu.model else td.model end `model` ,
+	case when td.`year` = '' or td.`year` is null then cfu.`year` else td.`year` end `year`, 
+	cfu.`remark_1`, cfu.`remark_2`, cfu.`remark_3`, 
+	case when td.`branch_name` = '' or td.branch_name is null then cfu.branch_name else td.branch_name end `branch_name` , 
+	cfu.`status`, td.`file_no`, td.`date_received`, 
+	cfu.`date_updated`, cfu.`pbxcdr_time`,cfu.`contact_id`
+from contact_numbers_to_copy cfu left join contact_numbers_to_sp td on (td.contact_id = cfu.contact_id) ;
+
+
+
+
