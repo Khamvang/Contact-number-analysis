@@ -34,3 +34,40 @@ create table `contact_for_202304_lcc` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 collate utf8mb4_general_ci ;
 
 
+
+# ______________________________________________________ insert into contact_for_202303_lcc ______________________________________________________________ #
+-- 1) Priority1: New call list
+insert into contact_for_202304_lcc
+select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
+	'1' `remark_1`,
+	null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
+	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`, 
+	case when cntl.`type` = '①Have Car' then 2
+		when cntl.`type` = '②Need loan' then 1
+		when cntl.`type` = '③Have address' and fd.category = '①GOVERNMENT' then 3
+		when cntl.`type` = '③Have address' and fd.category != '①GOVERNMENT' then 4
+		when cntl.`type` = '④Telecom' and (cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null ) then 7
+		when cntl.`type` = '④Telecom' then 8
+	end `condition`, 
+	case when cntl.`type` in ('①Have Car', '②Need loan') then 1
+		when cntl.`type` = '③Have address' and fd.category = '①GOVERNMENT' then 1
+		when cntl.`type` = '③Have address' and fd.category != '①GOVERNMENT' then 2
+		when cntl.`type` = '④Telecom' and (cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null ) then 2
+		when cntl.`type` = '④Telecom' then 3
+	end `group`
+-- select count(*) -- 108249
+from contact_numbers_to_sp cntl left join file_details fd on (fd.id = cntl.file_id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
