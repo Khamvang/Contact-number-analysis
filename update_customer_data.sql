@@ -297,5 +297,8 @@ select td.`id`,td.`file_id`,td.`contact_no`,
 from contact_numbers_to_copy cfu left join contact_numbers_to_sp td on (td.contact_id = cfu.contact_id) ;
 
 
+delete from contact_numbers_to_lcc where id in (select id from contact_numbers_to_copy);
+
+insert into contact_numbers_to_lcc select * from contact_numbers_to_sp ;
 
 
