@@ -118,7 +118,7 @@ where CONCAT(LENGTH("contact_no"), left( "contact_no", 5)) in ('1190302','119030
 
 
 
--- 2) Priority1: Call list received after 2019 and without ①contracted, ②FFF can_not_contact & ③Block need_to_block and ④No Answer 3 months
+-- 2) Priority2: Call list received after 2019 and without ①contracted, ②FFF can_not_contact & ③Block need_to_block and ④No Answer 3 months
 insert into contact_for_202304_lcc
  select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
 	'2' `remark_1`,
