@@ -188,7 +188,7 @@ insert into contact_for_202304_lcc
 		when cntl.`type` = '④Telecom' and (cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null ) then 2
 		when cntl.`type` = '④Telecom' then 3
 	end `group`
--- select count(*) -- 108249
+-- select count(*) -- 1513144
 from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 where fd.date_received < '2019-01-01' and cntl.`type` in  ('①Have Car', '②Need loan')
 	and cntl.status != 'Block need_to_block' and cntl.status != 'FFF can_not_contact'
@@ -208,6 +208,7 @@ where fd.date_received < '2019-01-01' and cntl.`type` in  ('①Have Car', '②Ne
 		) -- 2
 	or cntl.status is null -- new number
 	)
+
 
 
 
