@@ -258,6 +258,9 @@ where aucn.province_eng is not null;
 
 update contact_numbers_to_lcc set branch_name = 'Bokeo' where province_eng = 'BORKEO';
 
+update contact_for_202304_lcc  set branch_name = 'Bokeo' where branch_name is null;
+
+
 
 
 
