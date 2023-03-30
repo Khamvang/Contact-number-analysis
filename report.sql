@@ -473,3 +473,61 @@ select * , count(*) from
 	) t
 group by branch_name ,  province_eng , `type` , category , category2 , `priority`, `condition`, `address`, `car_info`, `result`, `new_result` ;
 
+
+
+
+-- ____________________________________ Export to report source monthly update 2023-03-30 ____________________________________ --
+select * , count(*) from 
+	(
+	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2, fd.date_received , cntl.remark_1 `priority`, cntl.`condition`,
+		case when cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null then 'have_address' else 'no_address' end `address`,
+		case when fd.category = '①GOVERNMENT' then 'business_owner' else 'no' end `business_owner`,
+		case when cntl.maker is not null or cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
+		case when cntl.remark_3 = 'contracted' then 'contracted'
+			when cntl.remark_3 = 'ringi_not_contract' then 'ringi_not_contract'
+			when cntl.remark_3 = 'aseet_not_contract' then 'aseet_not_contract'
+			when cntl.remark_3 = 'prospect_sabc' and cntl.status in ('S','A','B','C') then 'prospect_sabc'
+			when cntl.remark_3 = 'prospect_sabc' and cntl.status in ('F') then 'prospect_f'
+			when cntl.remark_3 = 'prospect_sabc' and cntl.status in ('G','G1','G2') then 'prospect_g'
+			when cntl.remark_3 = 'prospect_sabc' and cntl.status in ('X') then 'contracted'
+			when cntl.remark_3 = 'pbx_cdr' and cntl.status = 'ANSWERED' then 'ANSWERED'
+			when cntl.remark_3 = 'pbx_cdr' and cntl.status = 'NO ANSWER' then 'NO ANSWER'
+			when cntl.remark_3 = 'Telecom' and cntl.status = 'ETL_active' then 'Telecom_active'
+			when cntl.remark_3 = 'Telecom' and cntl.status = 'ETL_inactive' then 'Telecom_inactive'
+			when cntl.remark_3 = 'Telecom' and cntl.status = 'SMS_success' then 'Telecom_active'
+			when cntl.remark_3 = 'Telecom' and cntl.status = 'SMS_Failed' then 'Telecom_inactive'
+			when cntl.remark_3 = 'lcc' and cntl.status = 'Block need_to_block' then 'Block need_to_block'
+			when cntl.remark_3 = 'lcc' and cntl.status = 'FF1 not_answer' then 'FF1 not_answer'
+			when cntl.remark_3 = 'lcc' and cntl.status = 'FF2 power_off' then 'FF2 power_off'
+			when cntl.remark_3 = 'lcc' and cntl.status = 'FFF can_not_contact' then 'FFF can_not_contact'
+			else cntl.remark_3 
+		end `result`,
+		case when cntl.remark_2 = 'contracted' then 'contracted'
+			when cntl.remark_2 = 'ringi_not_contract' then 'ringi_not_contract'
+			when cntl.remark_2 = 'aseet_not_contract' then 'aseet_not_contract'
+			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('S') then 'prospect_s'
+			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('A') then 'prospect_a'
+			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('B') then 'prospect_b'
+			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('C') then 'prospect_c'
+			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('F') then 'prospect_f'
+			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('G','G1','G2') then 'prospect_g'
+			when cntl.remark_2 = 'prospect_sabc' and cntl.status_updated in ('X') then 'contracted'
+			when cntl.remark_2 = 'pbx_cdr' and cntl.status_updated = 'ANSWERED' then 'ANSWERED'
+			when cntl.remark_2 = 'pbx_cdr' and cntl.status_updated = 'NO ANSWER' then 'NO ANSWER'
+			when cntl.remark_2 = 'Telecom' and cntl.status_updated = 'ETL_active' then 'Telecom_active'
+			when cntl.remark_2 = 'Telecom' and cntl.status_updated = 'ETL_inactive' then 'Telecom_inactive'
+			when cntl.remark_2 = 'Telecom' and cntl.status_updated = 'SMS_success' then 'Telecom_active'
+			when cntl.remark_2 = 'Telecom' and cntl.status_updated = 'SMS_Failed' then 'Telecom_inactive'
+			when cntl.remark_2 = 'lcc' and cntl.status_updated = 'Block need_to_block' then 'Block need_to_block'
+			when cntl.remark_2 = 'lcc' and cntl.status_updated = 'FF1 not_answer' then 'FF1 not_answer'
+			when cntl.remark_2 = 'lcc' and cntl.status_updated = 'FF2 power_off' then 'FF2 power_off'
+			when cntl.remark_2 = 'lcc' and cntl.status_updated = 'FFF can_not_contact' then 'FFF can_not_contact'
+			else cntl.remark_2 
+		end `new_result`
+	from contact_for_202304_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+	) t
+group by branch_name ,  province_eng , `type` , category , category2 , `priority`, `condition`, `address`, `car_info`, `result`, `new_result` ;
+
+
+
+
