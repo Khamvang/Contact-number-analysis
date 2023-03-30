@@ -263,4 +263,14 @@ update contact_for_202304_lcc  set branch_name = 'Bokeo' where branch_name is nu
 
 
 
+# ______________________________________________________ export to create campaign on LCC for contact_for_202304_lcc ______________________________________________________________ #
 
+'Attapue','Bokeo','Head Office','Houaphan','LuangNamtha','Luangprabang','Oudomxay','Paksan','Pakse','Salavan','Savannakhet','Thakek','Vientiane province','Xainyabuli','Xiengkhouang'
+
+-- ____________________________________________________ Priority1 ____________________________________________________
+-- Campaign name: all_new_ATTAPUE_ATP Team_20230301_p1
+-- select count(*) -- 108249
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202304_lcc cntl 
+where branch_name = 'Attapue' 
+	 and cntl.remark_1 in ('1');
