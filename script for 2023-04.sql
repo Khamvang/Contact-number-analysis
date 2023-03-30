@@ -230,7 +230,56 @@ insert into contact_for_202304_lcc select * from contact_for_202304_lcc_copy ;
 
 
 
+-- ________________________________________________ update branch name ________________________________________________
 
+select branch_name , province_eng ,
+		case when cn.province_eng = 'ATTAPUE' then 'Attapue'
+		when cn.province_eng = 'BORKEO' then 'Bokeo'
+		when cn.province_eng = 'BORLIKHAMXAY' then 'Paksan'
+		when cn.province_eng = 'CHAMPASACK' then 'Pakse'
+		when cn.province_eng = 'HUAPHAN' then 'Houaphan'
+		when cn.province_eng = 'KHAMMOUAN' then 'Thakek'
+		when cn.province_eng = 'LUANG PRABANG' then 'Luangprabang'
+		when cn.province_eng = 'LUANGNAMTHA' then 'Luangnamtha'
+		when cn.province_eng = 'OUDOMXAY' then 'Oudomxay'
+		when cn.province_eng = 'PHONGSALY' then 'Oudomxay'
+		when cn.province_eng = 'SALAVANH' then 'Salavan'
+		when cn.province_eng = 'SAVANNAKHET' then 'Savannakhet'
+		when cn.province_eng = 'VIENTIANE CAPITAL' then 'Head office'
+		when cn.province_eng = 'VIENTIANE PROVINCE' then 'Vientiane province'
+		when cn.province_eng = 'XAYABOULY' then 'Xainyabuli'
+		when cn.province_eng = 'XAYSOMBOUN' then 'Xiengkhouang'
+		when cn.province_eng = 'XEKONG' then 'Attapue'
+		when cn.province_eng = 'XIENGKHUANG' then 'Xiengkhouang'
+		else branch_name  
+	end branch_name1
+from contact_for_202304_lcc cn where branch_name is null;
+-- from contact_numbers_to_lcc cn where branch_name is null;
+
+
+update contact_for_202304_lcc cn set branch_name = 
+-- update contact_numbers_to_lcc cn set branch_name = 
+	case when cn.province_eng = 'ATTAPUE' then 'Attapue'
+		when cn.province_eng = 'BORKEO' then 'Bokeo'
+		when cn.province_eng = 'BORLIKHAMXAY' then 'Paksan'
+		when cn.province_eng = 'CHAMPASACK' then 'Pakse'
+		when cn.province_eng = 'HUAPHAN' then 'Houaphan'
+		when cn.province_eng = 'KHAMMOUAN' then 'Thakek'
+		when cn.province_eng = 'LUANG PRABANG' then 'Luangprabang'
+		when cn.province_eng = 'LUANGNAMTHA' then 'Luangnamtha'
+		when cn.province_eng = 'OUDOMXAY' then 'Oudomxay'
+		when cn.province_eng = 'PHONGSALY' then 'Oudomxay'
+		when cn.province_eng = 'SALAVANH' then 'Salavan'
+		when cn.province_eng = 'SAVANNAKHET' then 'Savannakhet'
+		when cn.province_eng = 'VIENTIANE CAPITAL' then 'Head office'
+		when cn.province_eng = 'VIENTIANE PROVINCE' then 'Vientiane province'
+		when cn.province_eng = 'XAYABOULY' then 'Xainyabuli'
+		when cn.province_eng = 'XAYSOMBOUN' then 'Xiengkhouang'
+		when cn.province_eng = 'XEKONG' then 'Attapue'
+		when cn.province_eng = 'XIENGKHUANG' then 'Xiengkhouang'
+		else branch_name  
+	end
+where branch_name is null;
 
 
 
