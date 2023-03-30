@@ -319,3 +319,20 @@ where branch_name = 'Attapue' and `type` in( 'prospect' ) -- '①Have Car' '②N
 
 
 
+-- ____________________________________________________ Priority3 ____________________________________________________
+-- Campaign name: 1_Old_ATTAPUE_ATP Team_20230401_p3
+ select count(*) -- 50529
+-- select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202304_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '①Have Car' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	 and cntl.remark_1 in ('3');
+
+
+-- Campaign name: 2_Old_ATTAPUE_ATP Team_20230401_p3
+ select count(*) -- 35678
+-- select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202304_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '②Need loan' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	 and cntl.remark_1 in ('3');
+
+
