@@ -261,6 +261,17 @@ update contact_numbers_to_lcc set branch_name = 'Bokeo' where province_eng = 'BO
 update contact_for_202304_lcc  set branch_name = 'Bokeo' where branch_name is null;
 
 
+-- _____________________________________ Update set Priority4 _____________________________________
+select count(*)  from contact_for_202304_lcc cfl left join file_details fd on (cfl.file_id = fd.id)
+where cfl.`type` = '④Telecom' ; -- 1,103,957
+
+select count(*)  from contact_for_202304_lcc cfl left join file_details fd on (cfl.file_id = fd.id)
+where cfl.`type` = '④Telecom'  and fd.date_received >= '2020-01-01'; -- 981,477
+
+update contact_for_202304_lcc cfl left join file_details fd on (cfl.file_id = fd.id) 
+set cfl.remark_1 = '4' 
+where cfl.`type` = '④Telecom'  and fd.date_received < '2020-01-01';
+
 
 
 # ______________________________________________________ export to create campaign on LCC for contact_for_202304_lcc ______________________________________________________________ #
@@ -337,15 +348,13 @@ where branch_name = 'Attapue' and `type` in( '②Need loan' ) -- '①Have Car' '
 
 
 
-select count(*)  from contact_for_202304_lcc cfl left join file_details fd on (cfl.file_id = fd.id)
-where cfl.`type` = '④Telecom' ; -- 1,103,957
-
-select count(*)  from contact_for_202304_lcc cfl left join file_details fd on (cfl.file_id = fd.id)
-where cfl.`type` = '④Telecom'  and fd.date_received >= '2020-01-01'; -- 981,477
-
-update contact_for_202304_lcc cfl left join file_details fd on (cfl.file_id = fd.id) 
-set cfl.remark_1 = '4' 
-where cfl.`type` = '④Telecom'  and fd.date_received < '2020-01-01';
+-- ____________________________________________________ Priority3 ____________________________________________________
+-- Campaign name: 4_Old_ATTAPUE_ATP Team_20230401_p2
+ select count(*) -- 
+-- select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202304_lcc cntl 
+where branch_name = 'Attapue' and `type` in( '④Telecom' ) -- '①Have Car' '②Need loan' '③Have address' '④Telecom'
+	 and cntl.remark_1 in ('4');
 
 
 
