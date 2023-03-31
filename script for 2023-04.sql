@@ -348,7 +348,7 @@ where branch_name = 'Attapue' and `type` in( '②Need loan' ) -- '①Have Car' '
 
 
 
--- ____________________________________________________ Priority3 ____________________________________________________
+-- ____________________________________________________ Priority4 ____________________________________________________
 -- Campaign name: 4_Old_ATTAPUE_ATP Team_20230401_p2
  select count(*) -- 
 -- select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
