@@ -35,7 +35,7 @@ create table `contact_for_202304_lcc` (
 
 
 
-# ______________________________________________________ insert into contact_for_202303_lcc ______________________________________________________________ #
+# ______________________________________________________ insert into contact_for_202304_lcc ______________________________________________________________ #
 -- 1) Priority1: New call list
 insert into contact_for_202304_lcc
 select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
