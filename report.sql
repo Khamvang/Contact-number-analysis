@@ -476,10 +476,11 @@ group by branch_name ,  province_eng , `type` , category , category2 , `priority
 
 
 
--- ____________________________________ Export to report source monthly update 2023-03-30 ____________________________________ -- 
+
+-- ____________________________________ Export to report source monthly update 2023-03-31 ____________________________________ -- 
 select * , count(*) from 
 	(
-	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2, fd.date_received , cntl.remark_1 `priority`, cntl.`condition`,
+	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2, fd.date_received, cntl.remark_1 `priority`, cntl.`condition`,
 		case when cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null then 'have_address' else 'no_address' end `address`,
 		case when fd.category = '①GOVERNMENT' then 'business_owner' else 'no' end `business_owner`,
 		case when cntl.maker is not null or cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
@@ -526,7 +527,7 @@ select * , count(*) from
 		end `new_result`
 	from contact_for_202304_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 	) t
-group by branch_name ,  province_eng , `type` , category , category2 , `priority`, `condition`, `address`, `car_info`, `result`, `new_result` ;
+group by branch_name ,  province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`, `result`, `new_result` ;
 
 
 
