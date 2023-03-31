@@ -336,3 +336,16 @@ where branch_name = 'Attapue' and `type` in( '②Need loan' ) -- '①Have Car' '
 	 and cntl.remark_1 in ('3');
 
 
+
+select count(*)  from contact_for_202304_lcc cfl left join file_details fd on (cfl.file_id = fd.id)
+where cfl.`type` = '④Telecom' ; -- 1,103,957
+
+select count(*)  from contact_for_202304_lcc cfl left join file_details fd on (cfl.file_id = fd.id)
+where cfl.`type` = '④Telecom'  and fd.date_received >= '2020-01-01'; -- 981,477
+
+update contact_for_202304_lcc cfl left join file_details fd on (cfl.file_id = fd.id) 
+set cfl.remark_1 = '4' 
+where cfl.`type` = '④Telecom'  and fd.date_received < '2020-01-01';
+
+
+
