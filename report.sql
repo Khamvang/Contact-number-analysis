@@ -484,6 +484,7 @@ select * , count(*) from
 		case when cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null then 'have_address' else 'no_address' end `address`,
 		case when fd.category = '①GOVERNMENT' then 'business_owner' else 'no' end `business_owner`,
 		case when cntl.maker is not null or cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
+		case when cntl.name is not null or cntl.name != '' then 'have_car' else 'no_car' end `name_info`,
 		case when cntl.remark_3 = 'contracted' then 'contracted'
 			when cntl.remark_3 = 'ringi_not_contract' then 'ringi_not_contract'
 			when cntl.remark_3 = 'aseet_not_contract' then 'aseet_not_contract'
@@ -526,8 +527,11 @@ select * , count(*) from
 			else cntl.remark_2 
 		end `new_result`
 	from contact_for_202304_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+	where cntl.contact_id in (select contact_id from contact_for_202303_lcc ) -- valid numbers
+		or cntl.status is null -- new number
 	) t
 group by branch_name ,  province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`, `result`, `new_result` ;
+
 
 
 
