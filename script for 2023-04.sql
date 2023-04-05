@@ -231,7 +231,6 @@ where fd.date_received < '2019-01-01' and cntl.`type` in  ('③Have address') an
 	)
 
 
-
 select count(*)  -- cntl.* , fd.date_received 
 from contact_for_202304_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 where fd.date_received < '2019-01-01' and cntl.`type` in  ('①Have Car', '②Need loan')
