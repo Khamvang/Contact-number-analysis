@@ -210,6 +210,7 @@ select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_l
 	end `group`
 -- select count(*) -- 111598
 from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+-- where cntl.id in (select id from contact_for_acc_jan2023_acc)
 where fd.date_received < '2019-01-01' and cntl.`type` in  ('③Have address') and cntl.province_eng is null and (cntl.branch_name is null or cntl.branch_name = 'Head office')
 	and cntl.status != 'Block need_to_block' and cntl.status != 'FFF can_not_contact'
 	and cntl.id not in (select id from contact_for_202304_lcc)
@@ -229,6 +230,7 @@ where fd.date_received < '2019-01-01' and cntl.`type` in  ('③Have address') an
 		) -- 2
 	or cntl.status is null -- new number
 	)
+;
 
 
 select count(*)  -- cntl.* , fd.date_received 
