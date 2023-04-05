@@ -90,3 +90,8 @@ update contact_for_acc set date_provided = date(now()) where date_provided = '00
 select * from contact_for_acc cfa where date_provided = date(now());
 
 
+
+update contact_numbers_to_lcc set branch_name = 'Head office - ACC'
+where id in (select id from contact_for_acc);
+
+
