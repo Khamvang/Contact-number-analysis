@@ -22,6 +22,45 @@ select * from file_details fd ;
 
 update file_details set date_created = unix_timestamp(now()) 
 where id >= 1068 ; -- need to change the new file_no here when add new data
+-- update staff_tel and broker_tel
+update file_details set broker_tel = 
+	case when (length (regexp_replace(broker_tel , '[^[:digit:]]', '')) = 9 and left (regexp_replace(broker_tel , '[^[:digit:]]', ''),3) = '021')
+			or (length (regexp_replace(broker_tel , '[^[:digit:]]', '')) = 8 and left (regexp_replace(broker_tel , '[^[:digit:]]', ''),2) = '21' )
+			or (length (regexp_replace(broker_tel , '[^[:digit:]]', '')) = 6)
+		then concat('9021',right(regexp_replace(broker_tel , '[^[:digit:]]', ''),6)) -- for 021
+		when (length (regexp_replace(broker_tel , '[^[:digit:]]', '')) = 11 and left (regexp_replace(broker_tel , '[^[:digit:]]', ''),3) = '020')
+			or (length (regexp_replace(broker_tel , '[^[:digit:]]', '')) = 10 and left (regexp_replace(broker_tel , '[^[:digit:]]', ''),2) = '20')
+			or (length (regexp_replace(broker_tel , '[^[:digit:]]', '')) = 8 and left (regexp_replace(broker_tel , '[^[:digit:]]', ''),1) in ('2','5','7','8','9'))
+		then concat('9020',right(regexp_replace(broker_tel , '[^[:digit:]]', ''),8)) -- for 020
+		when (length (regexp_replace(broker_tel , '[^[:digit:]]', '')) = 10 and left (regexp_replace(broker_tel , '[^[:digit:]]', ''),3) = '030')
+			or (length (regexp_replace(broker_tel , '[^[:digit:]]', '')) = 9 and left (regexp_replace(broker_tel , '[^[:digit:]]', ''),2) = '30')
+			or (length (regexp_replace(broker_tel , '[^[:digit:]]', '')) = 7 and left (regexp_replace(broker_tel , '[^[:digit:]]', ''),1) in ('2','4','5','7','9'))
+		then concat('9030',right(regexp_replace(broker_tel , '[^[:digit:]]', ''),7)) -- for 030
+		when left (right (regexp_replace(broker_tel , '[^[:digit:]]', ''),8),1) in ('0','1','') then concat('9030',right(regexp_replace(broker_tel , '[^[:digit:]]', ''),7))
+		when left (right (regexp_replace(broker_tel , '[^[:digit:]]', ''),8),1) in ('2','5','7','8','9')
+		then concat('9020',right(regexp_replace(broker_tel , '[^[:digit:]]', ''),8))
+		else concat('9020',right(regexp_replace(broker_tel , '[^[:digit:]]', ''),8))
+	end,
+	staff_tel = 
+	case when (length (regexp_replace(staff_tel , '[^[:digit:]]', '')) = 9 and left (regexp_replace(staff_tel , '[^[:digit:]]', ''),3) = '021')
+			or (length (regexp_replace(staff_tel , '[^[:digit:]]', '')) = 8 and left (regexp_replace(staff_tel , '[^[:digit:]]', ''),2) = '21' )
+			or (length (regexp_replace(staff_tel , '[^[:digit:]]', '')) = 6)
+		then concat('9021',right(regexp_replace(staff_tel , '[^[:digit:]]', ''),6)) -- for 021
+		when (length (regexp_replace(staff_tel , '[^[:digit:]]', '')) = 11 and left (regexp_replace(staff_tel , '[^[:digit:]]', ''),3) = '020')
+			or (length (regexp_replace(staff_tel , '[^[:digit:]]', '')) = 10 and left (regexp_replace(staff_tel , '[^[:digit:]]', ''),2) = '20')
+			or (length (regexp_replace(staff_tel , '[^[:digit:]]', '')) = 8 and left (regexp_replace(staff_tel , '[^[:digit:]]', ''),1) in ('2','5','7','8','9'))
+		then concat('9020',right(regexp_replace(staff_tel , '[^[:digit:]]', ''),8)) -- for 020
+		when (length (regexp_replace(staff_tel , '[^[:digit:]]', '')) = 10 and left (regexp_replace(staff_tel , '[^[:digit:]]', ''),3) = '030')
+			or (length (regexp_replace(staff_tel , '[^[:digit:]]', '')) = 9 and left (regexp_replace(staff_tel , '[^[:digit:]]', ''),2) = '30')
+			or (length (regexp_replace(staff_tel , '[^[:digit:]]', '')) = 7 and left (regexp_replace(staff_tel , '[^[:digit:]]', ''),1) in ('2','4','5','7','9'))
+		then concat('9030',right(regexp_replace(staff_tel , '[^[:digit:]]', ''),7)) -- for 030
+		when left (right (regexp_replace(staff_tel , '[^[:digit:]]', ''),8),1) in ('0','1','') then concat('9030',right(regexp_replace(staff_tel , '[^[:digit:]]', ''),7))
+		when left (right (regexp_replace(staff_tel , '[^[:digit:]]', ''),8),1) in ('2','5','7','8','9')
+		then concat('9020',right(regexp_replace(staff_tel , '[^[:digit:]]', ''),8))
+		else concat('9020',right(regexp_replace(staff_tel , '[^[:digit:]]', ''),8))
+	end
+;
+
 
 -- 6) import csv file from to table name [contact_numbers] 
 select * from contact_numbers where file_id is null order by id desc;
