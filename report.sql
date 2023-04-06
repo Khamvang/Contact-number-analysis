@@ -483,10 +483,12 @@ group by branch_name ,  province_eng , `type` , category , category2 , `priority
 
 
 
--- ____________________________________ Export to report source monthly update 2023-03-31 ____________________________________ -- 
+-- ____________________________________ Export to report source monthly update 2023-04-06 ____________________________________ -- 
 select * , count(*) from 
 	(
-	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2, fd.date_received, cntl.remark_1 `priority`, cntl.`condition`,
+	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2, 
+		case when cntl.`type` = 'prospect' then '2023-04-01' else fd.date_received end `date_received`, 
+		cntl.remark_1 `priority`, cntl.`condition`,
 		case when cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null then 'have_address' else 'no_address' end `address`,
 		case when fd.category = '①GOVERNMENT' then 'business_owner' else 'no' end `business_owner`,
 		case when cntl.maker is not null or cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
