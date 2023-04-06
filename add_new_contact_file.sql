@@ -24,7 +24,8 @@ update file_details set date_created = unix_timestamp(now())
 where id >= 1068 ; -- need to change the new file_no here when add new data
 -- update staff_tel and broker_tel
 update file_details set broker_tel = 
-	case when (length (regexp_replace(broker_tel , '[^[:digit:]]', '')) = 9 and left (regexp_replace(broker_tel , '[^[:digit:]]', ''),3) = '021')
+	case when broker_tel = '0' then '0'
+	when (length (regexp_replace(broker_tel , '[^[:digit:]]', '')) = 9 and left (regexp_replace(broker_tel , '[^[:digit:]]', ''),3) = '021')
 			or (length (regexp_replace(broker_tel , '[^[:digit:]]', '')) = 8 and left (regexp_replace(broker_tel , '[^[:digit:]]', ''),2) = '21' )
 			or (length (regexp_replace(broker_tel , '[^[:digit:]]', '')) = 6)
 		then concat('9021',right(regexp_replace(broker_tel , '[^[:digit:]]', ''),6)) -- for 021
@@ -42,7 +43,8 @@ update file_details set broker_tel =
 		else concat('9020',right(regexp_replace(broker_tel , '[^[:digit:]]', ''),8))
 	end,
 	staff_tel = 
-	case when (length (regexp_replace(staff_tel , '[^[:digit:]]', '')) = 9 and left (regexp_replace(staff_tel , '[^[:digit:]]', ''),3) = '021')
+	case when staff_tel = '0' then '0'
+	when (length (regexp_replace(staff_tel , '[^[:digit:]]', '')) = 9 and left (regexp_replace(staff_tel , '[^[:digit:]]', ''),3) = '021')
 			or (length (regexp_replace(staff_tel , '[^[:digit:]]', '')) = 8 and left (regexp_replace(staff_tel , '[^[:digit:]]', ''),2) = '21' )
 			or (length (regexp_replace(staff_tel , '[^[:digit:]]', '')) = 6)
 		then concat('9021',right(regexp_replace(staff_tel , '[^[:digit:]]', ''),6)) -- for 021
