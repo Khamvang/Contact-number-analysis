@@ -527,11 +527,8 @@ select * , count(*) from
 			else cntl.remark_2 
 		end `new_result`
 	from contact_for_202304_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
-	where cntl.contact_id in (select contact_id from contact_for_202303_lcc ) -- valid numbers
-		or cntl.status is null -- new number
 	) t
-group by branch_name ,  province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`, `result`, `new_result` ;
-
+group by branch_name ,  province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`,`name_info` , `result`, `new_result` ;
 
 
 -- ____________________________________ Export to report original soure update 2023-04-05 ____________________________________ -- 
