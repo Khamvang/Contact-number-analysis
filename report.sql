@@ -241,32 +241,38 @@ group by telecom;
 
 /* ___________________________ Order 2023-01-13 ___________________________ */
 -- 1_)
-select id, null 'Branch', null 'Department', null 'Unit', staff_no , staff_name, staff_tel , broker_name, broker_tel , `type` , category , date_received, company_name , number_of_original_file,
-	null 'can contact', null ' staff status', null 'Sales/Internal', null 'current_staff_no', null 'current_staff_name'
+select id, null 'Branch', null 'Department', null 'Unit', staff_no , staff_name, staff_tel , concat(broker_name, ' ',broker_tel) 'broker_key',  broker_name, broker_tel , `type` , category , date_received, company_name , number_of_original_file,
+	null 'unique_numbers', null 'can_contact_numbers', null ' staff status', null 'Sales/Internal', null 'current_staff_no', null 'current_staff_name'
 from file_details fd ;
+
 
 -- 2_)
 select file_id , count(*) 
-from contact_numbers_to_lcc cntl 
+from contact_numbers cn  
 group by file_id ;
+
 
 -- 3_)
 select file_id , count(*) 
 from contact_numbers_to_lcc cntl 
-where cntl.id in (select id from temp_sms_chairman tean where status = 1) -- to export the rank F & G the SMS success
-	 	or cntl.id in (select id from temp_etl_active_numbers tean2 ) -- ETL active
-	 	or cntl.remark_3 = 'contracted'
-	 	or cntl.remark_3 = 'ringi_not_contract' 
-	 	or cntl.remark_3 = 'aseet_not_contract'
-	 	or (cntl.remark_3 = 'prospect_sabc' and cntl.status in ('S','A','B','C'))
-	 	or cntl.status = 'ANSWERED'
+group by file_id ;
+
+-- 4_)
+select file_id , count(*) 
+from contact_numbers_to_lcc cntl 
+where cntl.contact_id in (select contact_id from contact_for_202303_lcc ) -- valid numbers
+		or cntl.status is null -- new number
 group by file_id ;
 
 
--- 4_) 
-select province_eng , district_eng , count(*) 
-from village_master_project vmp 
-group by province_eng , district_eng;
+
+-- 5 Draft: Add the numbers for table file_details 
+select fd.id, cn.`numbers`, icn.`numbers`, aucn.`numbers`, p.`numbers`
+from file_details fd 
+left join (select file_id, count(*) `numbers` from contact_numbers group by file_id ) cn on (fd.id = cn.file_id)
+left join (select file_id, count(*) `numbers` from invalid_contact_numbers icn group by file_id ) icn on (fd.id = icn.file_id)
+left join (select file_id, count(*) `numbers` from all_unique_contact_numbers aucn group by file_id ) aucn on (fd.id = aucn.file_id)
+left join (select file_id, count(*) `numbers` from payment p group by file_id ) p on (fd.id = p.file_id)
 
 
 
