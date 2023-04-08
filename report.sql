@@ -278,7 +278,7 @@ left join (select file_id, count(*) `numbers` from payment p group by file_id ) 
 -- 6) Count number with name, address and car info
 select *, count(*)  from (
 select 
-	cntl.file_id ,
+	fd.id `file_id`, concat(fd.broker_name, ' ', fd.broker_tel) `broker_key`, fd.branch_name, fd.`type` , fd.category , fd.date_received, fd.company_name ,
 	concat( 
 	case when cntl.name != '' then 1 else 0 end , -- customer name
 	case when ((cntl.province_eng != '' or cntl.province_laos != '') and (cntl.district_eng != '' or cntl.district_laos != '') and cntl.village != '') != '' then 1 else 0 end , -- address
