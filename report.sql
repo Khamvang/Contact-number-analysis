@@ -275,6 +275,18 @@ left join (select file_id, count(*) `numbers` from all_unique_contact_numbers au
 left join (select file_id, count(*) `numbers` from payment p group by file_id ) p on (fd.id = p.file_id)
 
 
+-- 6) Count number with name, address and car info
+select *, count(*)  from (
+select 
+	cntl.file_id ,
+	concat( 
+	case when cntl.name != '' then 1 else 0 end , -- customer name
+	case when ((cntl.province_eng != '' or cntl.province_laos != '') and (cntl.district_eng != '' or cntl.district_laos != '') and cntl.village != '') != '' then 1 else 0 end , -- address
+	case when (cntl.maker != '' or cntl.model != '' or cntl.`year` != '') != '' then 1 else 0 end -- car
+		) `code`
+from file_details fd left join contact_numbers cntl on (fd.id = cntl.file_id)
+) t
+group by file_id, code;
 
 
 -- Hattori request for Yoshi -- ative
