@@ -286,11 +286,11 @@ from (
 		select 
 			cntl .* ,
 			concat( 
-			case when t.id = 1 then 1 when t.id = 2 then 2 when t.id = 3 then 2 when t.id = 4 then 3 end , "-" ,
-			case when cntl.contact_no != '' then 1 else 0 end ,
-			case when cntl.name != '' then 1 else 0 end ,
-			case when ((cntl.province_eng != '' or cntl.province_laos != '') and (cntl.district_eng != '' or cntl.district_laos != '') and cntl.village != '') != '' then 1 else 0 end ,
-			case when (cntl.maker != '' or cntl.model != '') != '' then 1 else 0 end
+			case when t.id = 1 then 1 when t.id = 2 then 2 when t.id = 3 then 2 when t.id = 4 then 3 end , "-" , -- type
+			case when cntl.contact_no != '' then 1 else 0 end , -- contact_no
+			case when cntl.name != '' then 1 else 0 end , -- customer name
+			case when ((cntl.province_eng != '' or cntl.province_laos != '') and (cntl.district_eng != '' or cntl.district_laos != '') and cntl.village != '') != '' then 1 else 0 end , -- address
+			case when (cntl.maker != '' or cntl.model != '') != '' then 1 else 0 end -- car
 				) `code`
 		from contact_numbers_to_lcc cntl 
 		left join tbltype t on (t.`type` = cntl.`type`)
