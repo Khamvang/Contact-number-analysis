@@ -495,7 +495,7 @@ group by branch_name ,  province_eng , `type` , category , category2 , `priority
 
 
 
--- ____________________________________ Export to report source monthly update 2023-04-06 ____________________________________ -- 
+-- ____________________________________ Export to report source monthly update 2023-04-22 ____________________________________ -- 
 select * , count(*) from 
 	(
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2, 
