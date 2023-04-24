@@ -1,5 +1,7 @@
 
 
+
+
 #=========== check and fix Reason: SQL Error [1292] [22001]: Data truncation: Incorrect date value: '0000-00-00' for column `test`.`tbl collection`.`transfer date` at row 1 ======
 select @@global.sql_mode global, @@session.sql_mode session;
 set sql_mode = '', global sql_mode = '';
@@ -56,6 +58,7 @@ delete from all_unique_analysis where id in (select id from removed_duplicate_2 
 -- delete before import new
 delete from all_unique_analysis_weekly ;
 
+
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 2) Export data from lalco LMS to contact_data_db analysis  
 -- (1) contracted: export from database lalco to analysis in database contact_data_db table all_unique_analysis
@@ -80,7 +83,7 @@ end `contact_no`,
 FROM tblcontract c left join tblprospect p on (p.id = c.prospect_id)
 left join tblcustomer cu on (cu.id = p.customer_id)
 WHERE c.status in (4,6,7) ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-03-30'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-04-20'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- (2) ringi not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
@@ -107,7 +110,7 @@ end `contact_no`,
 FROM tblcontract c right join tblprospect p on (p.id = c.prospect_id)
 left join tblcustomer cu on (cu.id = p.customer_id)
 WHERE c.status not in (4,6,7) or p.status != 3 ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-03-30'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-04-20'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- (3) asset not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
@@ -142,7 +145,7 @@ left join tblprospect p on (p.id = pa.prospect_id)
 left join tblcustomer cu2 on (p.customer_id = cu2.id)
 WHERE av.status != 2 or p.status != 3 
 ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-03-30'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-04-20'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 3) import from database lalcodb to analysis in database contact_data_db
@@ -162,7 +165,7 @@ select '' "id",
 	c.id "custtbl_id"
 from custtbl c left join negtbl n on (c.id = n.custid)
 ) t
-WHERE LENGTH(contact_no) IN (11,12) and date_created >= '2023-03-31'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and date_created >= '2023-04-20'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 4) import data from database lalco_pbx to database contact_data_db
@@ -183,7 +186,7 @@ select null id, callee_number 'contact_no',
 from lalco_pbx.pbx_cdr pc 
 where -- status = 'ANSWERED' and communication_type = 'Outbound'
 	   status in ('NO ANSWER', 'FAILED', 'BUSY', 'VOICEMAIL' ) and communication_type = 'Outbound'
- and date_format(`time`, '%Y-%m-%d') >= '2023-03-30' -- please chcek this date from table all_unique_analysis
+ and date_format(`time`, '%Y-%m-%d') >= '2023-04-20' -- please chcek this date from table all_unique_analysis
  and CONCAT(LENGTH(callee_number), left( callee_number, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290209')
 group by callee_number ;
 
@@ -241,7 +244,7 @@ update all_unique_analysis_weekly set contact_id = case when left(contact_no,4) 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 6)delete duplicate and check data
 delete from removed_duplicate_2;
-select count(*) from all_unique_analysis_weekly; -- 172195 >> 
+select count(*) from all_unique_analysis_weekly; -- 299269 >> 
 insert into removed_duplicate_2 
 select id, row_numbers, now() `time` from ( 
 		select id , row_number() over (partition by contact_no order by field(priority_type, "contracted", "ringi_not_contract", "aseet_not_contract",
@@ -397,7 +400,6 @@ select now(); -- datetime on this time
 delete from temp_update_any ;
 select now(); -- datetime on this time
 
-
 -- __________________________________________________ 005 aua.priority_type = 'pbx_cdr' and aua.status = 'ANSWERED' and cntl.status != 'ANSWERED' __________________________________________________
 -- 7)insert data to temp_update_any -- 1st method
 insert into temp_update_any 
@@ -539,6 +541,8 @@ alter table contact_numbers_to_lcc add `contact_id` int(11) not null;
 alter table contact_numbers_to_lcc add key `contact_id` (`contact_id`);
 
 update contact_numbers_to_lcc set contact_id = case when left(contact_no,4) = '9020' then right(contact_no,8) when left(contact_no,4) = '9030' then right(contact_no,7) end ;
+
+
 
 
 
