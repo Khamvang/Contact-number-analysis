@@ -63,7 +63,7 @@ CREATE TABLE `contact_for_updating` (
 
 
 
--- 1) export customer info form LMS to contact_data_db
+-- 1) export customer info form LMS to contact_data_db table temp_imort_data_from_lms_crm
 select 
 	case when left (right (REPLACE ( cu.main_contact_no, ' ', '') ,8),1) = '0' then right (REPLACE ( cu.main_contact_no, ' ', '') ,8)
     	when length (REPLACE ( cu.main_contact_no, ' ', '')) = 7 then REPLACE( cu.main_contact_no, ' ', '')
@@ -114,7 +114,7 @@ left join tblvillage v on (v.id=cu.address_village_id);
 
 
 
--- 2) export customer info form Moneymax to contact_data_db
+-- 2) export customer info form Moneymax to contact_data_db table temp_imort_data_from_lms_crm
 select 
 	case when left (right (REPLACE ( cu.main_contact_no, ' ', '') ,8),1) = '0' then right (REPLACE ( cu.main_contact_no, ' ', '') ,8)
     	when length (REPLACE ( cu.main_contact_no, ' ', '')) = 7 then REPLACE( cu.main_contact_no, ' ', '')
@@ -165,7 +165,7 @@ left join tblvillage v on (v.id=cu.address_village_id);
 
 
 
--- 3) export customers info form lalcodb to contact_data_db
+-- 3) export customers info form lalcodb to contact_data_db table temp_imort_data_from_lms_crm
 select 
 	case
 		when left(right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8), 1)= '0' then right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8)
