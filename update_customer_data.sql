@@ -207,8 +207,11 @@ from custtbl c;
 -- 4) export customers info form lcc to contact_data_db
 
 
--- 5) clear table removed_duplicate_2
+-- 5) update set contact_id and clear table removed_duplicate_2
+update temp_imort_data_from_lms_crm set contact_id = case when left(contact_no,4) = '9020' then right(contact_no,8) when left(contact_no,4) = '9030' then right(contact_no,7) end ;
+
 delete from removed_duplicate_2;
+
 
 -- 6) Query date to expot into table removed duplicate_2 
 -- partition by contact_no === check duplicate by contact_no
