@@ -166,6 +166,12 @@ left join tblvillage v on (v.id=cu.address_village_id);
 
 
 -- 3) export customers info form lalcodb to contact_data_db table temp_imort_data_from_lms_crm
+-- 3.1) Check and update province 
+select province , count(tel) from custtbl group by province order by province ;
+select distinct province from custtbl order by province ;
+update custtbl set province = 'Vientiane province'  where province = 'Vientiane';
+
+-- 3.2) export
 select 
 	case
 		when left(right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8), 1)= '0' then right (translate (c.tel, translate(c.tel, '0123456789', ''), ''), 8)
