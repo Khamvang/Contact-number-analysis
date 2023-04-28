@@ -240,6 +240,7 @@ where id in (select id from removed_duplicate_2 where `time` >= '2023-02-22');
 -- 8) clear table contact_for_updating
 delete from contact_for_updating;
 
+-- The step below here will take around 5 hours for insert date 1 million records. You can use step 9 or 10
 -- 9) insert data from contact_numbers_to_lcc to contact_for_updating 
 
 -- 9.1) do this step because, if direct import will take long time
@@ -279,7 +280,7 @@ insert into contact_for_updating select * from contact_numbers_to_lcc cntl where
 insert into contact_for_updating select * from contact_numbers_to_lcc cntl where contact_id in (select contact_id from temp_imort_data_from_lms_crm where id between 10001 and 20000 );
 
 
--- 11) replace data to update 
+-- 11) replace data to update, this will take around ...... hours
 replace into contact_for_updating
 select cfu.`id`,cfu.`file_id`,cfu.`contact_no`,
 	case when td.name = '' or td.name is null then cfu.name else td.name end `name` ,
@@ -295,6 +296,7 @@ select cfu.`id`,cfu.`file_id`,cfu.`contact_no`,
 	cfu.`remark_1`, cfu.`remark_2`, cfu.`remark_3`, cfu.`branch_name`, cfu.`status`, cfu.`file_no`, cfu.`date_received`, 
 	cfu.`date_updated`, cfu.`pbxcdr_time`,cfu.`contact_id`
 from contact_for_updating cfu left join temp_imort_data_from_lms_crm td on (td.contact_id = cfu.contact_id) ;
+
 
 -- 12) open the table contact_for_updating then export as replace to contact_numbers_to_lcc
 
