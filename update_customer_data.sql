@@ -247,6 +247,9 @@ select * from contact_numbers_to_lcc cntl where contact_id in (select contact_id
 -- backup
 mysqldump -u root -p -h localhost --port 3306 contact_data_db temp_imort_data_from_lms_crm > D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\temp_imort_data_from_lms_crm.sql
 
+mysql -u root -p -h localhost --port 3306 contact_data_db < D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\temp_imort_data_from_lms_crm.sql
+
+
  -- _______________________________________ do temp update _______________________________________
 select priority, count(*)  from temp_imort_data_from_lms_crm  group by priority;
 
