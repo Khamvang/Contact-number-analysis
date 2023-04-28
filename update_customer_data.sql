@@ -242,11 +242,12 @@ delete from contact_for_updating;
 
 -- 9) insert data from contact_numbers_to_lcc to contact_for_updating 
 
+-- 9.1) do this step because, if direct import will take long time
 insert into temp_update_any 
 select id, contact_no, null remark_3, null status, 0 pbxcdr_time, contact_id 
 from contact_numbers_to_lcc cntl where contact_id in (select contact_id from temp_imort_data_from_lms_crm );
 
-
+-- 9.2) import 
 insert into contact_for_updating 
 select * from contact_numbers_to_lcc cntl where id in (select id from temp_update_any );
 
