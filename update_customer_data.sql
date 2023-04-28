@@ -241,8 +241,15 @@ where id in (select id from removed_duplicate_2 where `time` >= '2023-02-22');
 delete from contact_for_updating;
 
 -- 9) insert data from contact_numbers_to_lcc to contact_for_updating 
+
+insert into temp_update_any 
+select id, contact_no, null remark_3, null status, 0 pbxcdr_time, contact_id 
+from contact_numbers_to_lcc cntl where contact_id in (select contact_id from temp_imort_data_from_lms_crm );
+
+
 insert into contact_for_updating 
-select * from contact_numbers_to_lcc cntl where contact_id in (select contact_id from temp_imort_data_from_lms_crm );
+select * from contact_numbers_to_lcc cntl where id in (select id from temp_update_any );
+
 
 -- backup
 mysqldump -u root -p -h localhost --port 3306 contact_data_db temp_imort_data_from_lms_crm > D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\temp_imort_data_from_lms_crm.sql
