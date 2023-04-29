@@ -594,7 +594,7 @@ select * , count(*) from
 		end `result`
 	from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 	where cntl.contact_id in (select contact_id from contact_for_202303_lcc ) -- valid numbers
-		or cntl.status in ('contracted', 'ringi_not_contract', 'aseet_not_contract','X','S','A','B','C','ANSWERED')
+		or cntl.status in ('X','S','A','B','C','ANSWERED') -- this still not correct so, need to change after this time
 		or cntl.status is null -- new number
 	) t
 group by branch_name ,  province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`, `name_info`, `result` ;
