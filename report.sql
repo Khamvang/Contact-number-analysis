@@ -564,7 +564,8 @@ select * , count(*) from
 group by  province_eng , `type` , category , category2, date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`, `name_info` ;
 
 
--- ____________________________________ Export to report all valid source update 2023-04-05 ____________________________________ -- 
+
+-- ____________________________________ Export to report all valid source update 2023-04-29 ____________________________________ -- 
 select * , count(*) from 
 	(
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2, fd.date_received, cntl.remark_1 `priority`, null `condition`,
@@ -593,9 +594,11 @@ select * , count(*) from
 		end `result`
 	from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 	where cntl.contact_id in (select contact_id from contact_for_202303_lcc ) -- valid numbers
+		or cntl.status in ('contracted', 'ringi_not_contract', 'aseet_not_contract','X','S','A','B','C','ANSWERED')
 		or cntl.status is null -- new number
 	) t
 group by branch_name ,  province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`, `name_info`, `result` ;
+
 
 
 
