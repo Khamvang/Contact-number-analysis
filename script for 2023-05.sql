@@ -99,7 +99,7 @@ where (cntl.contact_id in (select contact_id from contact_for_202303_lcc ) -- va
 
 
 -- 2) Priority2: Old Call list received before 2023-04
-insert into contact_for_202304_lcc
+insert into contact_for_202305_lcc
  select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
 	case when cntl.`type` = '①Have Car' then '2'
 		when cntl.`type` = '②Need loan' then '3'
@@ -122,7 +122,7 @@ insert into contact_for_202304_lcc
 		when cntl.`type` = '④Telecom' and (cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null ) then 2
 		when cntl.`type` = '④Telecom' then 3
 	end `group`
--- select count(*) -- 108249
+-- select count(*) -- 4160014
 from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 where (cntl.contact_id in (select contact_id from contact_for_202303_lcc ) -- valid numbers
 		or cntl.status in ('X','S','A','B','C','ANSWERED')
