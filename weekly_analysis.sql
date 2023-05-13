@@ -273,6 +273,13 @@ select count(*)  from contact_numbers_to_lcc ;
 select * from all_unique_analysis_weekly auaw where priority_type = 'prospect_sabc' and status = '';
 
 
+-- _________________________ Export table  _________________________ 
+mysqldump -u root -p -h localhost --port 3306 contact_data_db all_unique_analysis all_unique_analysis_weekly > D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\all_unique_analysis20230513.sql
+
+-- _________________________ Import table _________________________ 
+mysql -u root -p -h localhost --port 3306 contact_data_db < D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\all_unique_analysis20230513.sql
+
+
 -- ________________________________________________ update status for contact_numbers_to_lcc ________________________________________________ --
 -- __________________________________________________ 001 priority_type = 'contracted' __________________________________________________
 -- 7)insert data to temp_update_any
