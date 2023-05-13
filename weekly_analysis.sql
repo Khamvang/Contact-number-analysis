@@ -41,7 +41,7 @@ select contact_no , status , priority_type , date_created , date_updated , lalco
 
 -- 2 delete duplicate
 delete from removed_duplicate_2;
-select count(*) from all_unique_analysis; -- 13157997 >> 10769929 >> 11169402
+select count(*) from all_unique_analysis; -- 11680723
 insert into removed_duplicate_2 
 select id, row_numbers, now() `time` from ( 
 		select id , row_number() over (partition by contact_no order by field(priority_type, "contracted", "ringi_not_contract", "aseet_not_contract",
