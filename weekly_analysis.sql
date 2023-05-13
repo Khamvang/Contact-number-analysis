@@ -258,6 +258,7 @@ select id, row_numbers, now() `time` from (
 
 delete from all_unique_analysis_weekly where id in (select id from removed_duplicate_2 );
 
+delete from removed_duplicate_2;
 
 --  and check data
 select priority_type, status, count(*) from all_unique_analysis_weekly where date_updated >= '2022-10-25' group by priority_type, status 
