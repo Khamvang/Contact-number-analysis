@@ -186,7 +186,9 @@ select * from removed_duplicate where `time` >= '2023-02-18';
 delete from all_unique_contact_numbers 
 where id in (select id from removed_duplicate where `time` >= '2023-02-18'); -- done <= 1068
 
--- 14) check and import date from contact_numbers to contact_numbers_to_lcc
+-- 14) check and import date from contact_numbers to contact_numbers_to_lcc 
+-- Do this on 2023-05-13 because need to decrease space for this table: alter table contact_numbers_to_lcc drop column  `file_no`,`date_received`; 
+
 select distinct province_eng from contact_numbers where file_id >= 1068;
 
 insert into contact_numbers_to_lcc (`id`,`file_id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`,`branch_name`,`status`,`date_updated`,`pbxcdr_time`, `contact_id`)
