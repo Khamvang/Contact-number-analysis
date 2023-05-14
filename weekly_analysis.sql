@@ -298,10 +298,10 @@ where cntl.id in (select id from temp_update_any );
 select now(); -- datetime on this time
 
 
-select status, status_updated, count(*)  from contact_for_202304_lcc cntl where cntl.id in (select id from temp_update_any)  group by status, status_updated ;
+select status, status_updated, count(*)  from contact_for_202305_lcc cntl where cntl.id in (select id from temp_update_any)  group by status, status_updated ;
 
--- 8)update status in table contact_for_202304_lcc 
-update contact_for_202304_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202305_lcc 
+update contact_for_202305_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any );
 select now(); -- datetime on this time
@@ -327,10 +327,10 @@ where cntl.id in (select id from temp_update_any) and (cntl.status is null or cn
 select now(); -- datetime on this time
 
 
-select status, status_updated, count(*)  from contact_for_202304_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
+select status, status_updated, count(*)  from contact_for_202305_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
 
--- 8)update status in table contact_for_202304_lcc 
-update contact_for_202304_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202305_lcc 
+update contact_for_202305_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted'));
 select now(); -- datetime on this time
@@ -357,8 +357,8 @@ select now(); -- datetime on this time
 
 select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
 
--- 8)update status in table contact_for_202304_lcc 
-update contact_for_202304_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202305_lcc 
+update contact_for_202305_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted'));
 select now(); -- datetime on this time
@@ -396,10 +396,10 @@ set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = 
 where cntl.id in (select id from temp_update_any ) and (cntl.status is null or cntl.remark_3 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract'));
 select now(); -- datetime on this time
 
-select status, status_updated, count(*) from contact_for_202304_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
+select status, status_updated, count(*) from contact_for_202305_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
 
--- 8)update status in table contact_for_202304_lcc 
-update contact_for_202304_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202305_lcc 
+update contact_for_202305_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract'));
 select now(); -- datetime on this time
@@ -436,10 +436,10 @@ set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = 
 where cntl.id in (select id from temp_update_any ) and (cntl.status is null or cntl.remark_3 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract', 'prospect_sabc'));
 select now(); -- datetime on this time
 
-select status, status_updated, count(*) from contact_for_202304_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
+select status, status_updated, count(*) from contact_for_202305_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
 
--- 8)update status in table contact_for_202304_lcc 
-update contact_for_202304_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202305_lcc 
+update contact_for_202305_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract', 'prospect_sabc'));
 select now(); -- datetime on this time
@@ -477,10 +477,10 @@ set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = 
 where cntl.id in (select id from temp_update_any ) and (cntl.status is null or cntl.status in ('SMS_success', 'ETL_active'));
 select now(); -- datetime on this time
 
-select status, status_updated, count(*) from contact_for_202304_lcc cntl where cntl.id in (select id from temp_update_any)  group by status, status_updated ;
+select status, status_updated, count(*) from contact_for_202305_lcc cntl where cntl.id in (select id from temp_update_any)  group by status, status_updated ;
 
--- 8)update status in table contact_for_202304_lcc 
-update contact_for_202304_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202305_lcc 
+update contact_for_202305_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any ) and (cntl.status_updated is null or cntl.status_updated in ('SMS_success', 'ETL_active'));
 select now(); -- datetime on this time
@@ -499,7 +499,7 @@ where aua.priority_type = 'lcc';
 
 
 insert into temp_update_any1
-select `id`, `contact_no`, `remark_3`, `status`, 0 `pbxcdr_time`, `contact_id`  from contact_for_202304_lcc cfl where status_updated = 'NO ANSWER'
+select `id`, `contact_no`, `remark_3`, `status`, 0 `pbxcdr_time`, `contact_id`  from contact_for_202305_lcc cfl where status_updated = 'NO ANSWER'
 
 insert into all_unique_analysis_weekly1 
 select * from all_unique_analysis_weekly where contact_id in (select contact_id from temp_update_any1 )
@@ -515,8 +515,8 @@ select now(); -- datetime on this time
 
 select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
 
--- 8)update status in table contact_for_202304_lcc 
-update contact_for_202304_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202305_lcc 
+update contact_for_202305_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.id in (select id from temp_update_any ) and (cntl.status_updated is null or cntl.status_updated = 'NO ANSWER');
 select now(); -- datetime on this time
