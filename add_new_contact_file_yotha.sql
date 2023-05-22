@@ -77,3 +77,17 @@ delete from yotha_mpwt
 where id in (select id from removed_duplicate_2 where `time` >= '2023-03-27'); -- 4107
 
 
+
+-- ______________________________________________________________ Adjust ______________________________________________________________
+-- 5) Adjust add the date created default today
+alter table yotha_mpwt_original add date_created timestamp null default current_timestamp;
+update yotha_mpwt_original set date_created = '2023-04-03 15:45:54'
+
+
+
+
+
+
+
+
+
