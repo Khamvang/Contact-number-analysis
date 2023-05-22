@@ -68,7 +68,7 @@ delete from removed_duplicate_2;
 -- insert duplicate 
 insert into removed_duplicate_2
 select id, row_numbers, now() `time` from ( 
-		select id, row_number() over (partition by contact_no order by id desc ) as row_numbers  -- order by id desc Because the new data is close the correct data more then old data
+		select id, row_number() over (partition by contact_no order by id asc ) as row_numbers  -- order by id desc Because the new data is close the correct data more then old data
 		from yotha_mpwt 
 		) as t1
 	where row_numbers > 1; -- 4107
