@@ -21,6 +21,9 @@ create table `yotha_mpwt_original` (
 	key `contact_id` (`contact_id`)
 ) engine=InnoDB auto_increment=1 default charset=utf8;
 
+alter table yotha_mpwt_original add date_created timestamp null default current_timestamp;
+update yotha_mpwt_original set date_created = '2023-04-03 15:45:54'
+
 
 -- insert data from original file final file
 insert into yotha_mpwt select * from yotha_mpwt_original 
@@ -78,10 +81,7 @@ where id in (select id from removed_duplicate_2 where `time` >= '2023-03-27'); -
 
 
 
--- ______________________________________________________________ Adjust ______________________________________________________________
--- 5) Adjust add the date created default today
-alter table yotha_mpwt_original add date_created timestamp null default current_timestamp;
-update yotha_mpwt_original set date_created = '2023-04-03 15:45:54'
+
 
 
 
