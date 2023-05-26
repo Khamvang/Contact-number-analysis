@@ -83,7 +83,7 @@ end `contact_no`,
 FROM tblcontract c left join tblprospect p on (p.id = c.prospect_id)
 left join tblcustomer cu on (cu.id = p.customer_id)
 WHERE c.status in (4,6,7) ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-04-27'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-05-12'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- (2) ringi not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
@@ -110,7 +110,7 @@ end `contact_no`,
 FROM tblcontract c right join tblprospect p on (p.id = c.prospect_id)
 left join tblcustomer cu on (cu.id = p.customer_id)
 WHERE c.status not in (4,6,7) or p.status != 3 ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-04-27'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-05-12'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- (3) asset not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
@@ -145,7 +145,7 @@ left join tblprospect p on (p.id = pa.prospect_id)
 left join tblcustomer cu2 on (p.customer_id = cu2.id)
 WHERE av.status != 2 or p.status != 3 
 ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-04-27'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-05-12'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 3) import from database lalcodb to analysis in database contact_data_db
@@ -165,7 +165,7 @@ select '' "id",
 	c.id "custtbl_id"
 from custtbl c left join negtbl n on (c.id = n.custid)
 ) t
-WHERE LENGTH(contact_no) IN (11,12) and date_created >= '2023-04-27'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and date_created >= '2023-05-12'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 4) import data from database lalco_pbx to database contact_data_db
@@ -186,7 +186,7 @@ select null id, callee_number 'contact_no',
 from lalco_pbx.pbx_cdr pc 
 where -- status = 'ANSWERED' and communication_type = 'Outbound'
 	   status in ('NO ANSWER', 'FAILED', 'BUSY', 'VOICEMAIL' ) and communication_type = 'Outbound'
- and date_format(`time`, '%Y-%m-%d') >= '2023-04-27' -- please chcek this date from table all_unique_analysis
+ and date_format(`time`, '%Y-%m-%d') >= '2023-05-12' -- please chcek this date from table all_unique_analysis
  and CONCAT(LENGTH(callee_number), left( callee_number, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290209')
 group by callee_number ;
 
