@@ -198,7 +198,7 @@ group by callee_number ;
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 5) import data from database callcenterdb and qhcallenter_db to database contact_data_db
-select phone `contact_no`, 
+select c.phone `contact_no`, 
 	case when c.`rank` = 1 then 'S' -- need loan today/tomorrow
 		when c.`rank` = 2 then 'A' -- need loan in this week
 		when c.`rank` = 3 then 'B' -- need loan in this month
@@ -215,12 +215,12 @@ select phone `contact_no`,
 		else null
 	end `status`,
 	'lcc' `priority_type`,
-	date_format(c.updated_at, '%Y-%m-%d') `date_created`,
+	date_format(cc.created_at, '%Y-%m-%d') `date_created`,
 	date(now()) `date_updated`,
 	case when left(`phone`, 4) = '9020' then right(`phone`, 8) when left(`phone`, 4) = '9030' then right(`phone`, 7) else 0 end `contact_id`,
 	c.id `lcc_id`
--- from hqcallcenter_db.campaign_calls cc inner join hqcallcenter_db.customers c on c.id = cc.customer_id inner join hqcallcenter_db.campaigns on campaigns.id = cc.campaign_id -- BR
- from callcenter_db.campaign_calls cc inner join callcenter_db.customers c on c.id = cc.customer_id inner join callcenter_db.campaigns on campaigns.id = cc.campaign_id -- HQ
+-- from hqcallcenter_db.campaign_calls cc inner join hqcallcenter_db.customers c on c.id = cc.customer_id inner join hqcallcenter_db.campaigns on campaigns.id = cc.campaign_id -- HQ
+ from callcenter_db.campaign_calls cc inner join callcenter_db.customers c on c.id = cc.customer_id inner join callcenter_db.campaigns on campaigns.id = cc.campaign_id -- BR
 where 1=1 and campaigns.created_at >= '2023-05-01' order by cc.created_at desc;
 
 
