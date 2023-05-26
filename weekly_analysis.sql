@@ -199,25 +199,29 @@ group by callee_number ;
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 5) import data from database callcenterdb and qhcallenter_db to database contact_data_db
 select phone `contact_no`, 
-	case when c.`rank` = 1 then 'S need loan today/tomorrow'
-		when c.`rank` = 2 then 'A need loan in this week'
-		when c.`rank` = 3 then 'B need loan in this month'
-		when c.`rank` = 4 then 'C need loan in next month'
-		when c.`rank` = 5 then 'F know car info but not need loan'
-		when c.`rank` = 6 then 'G know address'
+	case when c.`rank` = 1 then 'S' -- need loan today/tomorrow
+		when c.`rank` = 2 then 'A' -- need loan in this week
+		when c.`rank` = 3 then 'B' -- need loan in this month
+		when c.`rank` = 4 then 'C' -- need loan in next month
+		when c.`rank` = 5 then 'F' -- know car info but not need loan
+		when c.`rank` = 6 then 'G' -- know address
 		when c.`rank` = 7 then 'Block need_to_block'
 		when c.`rank` = 8 then 'FF1 not_answer'
 		when c.`rank` = 9 then 'FF2 power_off'
 		when c.`rank` = 10 then 'FFF can_not_contact'
+		when c.`rank` = 11 then 'X' -- Contracted
+		when c.`rank` = 12 then 'No have in telecom'
+		when c.`rank` = 13 then 'SP will be salespartner'
 		else null
 	end `status`,
 	'lcc' `priority_type`,
-	date_format(updated_at, '%Y-%m-%d') `date_created`,
+	date_format(c.updated_at, '%Y-%m-%d') `date_created`,
 	date(now()) `date_updated`,
 	case when left(`phone`, 4) = '9020' then right(`phone`, 8) when left(`phone`, 4) = '9030' then right(`phone`, 7) else 0 end `contact_id`,
-	id `lcc_id`
-from customers c
-where `rank` between 7 and 10;
+	c.id `lcc_id`
+-- from hqcallcenter_db.campaign_calls cc inner join hqcallcenter_db.customers c on c.id = cc.customer_id inner join hqcallcenter_db.campaigns on campaigns.id = cc.campaign_id -- BR
+ from callcenter_db.campaign_calls cc inner join callcenter_db.customers c on c.id = cc.customer_id inner join callcenter_db.campaigns on campaigns.id = cc.campaign_id -- HQ
+where 1=1 and campaigns.created_at >= '2023-05-01' order by cc.created_at desc;
 
 
 -- _____________________________________________________________________ 0 update contact_no and contact_id 0 _____________________________________________________________________
