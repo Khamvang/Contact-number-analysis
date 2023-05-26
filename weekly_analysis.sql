@@ -247,7 +247,7 @@ delete from removed_duplicate_2;
 select count(*) from all_unique_analysis_weekly; -- 299269 >> 
 insert into removed_duplicate_2 
 select id, row_numbers, now() `time` from ( 
-		select id , row_number() over (partition by contact_no order by field(priority_type, "contracted", "ringi_not_contract", "aseet_not_contract",
+		select id , row_number() over (partition by contact_id order by field(priority_type, "contracted", "ringi_not_contract", "aseet_not_contract",
 			"prospect_sabc", "pbx_cdr", "lcc") ,
 		FIELD(`status` , "Active", "Closed", "Refinance", "Disbursement Approval", "Pending Disbursement", "Pending Approval", "Pending",
 		"Approved", "Pending Approval from Credit", "Asset Assessed", "Pending Assessment", "Draft", "Cancelled", "Deleted",
