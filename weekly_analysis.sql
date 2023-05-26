@@ -59,6 +59,12 @@ delete from all_unique_analysis where id in (select id from removed_duplicate_2 
 delete from all_unique_analysis_weekly ;
 
 
+-- mysql dump and imprt
+mysqldump -u root -p -h localhost --port 3306 contact_data_db all_unique_contact_numbers > D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\all_unique_contact_numbers_20230526.sql
+
+mysql -u root -p -h localhost --port 3306 contact_data_db < D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\all_unique_contact_numbers_20230526.sql
+
+
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 2) Export data from lalco LMS to contact_data_db analysis  
 -- (1) contracted: export from database lalco to analysis in database contact_data_db table all_unique_analysis
