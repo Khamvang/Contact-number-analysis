@@ -44,11 +44,12 @@ delete from removed_duplicate_2;
 select count(*) from all_unique_analysis; -- 11680723
 insert into removed_duplicate_2 
 select id, row_numbers, now() `time` from ( 
-		select id , row_number() over (partition by contact_no order by field(priority_type, "contracted", "ringi_not_contract", "aseet_not_contract",
-			"prospect_sabc", "pbx_cdr") ,
+		select id , row_number() over (partition by contact_id order by field(priority_type, "contracted", "ringi_not_contract", "aseet_not_contract",
+			"prospect_sabc", "pbx_cdr", "lcc") ,
 		FIELD(`status` , "Active", "Closed", "Refinance", "Disbursement Approval", "Pending Disbursement", "Pending Approval", "Pending",
 		"Approved", "Pending Approval from Credit", "Asset Assessed", "Pending Assessment", "Draft", "Cancelled", "Deleted",
-			"X", "S", "A", "B", "C", "F", "G", "G1", "G2", "ANSWERED", "NO ANSWER", "FAILED", "BUSY", "VOICEMAIL"), id desc) as row_numbers  
+		"X", "S", "A", "B", "C", "F", "G", "G1", "G2", "SP will be salespartner", "ANSWERED", 
+		"NO ANSWER", "Block need_to_block", "FF1 not_answer", "FF2 power_off", "FFF can_not_contact", "No have in telecom"), id desc) as row_numbers  
 		from all_unique_analysis 
 		) as t1
 	where row_numbers > 1;
@@ -261,7 +262,8 @@ select id, row_numbers, now() `time` from (
 			"prospect_sabc", "pbx_cdr", "lcc") ,
 		FIELD(`status` , "Active", "Closed", "Refinance", "Disbursement Approval", "Pending Disbursement", "Pending Approval", "Pending",
 		"Approved", "Pending Approval from Credit", "Asset Assessed", "Pending Assessment", "Draft", "Cancelled", "Deleted",
-		"X", "S", "A", "B", "C", "F", "G", "G1", "G2", "ANSWERED", "NO ANSWER", "Block need_to_block", "FF1 not_answer", "FF2 power_off", "FFF can_not_contact", "No have in telecom"), date_created desc) as row_numbers  
+		"X", "S", "A", "B", "C", "F", "G", "G1", "G2", "SP will be salespartner", "ANSWERED", 
+		"NO ANSWER", "Block need_to_block", "FF1 not_answer", "FF2 power_off", "FFF can_not_contact", "No have in telecom"), date_created desc) as row_numbers  
 		from all_unique_analysis_weekly  
 		) as t1
 	where row_numbers > 1;
@@ -276,7 +278,8 @@ order by field(priority_type, "contracted", "ringi_not_contract", "aseet_not_con
 			"prospect_sabc", "pbx_cdr", "lcc") ,
 		FIELD(`status` , "Active", "Closed", "Refinance", "Disbursement Approval", "Pending Disbursement", "Pending Approval", "Pending",
 		"Approved", "Pending Approval from Credit", "Asset Assessed", "Pending Assessment", "Draft", "Cancelled", "Deleted",
-		"X", "S", "A", "B", "C", "F", "G", "G1", "G2", "ANSWERED", "NO ANSWER", "Block need_to_block", "FF1 not_answer", "FF2 power_off", "FFF can_not_contact", "No have in telecom") ;
+		"X", "S", "A", "B", "C", "F", "G", "G1", "G2", "SP will be salespartner", "ANSWERED", 
+		"NO ANSWER", "Block need_to_block", "FF1 not_answer", "FF2 power_off", "FFF can_not_contact", "No have in telecom") ;
 
 
 select count(*)  from contact_numbers_to_lcc ;
