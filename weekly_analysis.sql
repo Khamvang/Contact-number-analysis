@@ -500,6 +500,7 @@ delete from temp_update_any ;
 select now(); -- datetime on this time
 
 
+
 -- __________________________________________________ 007 priority_type = 'lcc' __________________________________________________
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
@@ -520,16 +521,39 @@ select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id
 -- 8)update status in table contact_numbers_to_lcc 
 update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = date(now())
-where cntl.id in (select id from temp_update_any) and (cntl.status is null or cntl.remark_3 not in ('contracted'));
+-- select cntl.id, cntl.remark_3 , tua.remark_3, cntl.status , tua.status, cntl.date_updated from contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id)
+where cntl.id in (select id from temp_update_any ) and (cntl.status is null or cntl.remark_3 in ('prospect_sabc', 'pbx_cdr', 'lcc'))
+	and tua.status in ('X','S','A','B','C','F','G','SP will be salespartner') ;
 select now(); -- datetime on this time
+
+-- 8)update status in table contact_numbers_to_lcc 
+update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = date(now())
+-- select cntl.id, cntl.remark_3 , tua.remark_3, cntl.status , tua.status, cntl.date_updated from contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id)
+where cntl.id in (select id from temp_update_any ) and (cntl.status is null or (cntl.remark_3 = 'pbx_cdr' and cntl.status = 'NO ANSWER' ) or cntl.remark_3 = 'lcc' ) 
+	and tua.status in ('Block need_to_block','FF1 not_answer','FF2 power_off','FFF can_not_contact','No have in telecom') ;
+
+
 
 select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
 
 -- 8)update status in table contact_for_202305_lcc 
 update contact_for_202305_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
-where cntl.id in (select id from temp_update_any ) and (cntl.status_updated is null or cntl.status_updated = 'NO ANSWER');
+-- select cntl.remark_2 , tua.remark_3, cntl.status_updated , tua.status from contact_for_202305_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 in ('prospect_sabc', 'pbx_cdr', 'lcc')) 
+	and tua.status in ('X','S','A','B','C','F','G','SP will be salespartner') ;
 select now(); -- datetime on this time
+
+
+-- 8)update status in table contact_for_202305_lcc 
+update contact_for_202305_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
+; select cntl.remark_2 , tua.remark_3, cntl.status_updated , tua.status from contact_for_202305_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or (cntl.remark_2 = 'pbx_cdr' and cntl.status_updated = 'NO ANSWER') or (cntl.remark_2 = 'lcc') )
+	and tua.status in ('Block need_to_block','FF1 not_answer','FF2 power_off','FFF can_not_contact','No have in telecom') ;
+select now(); -- datetime on this time
+
 
 -- 9)delete data from temp_update_any
 delete from temp_update_any ;
@@ -559,7 +583,6 @@ alter table contact_numbers_to_lcc add `contact_id` int(11) not null;
 alter table contact_numbers_to_lcc add key `contact_id` (`contact_id`);
 
 update contact_numbers_to_lcc set contact_id = case when left(contact_no,4) = '9020' then right(contact_no,8) when left(contact_no,4) = '9030' then right(contact_no,7) end ;
-
 
 
 
