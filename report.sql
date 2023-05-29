@@ -496,10 +496,11 @@ group by branch_name ,  province_eng , `type` , category , category2 , `priority
 
 
 
--- ____________________________________ Export to report source monthly update 2023-05-27 ____________________________________ -- 
+-- ____________________________________ Export to report source monthly update 2023-05-29 ____________________________________ -- 
 select * , count(*) from 
 	(
-	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2, 
+	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , 
+		case when cntl.`type` = 'prospect' then cntl.status else fd.category2 end `category2`, 
 		case when cntl.`type` = 'prospect' then '2023-05-01' else fd.date_received end `date_received`, 
 		cntl.remark_1 `priority`, cntl.`condition`,
 		case when cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null then 'have_address' else 'no_address' end `address`,
