@@ -525,7 +525,8 @@ select * , count(*) from
 			when cntl.remark_3 = 'lcc' and cntl.status in ('FFF can_not_contact', 'No have in telecom') then 'FFF can_not_contact'
 			else cntl.remark_3 
 		end `result`,
-		case when cntl.remark_2 = 'contracted' then 'contracted'
+		case when cntl.remark_2 = 'contracted' and cntl.status_updated in ('Active', 'Refinance') then 'contracted'
+			when cntl.remark_2 = 'contracted' and cntl.status_updated in ('Closed') then 'prospect_f'
 			when cntl.remark_2 = 'ringi_not_contract' then 'ringi_not_contract'
 			when cntl.remark_2 = 'aseet_not_contract' then 'aseet_not_contract'
 			when cntl.remark_2 in ('prospect_sabc', 'lcc') and cntl.status_updated in ('S') then 'prospect_s'
