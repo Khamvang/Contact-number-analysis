@@ -603,6 +603,8 @@ select * , count(*) from
 		or (cntl.remark_3 = 'pbx_cdr' and cntl.status = 'ANSWERED') -- Ever Answered in the past
 		or (cntl.remark_3 = 'Telecom' and cntl.status in ('ETL_active', 'SMS_success') ) -- Ever sent SMS and success
 		or cntl.status is null -- new number
+		or cntl.contact_id in (select contact_id from temp_sms_chairman tean where status = 1 ) -- SMS check
+		or cntl.contact_id in (select contact_id from temp_etl_active_numbers tean2 ) -- ETL active
 	) t
 group by branch_name ,  province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`, `name_info`, `result` ;
 
