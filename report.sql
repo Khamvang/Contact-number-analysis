@@ -607,7 +607,14 @@ group by branch_name ,  province_eng , `type` , category , category2 , date_rece
 
 
 
-
+--  and check data
+select remark_2, status_updated, count(*) from contact_for_202305_lcc cntl  group by remark_2, status_updated 
+order by field(remark_2, "contracted", "ringi_not_contract", "aseet_not_contract",
+			"prospect_sabc", "pbx_cdr", "lcc") ,
+		FIELD(`status_updated` , "Active", "Closed", "Refinance", "Disbursement Approval", "Pending Disbursement", "Pending Approval", "Pending",
+		"Approved", "Pending Approval from Credit", "Asset Assessed", "Pending Assessment", "Draft", "Cancelled", "Deleted",
+		"X", "S", "A", "B", "C", "F", "G", "G1", "G2", "SP will be salespartner", "ANSWERED", 
+		"NO ANSWER", "Block need_to_block", "FF1 not_answer", "FF2 power_off", "FFF can_not_contact", "No have in telecom") ;
 
 
 
