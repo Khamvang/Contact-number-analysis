@@ -235,17 +235,51 @@ where CONCAT(LENGTH(cn.contact_no), left( cn.contact_no, 5)) in ('1190302','1190
 select `type` , count(*) from contact_numbers_to_lcc cntl where file_id >= 1068 group by `type` ;
 
 -- 15) check and remove duplicate Delete from all unique where id = id in table removed duplicate 
--- **** insert the old data to keep in table temp_merge_data for doing merge after 
+-- 15.1 **** insert the old data to keep in table temp_merge_data for doing merge after 
 delete from temp_merge_data ;
 
 insert into temp_merge_data 
-select * from contact_numbers_to_lcc 
-where id in (select id from removed_duplicate where `time` >= '2023-01-26');
+select * from contact_numbers_to_lcc where id in (select id from removed_duplicate where `time` >= '2023-01-26');
 
--- **** delete duplicate data from contact_numbers_to_lcc 
-select * from temp_merge_data;
-
+-- 15.2 **** delete duplicate data from contact_numbers_to_lcc 
 delete from contact_numbers_to_lcc where id in (select id from removed_duplicate where `time` >= '2023-01-26');
+
+-- 15.3 **** insert data to temp_update_any to do update status
+insert into temp_update_any 
+select cntl.id, cntl.contact_no, tmd.`remark_3`, tmd.status, 0 `pbxcdr_time`, cntl.`contact_id`
+from contact_numbers_to_lcc cntl inner join temp_merge_data tmd on (cntl.contact_id = tmd.contact_id)
+where cntl.contact_id in (select contact_id  from temp_merge_data ) and tmd.status is not null ;
+
+-- 15.4 **** update status in table contact_numbers_to_lcc 
+update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+set cntl.remark_3 = tua.remark_3, cntl.status = tua.status , cntl.date_updated = date(now())
+where cntl.id in (select id from temp_update_any );
+
+
+-- 15.5 **** insert into contact_for_updating from contact_numbers_to_lcc to do merge data
+delete from contact_for_updating;
+
+insert into contact_for_updating 
+select * from contact_numbers_to_lcc cntl where cntl.contact_id in (select contact_id from temp_merge_data where 1=1) ;
+
+-- 15.6 **** replace data to update, this will take around 10 minutes for 476,077 rows
+replace into contact_for_updating
+select cfu.`id`,cfu.`file_id`,cfu.`contact_no`,
+	case when tmd.name = '' or tmd.name is null then cfu.name else tmd.name end `name` ,
+	case when tmd.province_eng = '' or tmd.province_eng is null then cfu.province_eng else tmd.province_eng end `province_eng` ,
+	case when tmd.province_laos = '' or tmd.province_laos is null then cfu.province_laos else tmd.province_laos end `province_laos` ,
+	case when tmd.district_eng = '' or tmd.district_eng is null then cfu.district_eng else tmd.district_eng end `district_eng` ,
+	case when tmd.district_laos = '' or tmd.district_laos is null then cfu.district_laos else tmd.district_laos end `district_laos` ,
+	case when tmd.village = '' or tmd.village is null then cfu.village else tmd.village end `village` ,
+	cfu.`type`,
+	case when tmd.maker = '' or tmd.maker is null then cfu.maker else tmd.maker end `maker` ,
+	case when tmd.model = '' or tmd.model is null then cfu.model else tmd.model end `model` ,
+	case when tmd.`year` = '' or tmd.`year` is null then cfu.`year` else tmd.`year` end `year`, 
+	cfu.`remark_1`, cfu.`remark_2`, cfu.`remark_3`, cfu.`branch_name`, cfu.`status`,
+	cfu.`date_updated`, cfu.`pbxcdr_time`,cfu.`contact_id`
+from contact_for_updating cfu left join temp_merge_data tmd on (tmd.contact_id = cfu.contact_id); 
+
+
 
 -- 16) count to check 
 select cntl.file_no , cntl.`type`, count(*) from file_details fd left join contact_numbers_to_lcc cntl on (fd.id = cntl.file_id)
