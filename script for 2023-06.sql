@@ -200,6 +200,67 @@ insert into contact_for_202306_lcc select * from contact_for_lcc_prospectsabc ;
 
 
 
+# ______________________________________________________ export to create campaign on LCC for contact_for_202306_lcc ______________________________________________________________ #
+
+Branch: 'Attapue','Bokeo','Head Office','Houaphan','LuangNamtha','Luangprabang','Oudomxay','Paksan','Pakse','Salavan','Savannakhet','Thakek','Vientiane province','Xainyabuli','Xiengkhouang'
+Team: 'ATP Team', 'Bokeo', 'Team2', 'Team3', 'Team4', 'Houaphan Team', 'Luangnamtha', 'LPB Team', 'OUX Team', 'Paksan Team', 'Pakse Team', 'Salavan', 'SVK Team', 'Thakket Team', 'VTP Team', 'XYB Team', 'XKH Team'
+
+-- ____________________________________________________ Priority1 ____________________________________________________
+-- Campaign name: all_new_ATTAPUE_ATP Team_20230601_p1
+-- select count(*) -- 
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202306_lcc cntl 
+where branch_name = 'Attapue' 
+	 and cntl.remark_1 in ('1');
+
+
+-- ____________________________________________________ Priority2 ____________________________________________________
+-- Campaign name: 3_Old_ATTAPUE_ATP Team_20230601_p2
+-- select count(*) -- 
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202306_lcc cntl 
+where branch_name = 'Attapue' 
+	 and cntl.remark_1 in ('2');
+
+
+-- ____________________________________________________ Priority3 ____________________________________________________
+-- Campaign name: 2_Old_ATTAPUE_ATP Team_20230601_p3
+-- select count(*) -- 
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202306_lcc cntl 
+where branch_name = 'Attapue' 
+	 and cntl.remark_1 in ('3');
+
+
+-- ____________________________________________________ Priority4 ____________________________________________________
+-- Campaign name: 1_Old_ATTAPUE_ATP Team_20230601_p4
+-- select count(*) -- 
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202306_lcc cntl 
+where branch_name = 'Attapue' 
+	 and cntl.remark_1 in ('4');
+
+
+-- ____________________________________________________ Priority5 ____________________________________________________
+-- Campaign name: p_Old_ATTAPUE_ATP Team_20230601_p5
+-- select count(*) -- 
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202306_lcc cntl 
+where branch_name = 'Attapue' 
+	 and cntl.remark_1 in ('5');
+
+
+-- ____________________________________________________ Priority6 ____________________________________________________
+-- Campaign name: 4_Old_ATTAPUE_ATP Team_20230601_p6
+-- select count(*) -- 
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202306_lcc cntl 
+where branch_name = 'Attapue' 
+	 and cntl.remark_1 in ('6');
+
+
+
+
 
 
 
