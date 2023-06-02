@@ -73,14 +73,14 @@ where (cntl.remark_3 in ('contracted', 'ringi_not_contract', 'aseet_not_contract
 
 
 -- 3) delete the status contracted, inactive number from table monthly
-select count(*)  from contact_for_202306_lcc cntl 
--- delete from contact_for_202306_lcc cntl
-where cntl.remark_3 = 'contracted' -- contracted
-	or (cntl.remark_3 in ('prospect_sabc', 'lcc') and cntl.status in ('X') ) -- contracted
-	or (cntl.remark_3 = 'lcc' and cntl.status = 'Block need_to_block') -- Block need_to_block
-	or (cntl.remark_3 = 'lcc' and cntl.status in ('FFF can_not_contact', 'No have in telecom')) -- FFF can_not_contact
-	or (cntl.remark_3 = 'Telecom' and cntl.status in ('ETL_inactive','SMS_Failed')) -- Telecom_inactive
-	or cntl.remark_3 = 'blacklist' -- blacklist
+select count(*)  from contact_for_202306_lcc 
+; delete from contact_for_202306_lcc
+where remark_3 = 'contracted' -- contracted
+	or (remark_3 in ('prospect_sabc', 'lcc') and status in ('X') ) -- contracted
+	or (remark_3 = 'lcc' and status = 'Block need_to_block') -- Block need_to_block
+	or (remark_3 = 'lcc' and status in ('FFF can_not_contact', 'No have in telecom')) -- FFF can_not_contact
+	or (remark_3 = 'Telecom' and status in ('ETL_inactive','SMS_Failed')) -- Telecom_inactive
+	or remark_3 = 'blacklist' -- blacklist
 
 
 
