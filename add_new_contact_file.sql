@@ -157,8 +157,8 @@ where CONCAT(LENGTH(contact_no), left( contact_no, 5)) not in ('1190302','119030
 
 -- 11) import data to all_unique_contact_numbers
 insert into all_unique_contact_numbers 
-(`id`,`file_id`,`contact_no`,`type`)
-select `id`,`file_id`,`contact_no`,`type`
+(`id`,`file_id`,`contact_id`,`type`)
+select `id`,`file_id`,case when left(contact_no,4) = '9020' then right(contact_no,8) when left(contact_no,4) = '9030' then right(contact_no,7) end `contact_id`, `type`
 from contact_numbers 
 where CONCAT(LENGTH(contact_no), left( contact_no, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290208','1290209')
 	and file_id >= 1068; -- done <= 1068
@@ -174,7 +174,7 @@ select file_id , `type`, count(*)  from all_unique_contact_numbers aucn where fi
 -- order by FIELD(`type` , "Have Car","Need loan","Have address","Telecom"), id === order priorities by type and id
 insert into removed_duplicate
 select id, row_numbers, now() `time` from ( 
-		select id, row_number() over (partition by contact_no order by FIELD(`type` , "①Have Car","②Need loan","③Have address","④Telecom"), id) as row_numbers  
+		select id, row_number() over (partition by contact_id order by FIELD(`type` , "①Have Car","②Need loan","③Have address","④Telecom"), id) as row_numbers  
 		from all_unique_contact_numbers 
 		-- where file_id <= 1068
 		) as t1
