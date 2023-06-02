@@ -38,7 +38,7 @@ create table `contact_for_202306_lcc` (
 -- 2) intert data from contact_numbers_to_lcc to table monthly
 insert into contact_for_202306_lcc
  select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
-	case when cntl.status = '' then '1'
+	case when cntl.status = '' or cntl.status is null then '1'
 		when cntl.`type` = '①Have Car' then '2'
 		when cntl.`type` = '②Need loan' then '3'
 		when cntl.`type` = '③Have address' then '4'
