@@ -84,6 +84,120 @@ where remark_3 = 'contracted' -- contracted
 
 
 
+-- Export from lalcodb to contact_for_202306_lcc for priority 5
+select * , case when left(contact_no, 4) = '9020' then right(contact_no, 8) when left(contact_no, 4) = '9030' then right(contact_no, 7) end "contact_id",
+	case when status in ('S','A','B') then '5' when status = 'C' and (maker !='' or model != '') then 6 else 6 end "condition",
+	'1' "group"
+from (
+	select
+		null "id",
+		case
+			when left(right (translate (tel, translate(tel, '0123456789', ''), ''), 8), 1)= '0' then CONCAT('903', right (translate (tel, translate(tel, '0123456789', ''), ''), 8))
+			when LENGTH( translate (tel, translate(tel, '0123456789', ''), '')) = 7 then CONCAT('9030', right (translate (tel, translate(tel, '0123456789', ''), ''), 8))
+			else CONCAT('9020', right (translate (tel, translate(tel, '0123456789', ''), ''), 8))
+		end "contact_no",
+		translate (concat(firstname, ' ', lastname), '.,:,', '') "name",
+		case
+			when province = 'Attapeu' then 'ATTAPUE'
+			when province = 'Bokeo' then 'BORKEO'
+			when province = 'Bolikhamxai' then 'BORLIKHAMXAY'
+			when province = 'Champasak' then 'CHAMPASACK'
+			when province = 'Houaphan' then 'HUAPHAN'
+			when province = 'Khammouan' then 'KHAMMOUAN'
+			when province = 'Louang Namtha' then 'LUANGNAMTHA'
+			when province = 'Louangphrabang' then 'LUANG PRABANG'
+			when province = 'Oudomxai' then 'OUDOMXAY'
+			when province = 'Phongsali' then 'PHONGSALY'
+			when province = 'Saravan' then 'SALAVANH'
+			when province = 'Savannakhet' then 'SAVANNAKHET'
+			when province = 'Vientiane Cap' then 'VIENTIANE CAPITAL'
+			when province = 'Vientiane province' then 'VIENTIANE PROVINCE'
+			when province = 'Xaignabouri' then 'XAYABOULY'
+			when province = 'Xaisomboun' then 'XAYSOMBOUN'
+			when province = 'Xekong' then 'XEKONG'
+			when province = 'Xiangkhoang' then 'XIENGKHUANG'
+			else null
+		end "province_eng",
+		null "province_laos",
+		translate (district, '.,:,', '') "district_eng",
+		null "district_laos",
+		translate (c.addr , '.,:,`', '') "village",
+		'prospect' "type",
+		translate (maker, '.,:,`', '') "maker",
+		translate (model, '.,:,`', '') "model",
+		"year",
+		null "remark_1",
+		null "remark_2",
+		'prospect_sabc' "remark_3",
+		null "branch_name",
+		rank1 "status",
+		null "staff_id",
+		tua.new_village_id "pvd_id"
+	from custtbl c left join temp_update_address tua on (c.id = tua.id)
+	where c.rank1 in ('S','A','B') or (c.rank1 = 'C' and (c.maker !='' or c.model != '') )
+	order by inputdate desc ) t
+where CONCAT(LENGTH("contact_no"), left( "contact_no", 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290209');
+
+
+
+-- check and delete douplicate number 
+
+-- 6)delete duplicate and check data
+delete from removed_duplicate_2;
+select count(*) from contact_for_lcc_prospectsabc; -- 38584 >> 
+insert into removed_duplicate_2 
+select id, row_numbers, now() `time` from ( 
+		select id , row_number() over (partition by contact_no order by field(`type`, "contracted", "ringi_not_contract", "aseet_not_contract",
+			"prospect_sabc", "pbx_cdr", "lcc") ,
+		FIELD(`status` , "Active", "Closed", "Refinance", "Disbursement Approval", "Pending Disbursement", "Pending Approval", "Pending",
+		"Approved", "Pending Approval from Credit", "Asset Assessed", "Pending Assessment", "Draft", "Cancelled", "Deleted",
+		"X", "S", "A", "B", "C", "F", "G", "G1", "G2", "ANSWERED", "NO ANSWER", "Block need_to_block", "FF1 not_answer", "FF2 power_off", "FFF can_not_contact")) as row_numbers  
+		from contact_for_lcc_prospectsabc  
+		) as t1
+	where row_numbers > 1;
+
+delete from contact_for_lcc_prospectsabc where id in (select id from removed_duplicate_2 );
+
+
+select * from contact_for_lcc_prospectsabc where contact_id in (select contact_id from contact_for_202306_lcc);
+
+delete from contact_for_lcc_prospectsabc where contact_id in (select contact_id from contact_for_202306_lcc);
+
+update contact_for_lcc_prospectsabc set remark_1 = 5;
+
+-- ________________________________________________ update branch name ________________________________________________
+-- update contact_numbers_to_lcc aucn
+update contact_for_lcc_prospectsabc aucn
+set branch_name = 
+	case when aucn.province_eng = 'ATTAPUE' then 'Attapue'
+		when aucn.province_eng = 'BORKEO' then 'Bokeo'
+		when aucn.province_eng = 'BORLIKHAMXAY' then 'Paksan'
+		when aucn.province_eng = 'CHAMPASACK' then 'Pakse'
+		when aucn.province_eng = 'HUAPHAN' then 'Houaphan'
+		when aucn.province_eng = 'KHAMMOUAN' then 'Thakek'
+		when aucn.province_eng = 'LUANG PRABANG' then 'Luangprabang'
+		when aucn.province_eng = 'LUANGNAMTHA' then 'Luangnamtha'
+		when aucn.province_eng = 'OUDOMXAY' then 'Oudomxay'
+		when aucn.province_eng = 'PHONGSALY' then 'Oudomxay'
+		when aucn.province_eng = 'SALAVANH' then 'Salavan'
+		when aucn.province_eng = 'SAVANNAKHET' then 'Savannakhet'
+		when aucn.province_eng = 'VIENTIANE CAPITAL' then 'Head office'
+		when aucn.province_eng = 'VIENTIANE PROVINCE' then 'Vientiane province'
+		when aucn.province_eng = 'XAYABOULY' then 'Xainyabuli'
+		when aucn.province_eng = 'XAYSOMBOUN' then 'Xiengkhouang'
+		when aucn.province_eng = 'XEKONG' then 'Attapue'
+		when aucn.province_eng = 'XIENGKHUANG' then 'Xiengkhouang'
+		else null 
+	end
+where aucn.province_eng is not null;
+
+select branch_name , count(*)  from contact_for_lcc_prospectsabc group by branch_name 
+
+update contact_for_lcc_prospectsabc set branch_name = 'Bokeo' where branch_name is null;
+
+insert into contact_for_202306_lcc select * from contact_for_lcc_prospectsabc ;
+
+
 
 
 
