@@ -260,7 +260,16 @@ where branch_name = 'Attapue'
 
 
 
-
+-- ____________________________________________________ Priority6 ____________________________________________________
+-- Campaign name: 4_Old_Head Office_Team2_20230601_p6
+-- select count(*) -- 1125547
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202306_lcc cntl 
+where branch_name = 'Head Office' 
+	 and cntl.remark_1 in ('6')
+	-- limit 0*75100 , 75100 -- row number n (n-1), rows n
+	-- limit 1*75100, 75100
+	 -- limit 2*75100, 75100
 
 
 
