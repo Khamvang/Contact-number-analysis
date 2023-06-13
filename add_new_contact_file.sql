@@ -511,3 +511,27 @@ C:\Users\Advice>mysql -u root -p -h localhost --port 3306 contact_data_db < D:\"
 Enter password:
 
 
+
+
+-- Yotha list, Yoshi-san request to calculate second method
+-- D:\OneDrive - Lao Asean Leasing Co. Ltd\Yothalist\ລິສໂຍທາ ປີ2021+2022+2023 ຈາກອ້າຍຈັນ\Yotha list calculate to pay.xlsx
+
+select * from valid_contact_numbers vcn where file_id between 1185 and 1206 -- 106,908
+
+select * from valid_contact_numbers vcn where file_id in (1171, 1184) -- 40,363
+
+select id, file_id, contact_no, remark_3 , status from contact_numbers_to_lcc cntl where cntl.remark_3 = 'contracted' or (cntl.remark_3 in ('prospect_sabc', 'lcc') and cntl.status in ('X')); -- 51,436
+
+
+
+
+
+
+
+
+
+
+
+
+
+
