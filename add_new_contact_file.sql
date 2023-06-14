@@ -552,6 +552,9 @@ CREATE TABLE `business_register` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
+alter table business_register add date_created timestamp not null default current_timestamp;
+
+
 -- 2) insert data from csv to database
 
 -- 3) check and update 
