@@ -525,6 +525,7 @@ select id, file_id, contact_no, remark_3 , status from contact_numbers_to_lcc cn
 
 
 -- __________________________________________________________________ MOIC list __________________________________________________________________
+-- Location D:\OneDrive - Lao Asean Leasing Co. Ltd\Yothalist\MOIC ລີສການຄ້າ
 -- 1) create table
 CREATE TABLE `business_register` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
