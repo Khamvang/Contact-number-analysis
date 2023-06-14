@@ -512,7 +512,7 @@ Enter password:
 
 
 
-
+-- __________________________________________________________________ Yotha list __________________________________________________________________
 -- Yotha list, Yoshi-san request to calculate second method
 -- D:\OneDrive - Lao Asean Leasing Co. Ltd\Yothalist\ລິສໂຍທາ ປີ2021+2022+2023 ຈາກອ້າຍຈັນ\Yotha list calculate to pay.xlsx
 
@@ -524,9 +524,44 @@ select id, file_id, contact_no, remark_3 , status from contact_numbers_to_lcc cn
 
 
 
+-- __________________________________________________________________ MOIC list __________________________________________________________________
+-- 1) create table
+CREATE TABLE `business_register` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `company_no` varchar(255) DEFAULT NULL,
+  `vat_no` varchar(255) DEFAULT NULL,
+  `register_type` varchar(255) DEFAULT NULL,
+  `fee_amount_LAK` varchar(255) DEFAULT NULL,
+  `fee_amount_USD` varchar(255) DEFAULT NULL,
+  `register_no` varchar(255) DEFAULT NULL,
+  `date_issue` varchar(255) DEFAULT NULL,
+  `company_name` varchar(255) DEFAULT NULL,
+  `owner_name` varchar(1000) DEFAULT NULL,
+  `contact_no` varchar(255) DEFAULT NULL,
+  `provice_id` varchar(255) DEFAULT NULL,
+  `province` varchar(255) DEFAULT NULL,
+  `district` varchar(255) DEFAULT NULL,
+  `village` varchar(255) DEFAULT NULL,
+  `tel_original` varchar(255) DEFAULT NULL,
+  `ISIC_1` varchar(255) DEFAULT NULL,
+  `activities_in_progress` varchar(1000) DEFAULT NULL,
+  `activitives_no` varchar(255) DEFAULT NULL,
+  `rank` varchar(255) DEFAULT NULL,
+  `business_type_lao` varchar(255) DEFAULT NULL,
+  `business_type_en` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
+-- 2) insert data from csv to database
 
+-- 3) check and update 
+select id,company_no , vat_no  ,replace(company_no, '/', ''), replace(vat_no, '/', '') from business_register br where id >= 145535
 
+update business_register set company_no = replace(company_no, '/', ''), vat_no = replace(vat_no, '/', '');
+
+update business_register set vat_no = case when vat_no = company_no or vat_no = '' then null else vat_no end;
+
+update business_register set company_no = replace(company_no, ' ', ''), vat_no = replace(vat_no, ' ', '') ;
 
 
 
