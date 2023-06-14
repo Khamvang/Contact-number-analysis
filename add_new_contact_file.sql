@@ -567,6 +567,59 @@ update business_register set vat_no = case when vat_no = company_no or vat_no = 
 update business_register set company_no = replace(company_no, ' ', ''), vat_no = replace(vat_no, ' ', '') ;
 
 
+CREATE TABLE `business_register_update` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `company_no` varchar(255) DEFAULT NULL,
+  `vat_no` varchar(255) DEFAULT NULL,
+  `provice_id` varchar(255) DEFAULT NULL,
+  `province` varchar(255) DEFAULT NULL,
+  `district` varchar(255) DEFAULT NULL,
+  `village` varchar(255) DEFAULT NULL,
+  `tel_original` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=310821 DEFAULT CHARSET=utf8mb4;
+
+-- update
+update business_register t inner join business_register_update tu on (t.id = tu.id)
+set t.vat_no = tu.vat_no , t.province = tu.province , t.district = tu.district, t.village = tu.village , t.tel_original = tu.tel_original 
+where t.id in (select id from business_register_update);
+
+-- update contact_no
+update business_register set contact_no = 
+	case when tel_original = '' then ''
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '021')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '21' )
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 6)
+		then concat('9021',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 021
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 11 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '020')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 10 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '20')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),1) in ('2','5','7','8','9'))
+		then concat('9020',right(regexp_replace(tel_original , '[^[:digit:]]', ''),8)) -- for 020
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 10 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '030')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '30')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 7 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),1) in ('2','4','5','7','9'))
+		then concat('9030',right(regexp_replace(tel_original , '[^[:digit:]]', ''),7)) -- for 030
+		when left (right (regexp_replace(tel_original , '[^[:digit:]]', ''),8),1) in ('0','1','') then concat('9030',right(regexp_replace(tel_original , '[^[:digit:]]', ''),7))
+		when left (right (regexp_replace(tel_original , '[^[:digit:]]', ''),8),1) in ('2','5','7','8','9')
+		then concat('9020',right(regexp_replace(tel_original , '[^[:digit:]]', ''),8))
+		else concat('9020',right(regexp_replace(tel_original , '[^[:digit:]]', ''),8))
+	end
+where id >= 145541
+
+
+-- add and set col for valid number
+alter table business_register add valid_number int(11) null comment '1=valid, 0=invalid';
+
+update business_register set valid_number = 
+case when CONCAT(LENGTH(contact_no), left( contact_no, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290208','1290209') then 1 else 0 end
+
+
+
+
+
+
+
+
 
 
 
