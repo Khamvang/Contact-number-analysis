@@ -554,7 +554,7 @@ CREATE TABLE `business_register` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
 alter table business_register add date_created timestamp not null default current_timestamp;
-
+alter table business_register add file_id int(11) default null;
 
 -- 2) insert data from csv to database
 
@@ -614,8 +614,97 @@ alter table business_register add valid_number int(11) null comment '1=valid, 0=
 update business_register set valid_number = 
 case when CONCAT(LENGTH(contact_no), left( contact_no, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290208','1290209') then 1 else 0 end
 
+-- select and insert to database contact_data_db
+alter table business_register add file_id int(11) default null;
+
+update business_register set file_id = 
+	case when id <= 155939 then '1212'
+		when id <= 158392 then '1213'
+		when id <= 162143 then '1214' 
+		when id <= 164460 then '1220'
+		when id <= 169021 then '1221'
+		when id <= 172803 then '1222'
+		when id <= 186389 then '1223'
+		when id <= 217667 then '1224'
+		when id <= 229305 then '1226'
+		when id <= 230383 then '1227'
+		when id <= 235254 then '1228'
+		when id <= 244153 then '1229'
+		when id <= 251711 then '1230'
+		when id <= 255351 then '1231'
+		when id <= 264558 then '1232'
+		when id <= 269935 then '1236'
+		when id <= 279727 then '1237'
+		when id <= 284026 then '1238'
+		when id <= 285810 then '1234'
+		when id <= 291638 then '1239'
+		when id <= 303453 then '1240'
+		when id <= 308563 then '1241'
+		when id <= 310820 then '1242'
+	end
+where id >= 145541;
+
+select file_id , count(*)  from business_register br group by file_id ;
 
 
+select file_id, contact_no ,
+left(owner_name, locate(',', owner_name, 1)-1) 'name',
+case when province  = 'ບໍ່ແກ້ວ' then 'BORKEO'
+		when province  = 'ບໍລິຄຳໄຊ' then 'BORLIKHAMXAY'
+		when province  = 'ຈຳປາສັກ' then 'CHAMPASACK'
+		when province  = 'ຫົວພັນ' then 'HUAPHAN'
+		when province  = 'ຄຳມ່ວນ' then 'KHAMMOUAN'
+		when province  = 'ຜົ້ງສາລີ' then 'PHONGSALY'
+		when province  = 'ສາລະວັນ' then 'SALAVANH'
+		when province  = 'ສະຫວັນນະເຂດ' then 'SAVANNAKHET'
+		when province  = 'ນະຄອນຫຼວງວຽງຈັນ' then 'VIENTIANE CAPITAL'
+		when province  = 'ວຽງຈັນ' then 'VIENTIANE PROVINCE'
+		when province  = 'ຊຽງຂວາງ' then 'XIENGKHUANG'
+		when province  = 'ໄຊສົມບູນ' then 'XAYSOMBOUN'
+		when province  = 'ຫຼວງນ້ຳທາ' then 'LUANGNAMTHA'
+		when province  = 'ຫຼວງພະບາງ' then 'LUANG PRABANG'
+		when province  = 'ອັດຕະປື' then 'ATTAPUE'
+		when province  = 'ອຸດົມໄຊ' then 'OUDOMXAY'
+		when province  = 'ເຊກອງ' then 'XEKONG'
+		when province  = 'ໄຊຍະບູລີ' then 'XAYABOULY'
+		when province  is null then null 
+		else null 
+	end `province_eng` ,
+province 'province_laos',
+null 'district_eng',
+district 'district_laos',
+village 'village',
+"③Have address" 'type',
+null 'maker',
+null 'model',
+null 'year',
+case when id <= 155939 then '1403'
+		when id <= 158392 then '1404'
+		when id <= 162143 then '1405' 
+		when id <= 164460 then '1411'
+		when id <= 169021 then '1412'
+		when id <= 172803 then '1413'
+		when id <= 186389 then '1414'
+		when id <= 217667 then '1415'
+		when id <= 229305 then '1417'
+		when id <= 230383 then '1418'
+		when id <= 235254 then '1419'
+		when id <= 244153 then '1420'
+		when id <= 251711 then '1421'
+		when id <= 255351 then '1422'
+		when id <= 264558 then '1423'
+		when id <= 269935 then '1427'
+		when id <= 279727 then '1428'
+		when id <= 284026 then '1429'
+		when id <= 285810 then '1425'
+		when id <= 291638 then '1430'
+		when id <= 303453 then '1431'
+		when id <= 308563 then '1432'
+		when id <= 310820 then '1433'
+	end 'remark_1',
+null 'remark_2',
+null 'remark_3'
+from business_register where file_id = 1403;
 
 
 
