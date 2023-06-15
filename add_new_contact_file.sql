@@ -626,6 +626,7 @@ update business_register set file_id =
 		when id <= 172803 then '1222'
 		when id <= 186389 then '1223'
 		when id <= 217667 then '1224'
+		when id <= 227285 then '1225'
 		when id <= 229305 then '1226'
 		when id <= 230383 then '1227'
 		when id <= 235254 then '1228'
