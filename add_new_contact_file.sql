@@ -280,6 +280,10 @@ select cfu.`id`,cfu.`file_id`,cfu.`contact_no`,
 from contact_for_updating cfu left join temp_merge_data tmd on (tmd.contact_id = cfu.contact_id); 
 
 
+-- 15.7 select data from contact_for_updating then export to contact_numbers_to_lcc as relace into
+select * from contact_for_updating cfu 
+
+
 
 -- 16) count to check 
 select cntl.file_no , cntl.`type`, count(*) from file_details fd left join contact_numbers_to_lcc cntl on (fd.id = cntl.file_id)
