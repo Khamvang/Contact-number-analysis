@@ -286,9 +286,9 @@ select * from contact_for_updating cfu
 
 
 -- 16) count to check 
-select cntl.file_no , cntl.`type`, count(*) from file_details fd left join contact_numbers_to_lcc cntl on (fd.id = cntl.file_id)
+select cntl.file_id , cntl.`type`, count(*) from file_details fd left join contact_numbers_to_lcc cntl on (fd.id = cntl.file_id)
 where fd.id >= 1068
-group by cntl.file_no, cntl.`type` ;
+group by cntl.file_id, cntl.`type` ;
 
 -- 17) import data to payment table
 insert into payment 
