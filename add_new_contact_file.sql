@@ -109,11 +109,49 @@ select * , regexp_replace(contact_no , '[^[:digit:]]', '') ,	length (regexp_repl
 from contact_numbers cn 
 where file_id >= 1068; -- done <= 1068
 
+-- update contact_no
 update contact_numbers set contact_no = 
-	case when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '021')
+	case when contact_no = '' then ''
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '021')
 			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '21' )
-			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 6)
-		then concat('9021',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 021
+			-- or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 6)
+		then concat('9021',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 021 -- VIENTIANE CAPITAL
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '023')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '23' )
+		then concat('9023',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 023 -- VIENTIANE PROVINCE
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '031')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '31' )
+		then concat('9031',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 031 -- CHAMPASACK
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '034')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '34' )
+		then concat('9034',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 034 -- SALAVANH
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '036')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '36' )
+		then concat('9036',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 036 -- ATTAPUE
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '041')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '41' )
+		then concat('9041',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 041 -- SAVANNAKHET
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '051')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '51' )
+		then concat('9051',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 051 -- KHAMMOUAN
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '054')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '54' )
+		then concat('9054',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 054 -- BORLIKHAMXAY
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '061')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '61' )
+		then concat('9061',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 061 -- XIENGKHUANG
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '064')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '64' )
+		then concat('9064',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 064 -- HUAPHAN
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '074')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '74' )
+		then concat('9074',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 074 -- XAYABOULY
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '081')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '81' )
+		then concat('9081',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 081 -- OUDOMXAY
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '086')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '86' )
+		then concat('9086',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 086 -- LUANGNAMTHA
 		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 11 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '020')
 			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 10 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '20')
 			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),1) in ('2','5','7','8','9'))
@@ -594,8 +632,44 @@ update business_register set contact_no =
 	case when tel_original = '' then ''
 		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '021')
 			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '21' )
-			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 6)
-		then concat('9021',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 021
+			-- or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 6)
+		then concat('9021',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 021 -- VIENTIANE CAPITAL
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '023')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '23' )
+		then concat('9023',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 023 -- VIENTIANE PROVINCE
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '031')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '31' )
+		then concat('9031',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 031 -- CHAMPASACK
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '034')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '34' )
+		then concat('9034',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 034 -- SALAVANH
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '036')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '36' )
+		then concat('9036',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 036 -- ATTAPUE
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '041')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '41' )
+		then concat('9041',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 041 -- SAVANNAKHET
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '051')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '51' )
+		then concat('9051',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 051 -- KHAMMOUAN
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '054')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '54' )
+		then concat('9054',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 054 -- BORLIKHAMXAY
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '061')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '61' )
+		then concat('9061',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 061 -- XIENGKHUANG
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '064')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '64' )
+		then concat('9064',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 064 -- HUAPHAN
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '074')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '74' )
+		then concat('9074',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 074 -- XAYABOULY
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '081')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '81' )
+		then concat('9081',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 081 -- OUDOMXAY
+		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 9 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '086')
+			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '86' )
+		then concat('9086',right(regexp_replace(tel_original , '[^[:digit:]]', ''),6)) -- for 086 -- LUANGNAMTHA
 		when (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 11 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),3) = '020')
 			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 10 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),2) = '20')
 			or (length (regexp_replace(tel_original , '[^[:digit:]]', '')) = 8 and left (regexp_replace(tel_original , '[^[:digit:]]', ''),1) in ('2','5','7','8','9'))
