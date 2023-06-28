@@ -194,10 +194,9 @@ where aucn.province_eng is not null;
 select branch_name , count(*)  from contact_for_lcc_prospectsabc group by branch_name 
 
 update contact_for_lcc_prospectsabc set branch_name = 'Bokeo' where branch_name is null;
-
 insert into contact_for_202306_lcc select * from contact_for_lcc_prospectsabc ;
 
-
+update contact_for_202306_lcc set branch_name = 'Bokeo' where branch_name is null;
 
 
 # ______________________________________________________ export to create campaign on LCC for contact_for_202306_lcc ______________________________________________________________ #
