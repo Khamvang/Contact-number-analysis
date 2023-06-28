@@ -496,7 +496,7 @@ group by branch_name ,  province_eng , `type` , category , category2 , `priority
 
 
 
--- ____________________________________ Export to report source monthly update 2023-06-02 ____________________________________ -- 
+-- ____________________________________ Export to report source monthly update 2023-06-28 ____________________________________ -- 
 select * , count(*) from 
 	(
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , 
@@ -536,7 +536,8 @@ select * , count(*) from
 			when cntl.remark_2 in ('prospect_sabc', 'lcc') and cntl.status_updated in ('C') then 'prospect_c'
 			when cntl.remark_2 in ('prospect_sabc', 'lcc') and cntl.status_updated in ('F') then 'prospect_f'
 			when cntl.remark_2 in ('prospect_sabc', 'lcc') and cntl.status_updated in ('G','G1','G2') then 'prospect_g'
-			when cntl.remark_2 in ('prospect_sabc', 'lcc') and cntl.status_updated in ('X') then 'contracted'
+			when cntl.remark_2 in ('prospect_sabc') and cntl.status_updated in ('X') then 'contracted'
+			when cntl.remark_2 in ('lcc') and cntl.status_updated in ('X') then 'prospect_f' -- because there're wrong
 			when cntl.remark_2 = 'pbx_cdr' and cntl.status_updated = 'ANSWERED' then 'ANSWERED'
 			when cntl.remark_2 = 'pbx_cdr' and cntl.status_updated = 'NO ANSWER' then 'NO ANSWER'
 			when cntl.remark_2 = 'Telecom' and cntl.status_updated = 'ETL_active' then 'Telecom_active'
@@ -552,6 +553,7 @@ select * , count(*) from
 	from contact_for_202306_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 	) t
 group by branch_name ,  province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`,`name_info` , `result`, `new_result` ;
+
 
 
 
