@@ -583,9 +583,10 @@ select * , count(*) from
 			when cntl.remark_3 = 'ringi_not_contract' then 'ringi_not_contract'
 			when cntl.remark_3 = 'aseet_not_contract' then 'aseet_not_contract'
 			when cntl.remark_3 in ('prospect_sabc', 'lcc') and cntl.status in ('S','A','B','C') then 'prospect_sabc'
-			when cntl.remark_3 in ('prospect_sabc', 'lcc') and cntl.status in ('F') then 'prospect_f'
+			when cntl.remark_3 in ('prospect_sabc', 'lcc') and cntl.status in ('F','SP will be salespartner') then 'prospect_f'
 			when cntl.remark_3 in ('prospect_sabc', 'lcc') and cntl.status in ('G','G1','G2') then 'prospect_g'
-			when cntl.remark_3 in ('prospect_sabc', 'lcc') and cntl.status in ('X') then 'contracted'
+			when cntl.remark_3 in ('prospect_sabc') and cntl.status in ('X') then 'contracted'
+			when cntl.remark_3 in ('lcc') and cntl.status in ('X') then 'prospect_f' -- because there're wrong
 			when cntl.remark_3 = 'pbx_cdr' and cntl.status = 'ANSWERED' then 'ANSWERED'
 			when cntl.remark_3 = 'pbx_cdr' and cntl.status = 'NO ANSWER' then 'NO ANSWER'
 			when cntl.remark_3 = 'Telecom' and cntl.status = 'ETL_active' then 'Telecom_active'
@@ -598,7 +599,7 @@ select * , count(*) from
 			when cntl.remark_3 = 'lcc' and cntl.status in ('FFF can_not_contact', 'No have in telecom') then 'FFF can_not_contact'
 			else cntl.remark_3 
 		end `result`
-	from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+	from contact_numbers_to_lcc cntl inner join file_details fd on (fd.id = cntl.file_id)
 	where cntl.contact_id in (select contact_id from contact_for_202303_lcc ) -- valid numbers in Mar 2023
 		or (cntl.remark_3 in ('contracted', 'ringi_not_contract', 'aseet_not_contract') ) -- already register on LMS
 		or (cntl.remark_3 in ('prospect_sabc', 'lcc') and cntl.status in ('X','S','A','B','C', 'FF1 not_answer', 'FF2 power_off') ) -- already register on CRM and LCC
@@ -608,7 +609,7 @@ select * , count(*) from
 		or cntl.contact_id in (select contact_id from temp_sms_chairman tean where status = 1 ) -- SMS check
 		or cntl.contact_id in (select contact_id from temp_etl_active_numbers tean2 ) -- ETL active
 	) t
-group by branch_name ,  province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`, `name_info`, `result` ;
+group by branch_name , province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`, `name_info`, `result` ;
 
 
 
