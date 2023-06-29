@@ -1,29 +1,29 @@
 
 
 -- Update branch before export 
-update contact_numbers_to_lcc aucn
-set branch_name = 
-	case when aucn.province_eng = 'ATTAPUE' then 'Attapue'
-		when aucn.province_eng = 'BORKEO' then 'Bokeo'
-		when aucn.province_eng = 'BORLIKHAMXAY' then 'Paksan'
-		when aucn.province_eng = 'CHAMPASACK' then 'Pakse'
-		when aucn.province_eng = 'HUAPHAN' then 'Houaphan'
-		when aucn.province_eng = 'KHAMMOUAN' then 'Thakek'
-		when aucn.province_eng = 'LUANG PRABANG' then 'Luangprabang'
-		when aucn.province_eng = 'LUANGNAMTHA' then 'Luangnamtha'
-		when aucn.province_eng = 'OUDOMXAY' then 'Oudomxay'
-		when aucn.province_eng = 'PHONGSALY' then 'Oudomxay'
-		when aucn.province_eng = 'SALAVANH' then 'Salavan'
-		when aucn.province_eng = 'SAVANNAKHET' then 'Savannakhet'
-		when aucn.province_eng = 'VIENTIANE CAPITAL' then 'Head office'
-		when aucn.province_eng = 'VIENTIANE PROVINCE' then 'Vientiane province'
-		when aucn.province_eng = 'XAYABOULY' then 'Xainyabuli'
-		when aucn.province_eng = 'XAYSOMBOUN' then 'Xiengkhouang'
-		when aucn.province_eng = 'XEKONG' then 'Attapue'
-		when aucn.province_eng = 'XIENGKHUANG' then 'Xiengkhouang'
-		else null 
+update contact_numbers_to_lcc cntl inner join file_details fd on (fd.id = cntl.file_id)
+set cntl.branch_name = 
+	case when cntl.province_eng = 'ATTAPUE' then 'Attapue'
+		when cntl.province_eng = 'BORKEO' then 'Bokeo'
+		when cntl.province_eng = 'BORLIKHAMXAY' then 'Paksan'
+		when cntl.province_eng = 'CHAMPASACK' then 'Pakse'
+		when cntl.province_eng = 'HUAPHAN' then 'Houaphan'
+		when cntl.province_eng = 'KHAMMOUAN' then 'Thakek'
+		when cntl.province_eng = 'LUANG PRABANG' then 'Luangprabang'
+		when cntl.province_eng = 'LUANGNAMTHA' then 'Luangnamtha'
+		when cntl.province_eng = 'OUDOMXAY' then 'Oudomxay'
+		when cntl.province_eng = 'PHONGSALY' then 'Oudomxay'
+		when cntl.province_eng = 'SALAVANH' then 'Salavan'
+		when cntl.province_eng = 'SAVANNAKHET' then 'Savannakhet'
+		when cntl.province_eng = 'VIENTIANE CAPITAL' then 'Head office'
+		when cntl.province_eng = 'VIENTIANE PROVINCE' then 'Vientiane province'
+		when cntl.province_eng = 'XAYABOULY' then 'Xainyabuli'
+		when cntl.province_eng = 'XAYSOMBOUN' then 'Xiengkhouang'
+		when cntl.province_eng = 'XEKONG' then 'Attapue'
+		when cntl.province_eng = 'XIENGKHUANG' then 'Xiengkhouang'
+		else fd.branch_name
 	end
-where aucn.province_eng is not null;
+where cntl.province_eng is not null or cntl.branch_name is null;
 
 -- ____________________________________ Export to report source all ____________________________________ --
 select * , count(*) from
