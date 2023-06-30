@@ -378,14 +378,13 @@ select * , count(*) from
 			else cntl.remark_3 
 		end `result`
 	from contact_numbers_to_lcc cntl inner join file_details fd on (fd.id = cntl.file_id)
-	where cntl.contact_id in (select contact_id from contact_for_202303_lcc ) -- valid numbers in Mar 2023
-		or (cntl.remark_3 in ('contracted', 'ringi_not_contract', 'aseet_not_contract') ) -- already register on LMS
-		or (cntl.remark_3 in ('prospect_sabc', 'lcc') and cntl.status in ('X','S','A','B','C', 'FF1 not_answer', 'FF2 power_off','SP will be salespartner') ) -- already register on CRM and LCC
+	where (cntl.remark_3 in ('contracted', 'ringi_not_contract', 'aseet_not_contract') ) -- already register on LMS
+		or (cntl.remark_3 in ('prospect_sabc', 'lcc') and cntl.status in ('X','S','A','B','C', 'FF1 not_answer', 'FF2 power_off') ) -- already register on CRM and LCC
 		or (cntl.remark_3 = 'pbx_cdr' and cntl.status = 'ANSWERED') -- Ever Answered in the past
 		or (cntl.remark_3 = 'Telecom' and cntl.status in ('ETL_active', 'SMS_success') ) -- Ever sent SMS and success
 		or cntl.status is null -- new number
 		or cntl.contact_id in (select contact_id from temp_sms_chairman tean where status = 1 ) -- SMS check
-		or cntl.contact_id in (select contact_id from temp_etl_active_numbers tean2 ) -- ETL active
+		or cntl.contact_id in (select contact_id from temp_etl_active_numbers tean2 ) -- ETL active 
 	) t
 group by branch_name , province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`, `name_info`, `result` ;
 
