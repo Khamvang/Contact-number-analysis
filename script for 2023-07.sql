@@ -30,8 +30,59 @@ create table `contact_for_202307_lcc` (
 	  key `contact_no` (`contact_no`),
 	  key `fk_file_id` (`file_id`),
 	  key `contact_id` (`contact_id`),
-	  CONSTRAINT `contact_for_202307  _lcc_ibfk_1` FOREIGN KEY (`file_id`) REFERENCES `file_details` (`id`)
+	  CONSTRAINT `contact_for_202307_lcc_ibfk_1` FOREIGN KEY (`file_id`) REFERENCES `file_details` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 collate utf8mb4_general_ci ;
+
+
+-- 2) intert data from contact_numbers_to_lcc to table monthly
+insert into contact_for_202307_lcc
+ select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
+	case when cntl.file_id >= 1207 then '1'
+		when cntl.status = '' or cntl.status is null then '1'
+		when cntl.`type` = '①Have Car' then '2'
+		when cntl.`type` = '②Need loan' then '3'
+		when cntl.`type` = '③Have address' then '4'
+		when cntl.`type` = 'prospect' then '5'
+		when cntl.`type` = '④Telecom' then '6'
+	end `remark_1`,
+	null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
+	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`, 
+	case when cntl.`type` = '①Have Car' then 2
+		when cntl.`type` = '②Need loan' then 1
+		when cntl.`type` = '③Have address' and fd.category = '①GOVERNMENT' then 3
+		when cntl.`type` = '③Have address' and fd.category != '①GOVERNMENT' then 4
+		when cntl.`type` = '④Telecom' and (cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null ) then 7
+		when cntl.`type` = '④Telecom' then 8
+	end `condition`, 
+	case when cntl.`type` in ('①Have Car', '②Need loan') then 1
+		when cntl.`type` = '③Have address' and fd.category = '①GOVERNMENT' then 1
+		when cntl.`type` = '③Have address' and fd.category != '①GOVERNMENT' then 2
+		when cntl.`type` = '④Telecom' and (cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null ) then 2
+		when cntl.`type` = '④Telecom' then 3
+	end `group`
+-- select count(*) -- 
+from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+where (cntl.remark_3 in ('contracted', 'ringi_not_contract', 'aseet_not_contract') ) -- already register on LMS
+	or (cntl.remark_3 in ('prospect_sabc', 'lcc') and cntl.status in ('X','S','A','B','C', 'FF1 not_answer', 'FF2 power_off') ) -- already register on CRM and LCC
+	or (cntl.remark_3 = 'pbx_cdr' and cntl.status = 'ANSWERED') -- Ever Answered in the past
+	or (cntl.remark_3 = 'Telecom' and cntl.status in ('ETL_active', 'SMS_success') ) -- Ever sent SMS and success
+	or cntl.status is null -- new number
+	or cntl.contact_id in (select contact_id from temp_sms_chairman tean where status = 1 ) -- SMS check
+	or cntl.contact_id in (select contact_id from temp_etl_active_numbers tean2 ) -- ETL active 
+
+
+
+-- 3) delete the status contracted, inactive number from table monthly
+select count(*)  from contact_for_202307_lcc 
+; delete from contact_for_202307_lcc
+where remark_3 = 'contracted' -- contracted
+	or (remark_3 in ('prospect_sabc', 'lcc') and status in ('X') ) -- contracted
+	or (remark_3 = 'lcc' and status = 'Block need_to_block') -- Block need_to_block
+	or (remark_3 = 'lcc' and status in ('FFF can_not_contact', 'No have in telecom')) -- FFF can_not_contact
+	or (remark_3 = 'Telecom' and status in ('ETL_inactive','SMS_Failed')) -- Telecom_inactive
+	or remark_3 = 'blacklist' -- blacklist
+
+
 
 
 
