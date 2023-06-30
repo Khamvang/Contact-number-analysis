@@ -207,7 +207,79 @@ select branch_name , count(*)  from contact_for_202307_lcc group by branch_name 
 update contact_for_202307_lcc set branch_name = 'Bokeo' where branch_name is null;
 
 
+select count(*)  from contact_for_202307_lcc cfl -- 4532520
 
+
+
+# ______________________________________________________ export to create campaign on LCC for contact_for_202307_lcc ______________________________________________________________ #
+
+Branch: 'Attapue','Bokeo','Head Office','Houaphan','LuangNamtha','Luangprabang','Oudomxay','Paksan','Pakse','Salavan','Savannakhet','Thakek','Vientiane province','Xainyabuli','Xiengkhouang'
+Team: 'ATP Team', 'Bokeo', 'Team2', 'Team3', 'Team4', 'Houaphan Team', 'Luangnamtha', 'LPB Team', 'OUX Team', 'Paksan Team', 'Pakse Team', 'Salavan', 'SVK Team', 'Thakket Team', 'VTP Team', 'XYB Team', 'XKH Team'
+
+-- ____________________________________________________ Priority1 ____________________________________________________
+-- Campaign name: all_new_ATTAPUE_ATP Team_20230701_p1
+-- select count(*) -- 59113
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202307_lcc cntl 
+where cntl.remark_1 in ('1') 
+	and branch_name = 'Attapue' ;
+
+
+-- ____________________________________________________ Priority2 ____________________________________________________
+-- Campaign name: 3_Old_ATTAPUE_ATP Team_20230701_p2
+-- select count(*) -- 869506
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202307_lcc cntl 
+where cntl.remark_1 in ('2')
+	and branch_name = 'Attapue' ;
+
+
+-- ____________________________________________________ Priority3 ____________________________________________________
+-- Campaign name: 2_Old_ATTAPUE_ATP Team_20230701_p3
+-- select count(*) -- 961537
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202307_lcc cntl 
+where cntl.remark_1 in ('3')
+	and branch_name = 'Attapue';
+
+
+-- ____________________________________________________ Priority4 ____________________________________________________
+-- Campaign name: 1_Old_ATTAPUE_ATP Team_20230701_p4
+-- select count(*) -- 765053
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202307_lcc cntl 
+where cntl.remark_1 in ('4')
+	and branch_name = 'Attapue' ;
+
+
+-- ____________________________________________________ Priority5 ____________________________________________________
+-- Campaign name: p_Old_ATTAPUE_ATP Team_20230701_p5
+-- select count(*) -- 
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202307_lcc cntl 
+where cntl.remark_1 in ('5')
+	and branch_name = 'Attapue' ;
+
+
+-- ____________________________________________________ Priority6 ____________________________________________________
+-- Campaign name: 4_Old_ATTAPUE_ATP Team_20230701_p6
+-- select count(*) -- 
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202307_lcc cntl 
+where cntl.remark_1 in ('6')
+	and branch_name = 'Attapue' ;
+
+
+-- ____________________________________________________ Priority6 ____________________________________________________
+-- Campaign name: 4_Old_Head Office_Team2_20230701_p6
+-- select count(*) -- 1125547
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+from contact_for_202307_lcc cntl 
+where cntl.remark_1 in ('6')
+	 and branch_name = 'Head Office' -- limit 0, 3 -- mean start from row 0+1 and of row 0+3
+	-- limit 0*75100 , 75100 -- result will be start from 0*75100+1, end 0*75100+75100, limit n+1, n (start from n+1, end of n)
+	-- limit 1*75100, 75100 -- result will be start from 1*75100+1, end at 1*75100+75100
+	 -- limit 2*75100, 75100 -- result will be start from 2*75100+1, end at 2*75100+75100
 
 
 
