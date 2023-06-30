@@ -2,36 +2,37 @@
 
 -- 1) table contact_for  
 create table `contact_for_202307_lcc` (
-	  `id` int NOT NULL AUTO_INCREMENT,
-	  `file_id` int DEFAULT NULL,
-	  `contact_no` varchar(255) NOT NULL,
-	  `name` varchar(255) DEFAULT NULL,
-	  `province_eng` varchar(255) DEFAULT NULL,
-	  `province_laos` varchar(255) DEFAULT NULL,
-	  `district_eng` varchar(50) DEFAULT NULL,
-	  `district_laos` varchar(255) DEFAULT NULL,
-	  `village` varchar(255) DEFAULT NULL,
-	  `type` varchar(255) DEFAULT NULL,
-	  `maker` varchar(255) DEFAULT NULL,
-	  `model` varchar(255) DEFAULT NULL,
-	  `year` varchar(255) DEFAULT NULL,
-	  `remark_1` varchar(255) DEFAULT null COMMENT 'priority 1=P1: New number file_id>=1207, 2=P2: ③Have address, 3=P3: ②Need loan, 4=P4: ①Have Car, 5=P5: ④Telecom',
-	  `remark_2` varchar(255) DEFAULT NULL,
-	  `remark_3` varchar(255) DEFAULT NULL,
-	  `branch_name` varchar(255) DEFAULT NULL,
-	  `status` varchar(255) DEFAULT NULL,
-	  `status_updated` varchar(255) DEFAULT NULL,
-	  `staff_id` varchar(255) DEFAULT NULL,
-	  `pvd_id` varchar(255) DEFAULT NULL,
+	  `id` int not null auto_increment,
+	  `file_id` int default null,
+	  `contact_no` varchar(255) not null,
+	  `name` varchar(255) default null,
+	  `province_eng` varchar(255) default null,
+	  `province_laos` varchar(255) default null,
+	  `district_eng` varchar(50) default null,
+	  `district_laos` varchar(255) default null,
+	  `village` varchar(255) default null,
+	  `type` varchar(255) default null,
+	  `maker` varchar(255) default null,
+	  `model` varchar(255) default null,
+	  `year` varchar(255) default null,
+	  `remark_1` varchar(255) default null COMMENT 'priority 1=P1: New number file_id>=1207, 2=P2: ③Have address, 3=P3: ②Need loan, 4=P4: ①Have Car, 5=P5: ④Telecom',
+	  `remark_2` varchar(255) default null,
+	  `remark_3` varchar(255) default null,
+	  `branch_name` varchar(255) default null,
+	  `status` varchar(255) default null,
+	  `status_updated` varchar(255) default null,
+	  `staff_id` varchar(255) default null,
+	  `pvd_id` varchar(255) default null,
 	  `contact_id` int(11) not null comment 'the phone number without 9020 and 9030',
 	  `condition` int(11) not null comment '①「Need Loan」, ②「Have Car」, ③「Have Address」　＆　『GOVERNMENT』　OR  『Yellow Page』, ④「Have Address」　＆　others, ⑤『EXPECT』(SAB)  ＆ 　≠『EXITING』『 DORMACCY』, ⑥『EXPECT』(C)  ＆ 　≠『EXITING』『 DORMACCY』 ＆　『CAR INFORMATOIN』, ⑦『TELECOM』have address, ⑧『TELECOM』no address',
 	  `group` int(11) not null comment '1=condition 1,2,3,5,6, 2=condition 4,7, 3=condition 8',
-	  PRIMARY KEY (`id`),
+	  primary key (`id`),
 	  key `contact_no` (`contact_no`),
 	  key `fk_file_id` (`file_id`),
 	  key `contact_id` (`contact_id`),
-	  CONSTRAINT `contact_for_202307_lcc_ibfk_1` FOREIGN KEY (`file_id`) REFERENCES `file_details` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 collate utf8mb4_general_ci ;
+	  constraint `contact_for_202307_lcc_ibfk_1` foreign key (`file_id`) references `file_details` (`id`)
+) engine=InnoDB auto_increment=1 default CHARSET=utf8mb4 collate utf8mb4_general_ci ;
+
 
 
 -- 2) intert data from contact_numbers_to_lcc to table monthly
@@ -39,9 +40,9 @@ insert into contact_for_202307_lcc
  select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
 	case when cntl.file_id >= 1207 then '1'
 		when cntl.status = '' or cntl.status is null then '1'
-		when cntl.`type` = '①Have Car' then '2'
+		when cntl.`type` = '①Have Car' then '4'
 		when cntl.`type` = '②Need loan' then '3'
-		when cntl.`type` = '③Have address' then '4'
+		when cntl.`type` = '③Have address' then '2'
 		when cntl.`type` = 'prospect' then '5'
 		when cntl.`type` = '④Telecom' then '6'
 	end `remark_1`,
@@ -71,7 +72,6 @@ where (cntl.remark_3 in ('contracted', 'ringi_not_contract', 'aseet_not_contract
 	or cntl.contact_id in (select contact_id from temp_etl_active_numbers tean2 ) -- ETL active 
 
 
-
 -- 3) delete the status contracted, inactive number from table monthly
 select count(*)  from contact_for_202307_lcc 
 ; delete from contact_for_202307_lcc
@@ -81,6 +81,10 @@ where remark_3 = 'contracted' -- contracted
 	or (remark_3 = 'lcc' and status in ('FFF can_not_contact', 'No have in telecom')) -- FFF can_not_contact
 	or (remark_3 = 'Telecom' and status in ('ETL_inactive','SMS_Failed')) -- Telecom_inactive
 	or remark_3 = 'blacklist' -- blacklist
+
+
+
+
 
 
 
