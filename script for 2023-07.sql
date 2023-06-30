@@ -61,7 +61,7 @@ select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_l
 		when cntl.`type` = '④Telecom' and (cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null ) then 2
 		when cntl.`type` = '④Telecom' then 3
 	end `group`
--- select count(*) -- 
+-- select count(*) -- 4622987
 from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 where (cntl.remark_3 in ('contracted', 'ringi_not_contract', 'aseet_not_contract') ) -- already register on LMS
 	or (cntl.remark_3 in ('prospect_sabc', 'lcc') and cntl.status in ('X','S','A','B','C', 'FF1 not_answer', 'FF2 power_off') ) -- already register on CRM and LCC
@@ -73,7 +73,7 @@ where (cntl.remark_3 in ('contracted', 'ringi_not_contract', 'aseet_not_contract
 
 
 -- 3) delete the status contracted, inactive number from table monthly
-select count(*)  from contact_for_202307_lcc 
+select count(*)  from contact_for_202307_lcc -- 98018 number need to delete becaues contracted or invalid number
 ; delete from contact_for_202307_lcc
 where remark_3 = 'contracted' -- contracted
 	or (remark_3 in ('prospect_sabc', 'lcc') and status in ('X') ) -- contracted
@@ -86,6 +86,8 @@ where remark_3 = 'contracted' -- contracted
 
 
 -- Export from lalcodb to contact_for_lcc_prospectsabc for priority 5
+delete from contact_for_lcc_prospectsabc;
+
 select * , case when left(contact_no, 4) = '9020' then right(contact_no, 8) when left(contact_no, 4) = '9030' then right(contact_no, 7) end "contact_id",
 	case when status in ('S','A','B') then '5' when status = 'C' and (maker !='' or model != '') then 6 else 6 end "condition",
 	'1' "group"
@@ -154,14 +156,55 @@ select id, row_numbers, now() `time` from (
 		) as t1
 	where row_numbers > 1;
 
+-- delete number duplicate in file contact_for_lcc_prospectsabc
 delete from contact_for_lcc_prospectsabc where id in (select id from removed_duplicate_2 );
+delete from removed_duplicate_2;
 
+-- delete number duplicate contact_for_202307_lcc
 select * from contact_for_lcc_prospectsabc where contact_id in (select contact_id from contact_for_202307_lcc);
-
 delete from contact_for_lcc_prospectsabc where contact_id in (select contact_id from contact_for_202307_lcc);
 
 
+-- ________________________________________________ update branch name ________________________________________________
+-- update contact_numbers_to_lcc aucn
+update contact_for_lcc_prospectsabc aucn
+set branch_name = 
+	case when aucn.province_eng = 'ATTAPUE' then 'Attapue'
+		when aucn.province_eng = 'BORKEO' then 'Bokeo'
+		when aucn.province_eng = 'BORLIKHAMXAY' then 'Paksan'
+		when aucn.province_eng = 'CHAMPASACK' then 'Pakse'
+		when aucn.province_eng = 'HUAPHAN' then 'Houaphan'
+		when aucn.province_eng = 'KHAMMOUAN' then 'Thakek'
+		when aucn.province_eng = 'LUANG PRABANG' then 'Luangprabang'
+		when aucn.province_eng = 'LUANGNAMTHA' then 'Luangnamtha'
+		when aucn.province_eng = 'OUDOMXAY' then 'Oudomxay'
+		when aucn.province_eng = 'PHONGSALY' then 'Oudomxay'
+		when aucn.province_eng = 'SALAVANH' then 'Salavan'
+		when aucn.province_eng = 'SAVANNAKHET' then 'Savannakhet'
+		when aucn.province_eng = 'VIENTIANE CAPITAL' then 'Head office'
+		when aucn.province_eng = 'VIENTIANE PROVINCE' then 'Vientiane province'
+		when aucn.province_eng = 'XAYABOULY' then 'Xainyabuli'
+		when aucn.province_eng = 'XAYSOMBOUN' then 'Xiengkhouang'
+		when aucn.province_eng = 'XEKONG' then 'Attapue'
+		when aucn.province_eng = 'XIENGKHUANG' then 'Xiengkhouang'
+		else null 
+	end
+where aucn.province_eng is not null;
 
+select branch_name , count(*)  from contact_for_lcc_prospectsabc group by branch_name 
+
+update contact_for_lcc_prospectsabc set branch_name = 'Luangnamtha' where branch_name is null ;
+
+
+-- insert to contact_for_202307_lcc
+insert into contact_for_202307_lcc select * from contact_for_lcc_prospectsabc ;
+
+
+
+-- set branch_name before export
+select branch_name , count(*)  from contact_for_202307_lcc group by branch_name ;
+
+update contact_for_202307_lcc set branch_name = 'Bokeo' where branch_name is null;
 
 
 
