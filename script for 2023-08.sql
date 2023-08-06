@@ -35,6 +35,116 @@ create table `contact_for_202308_lcc` (
 
 
 
+-- 2) intert data from contact_numbers_to_lcc to table monthly
+insert into contact_for_202308_lcc
+select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
+	case when cntl.file_id >= 1207 then '1'
+		when cntl.status = '' or cntl.status is null then '1'
+		when cntl.`type` = '①Have Car' then '4'
+		when cntl.`type` = '②Need loan' then '3'
+		when cntl.`type` = '③Have address' then '2'
+		when cntl.`type` = 'prospect' then '5'
+		when cntl.`type` = '④Telecom' then '6'
+	end `remark_1`,
+	null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
+	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`, 
+	case when cntl.`type` = '①Have Car' then 2
+		when cntl.`type` = '②Need loan' then 1
+		when cntl.`type` = '③Have address' and fd.category = '①GOVERNMENT' then 3
+		when cntl.`type` = '③Have address' and fd.category != '①GOVERNMENT' then 4
+		when cntl.`type` = '④Telecom' and (cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null ) then 7
+		when cntl.`type` = '④Telecom' then 8
+	end `condition`, 
+	case when cntl.`type` in ('①Have Car', '②Need loan') then 1
+		when cntl.`type` = '③Have address' and fd.category = '①GOVERNMENT' then 1
+		when cntl.`type` = '③Have address' and fd.category != '①GOVERNMENT' then 2
+		when cntl.`type` = '④Telecom' and (cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null ) then 2
+		when cntl.`type` = '④Telecom' then 3
+	end `group`
+-- select count(*) -- 4622987
+from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+where (cntl.remark_3 in ('contracted', 'ringi_not_contract', 'aseet_not_contract') ) -- already register on LMS
+	or (cntl.remark_3 in ('prospect_sabc', 'lcc') and cntl.status in ('X','S','A','B','C', 'FF1 not_answer', 'FF2 power_off') ) -- already register on CRM and LCC
+	or (cntl.remark_3 = 'pbx_cdr' and cntl.status = 'ANSWERED') -- Ever Answered in the past
+	or (cntl.remark_3 = 'Telecom' and cntl.status in ('ETL_active', 'SMS_success') ) -- Ever sent SMS and success
+	or cntl.status is null -- new number
+	or cntl.contact_id in (select contact_id from temp_sms_chairman tean where status = 1 ) -- SMS check
+	or cntl.contact_id in (select contact_id from temp_etl_active_numbers tean2 ) -- ETL active 
+
+
+-- 3) delete the status contracted, inactive number from table monthly
+select count(*)  from contact_for_202308_lcc -- 4490751 number need to delete becaues contracted or invalid number
+; delete from contact_for_202308_lcc
+where remark_3 = 'contracted' -- contracted
+	or (remark_3 in ('prospect_sabc', 'lcc') and status in ('X') ) -- contracted
+	or (remark_3 = 'lcc' and status = 'Block need_to_block') -- Block need_to_block
+	or (remark_3 = 'lcc' and status in ('FFF can_not_contact', 'No have in telecom')) -- FFF can_not_contact
+	or (remark_3 = 'Telecom' and status in ('ETL_inactive','SMS_Failed')) -- Telecom_inactive
+	or remark_3 = 'blacklist' -- blacklist
+
+
+-- Export from lalcodb to contact_for_lcc_prospectsabc for priority 5
+delete from contact_for_lcc_prospectsabc;
+
+select * , case when left(contact_no, 4) = '9020' then right(contact_no, 8) when left(contact_no, 4) = '9030' then right(contact_no, 7) end "contact_id",
+	case when status in ('S','A','B') then '5' when status = 'C' and (maker !='' or model != '') then 6 else 6 end "condition",
+	'1' "group"
+from (
+	select null "id",
+		case when left(right (translate (tel, translate(tel, '0123456789', ''), ''), 8), 1)= '0' then concat('903', right (translate (tel, translate(tel, '0123456789', ''), ''), 8))
+			when length( translate (tel, translate(tel, '0123456789', ''), '')) = 7 then concat('9030', right (translate (tel, translate(tel, '0123456789', ''), ''), 8))
+			else concat('9020', right (translate (tel, translate(tel, '0123456789', ''), ''), 8))
+		end "contact_no",
+		translate (concat(firstname, ' ', lastname), '.,:,', '') "name",
+		case when province = 'Attapeu' then 'ATTAPUE'
+			when province = 'Bokeo' then 'BORKEO'
+			when province = 'Bolikhamxai' then 'BORLIKHAMXAY'
+			when province = 'Champasak' then 'CHAMPASACK'
+			when province = 'Houaphan' then 'HUAPHAN'
+			when province = 'Khammouan' then 'KHAMMOUAN'
+			when province = 'Louangphrabang' then 'LUANG PRABANG'
+			when province = 'Louang Namtha' then 'LUANGNAMTHA'
+			when province = 'Oudomxai' then 'OUDOMXAY'
+			when province = 'Phongsali' then 'PHONGSALY'
+			when province = 'Saravan' then 'SALAVANH'
+			when province = 'Savannakhet' then 'SAVANNAKHET'
+			when province = 'Vientiane Cap' then 'VIENTIANE CAPITAL'
+			when province = 'Vientiane province' then 'VIENTIANE PROVINCE'
+			when province = 'Xaignabouri' then 'XAYABOULY'
+			when province = 'Xaisomboun' then 'XAYSOMBOUN'
+			when province = 'Xekong' then 'XEKONG'
+			when province = 'Xiangkhoang' then 'XIENGKHUANG'
+			else null
+		end "province_eng",
+		null "province_laos",
+		translate (district, '.,:,', '') "district_eng",
+		null "district_laos",
+		translate (c.addr , '.,:,`', '') "village",
+		'prospect' "type",
+		translate (maker, '.,:,`', '') "maker",
+		translate (model, '.,:,`', '') "model",
+		"year",
+		5 "remark_1",
+		null "remark_2",
+		'prospect_sabc' "remark_3",
+		null "branch_name",
+		rank1 "status",
+		null "staff_id",
+		tua.new_village_id "pvd_id"
+	from custtbl c left join temp_update_address tua on (c.id = tua.id)
+	where c.rank1 in ('S','A','B') or (c.rank1 = 'C' and (c.maker !='' or c.model != '') )
+	order by inputdate desc ) t
+where concat(length("contact_no"), left( "contact_no", 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290209');
+
+
+
+
+
+
+
+
+
+
 
 
 
