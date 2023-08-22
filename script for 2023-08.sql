@@ -441,6 +441,18 @@ set branch_name =
 where aucn.province_eng is not null;
 
 
+-- 7) Broker 
+select fd.id `file_id`, fd.branch_name 'Branch', case when sme.staff_no is not null then 'Sales' else 'Non_Sales' end 'Department', sme.unit 'Unit', fd.staff_no , fd.staff_name, fd.staff_tel, null 'Staff Status',
+	concat(fd.broker_name, ' ',fd.broker_tel) 'broker_key', fd.broker_name, fd.broker_tel , 
+	row_number() over (partition by fd.broker_tel order by fd.broker_tel, fd.broker_name) as 'duplicate broker_tel',
+	row_number() over (partition by concat(fd.broker_name, ' ',fd.broker_tel) order by fd.broker_tel, fd.broker_name) as 'duplicate broker name & tel',
+	row_number() over (partition by fd.broker_tel order by fd.broker_tel, fd.broker_name) = row_number() over (partition by concat(fd.broker_name, ' ',fd.broker_tel) order by fd.broker_tel, fd.broker_name) 'duplicate check',
+	fd.`type` , fd.category , fd.date_received, fd.company_name , fd.number_of_original_file,
+	null 'unique_numbers', null 'can_contact_numbers', null ' staff status', null 'current_staff_no', null 'current_staff_name'
+from file_details fd left join sme_org sme on (fd.staff_no = sme.staff_no)
+where fd.category in ('①GOVERNMENT','②INSURANCE','③CAR SHOP','④FINANCE∙LEASE') -- not need telecom and other 
+	and fd.broker_tel != '0'
+order by fd.broker_tel, fd.broker_name ;
 
 
 
