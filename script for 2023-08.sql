@@ -455,7 +455,45 @@ where fd.category in ('①GOVERNMENT','②INSURANCE','③CAR SHOP','④FINANCE�
 order by fd.broker_tel, fd.broker_name ;
 
 
+-- duplicate check and export 
+select distinct remark_1 from contact_for_202308_to_chairman;
 
+alter table contact_for_202308_to_chairman drop column `duplicate` ;
+
+select id, remark_1 , contact_id, row_number() over (partition by contact_id order by remark_1, id) as `duplicate`
+from contact_for_202308_to_chairman where remark_1 != '5' ;
+
+select *, row_number() over (partition by contact_id order by remark_1, id) as `duplicate`
+from contact_for_202308_to_chairman
+
+-- 6)delete duplicate and check data
+delete from removed_duplicate_2;
+select count(*) from contact_for_202308_to_chairman; -- 3651782 >> 
+insert into removed_duplicate_2 
+select id, row_numbers, now() `time` from ( 
+		select id , row_number() over (partition by contact_id order by remark_1, id) as row_numbers  
+		from contact_for_202308_to_chairman  
+		) as t1
+	where row_numbers > 1;
+
+-- delete from contact_for_202308_to_chairman where id in (select id from removed_duplicate_2 );
+
+-- delete from removed_duplicate_2;
+
+select count(*)  from contact_for_202308_to_chairman where remark_3 = '' or remark_3 is null
+
+delete from temp_update_any ;
+
+-- 7)insert data to temp_update_any
+insert into temp_update_any 
+select cntl.id, cntl.contact_no, cntl.`remark_3`,cntl.status, 0 `pbxcdr_time`, cntl.`contact_id`
+from contact_numbers_to_lcc cntl 
+where contact_id in (select contact_id from contact_for_202308_to_chairman where remark_3 = '' or remark_3 is null)
+
+-- 8)update status in table contact_for_202308_to_chairman 
+update contact_for_202308_to_chairman cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+set cntl.remark_3 = tua.remark_3, cntl.status = tua.status
+where cntl.contact_id in (select contact_id from temp_update_any );
 
 
 
