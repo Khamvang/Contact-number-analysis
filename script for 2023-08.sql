@@ -2,8 +2,8 @@
 
 -- 1) table contact_for  
 create table `contact_for_202308_lcc` (
-	  `id` int not null auto_increment,
-	  `file_id` int default null,
+	  `id` int(11) not null auto_increment,
+	  `file_id` int(11) default null,
 	  `contact_no` varchar(255) not null,
 	  `name` varchar(255) default null,
 	  `province_eng` varchar(255) default null,
@@ -285,8 +285,8 @@ where cntl.remark_1 in ('6')
 -- ____________________________________________________ Report to the Chairman 2023-08-22 ____________________________________________________
 -- create table contact_for  
 create table `contact_for_202308_to_chairman` (
-	  `id` int not null auto_increment,
-	  `file_id` int default null,
+	  `id` int(11) not null auto_increment,
+	  `file_id` int(11) default null,
 	  `contact_no` varchar(255) not null,
 	  `name` varchar(255) default null,
 	  `province_eng` varchar(255) default null,
@@ -308,6 +308,7 @@ create table `contact_for_202308_to_chairman` (
 	  `pvd_id` varchar(255) default null,
 	  `contact_id` int(11) not null comment 'the phone number without 9020 and 9030',
 	  `reference_id` int(11) not null comment '1=condition 1,2,3,5,6, 2=condition 4,7, 3=condition 8',
+	  `duplicate` int(11) default null,
 	  primary key (`id`),
 	  key `contact_no` (`contact_no`),
 	  key `fk_file_id` (`file_id`),
