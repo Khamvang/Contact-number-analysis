@@ -281,4 +281,147 @@ where cntl.remark_1 in ('6')
 
 
 
+-- ___________________________________________________________________________________________________________________________________________
+-- ____________________________________________________ Report to the Chairman 2023-08-22 ____________________________________________________
+-- create table contact_for  
+create table `contact_for_202308_to_chairman` (
+	  `id` int not null auto_increment,
+	  `file_id` int default null,
+	  `contact_no` varchar(255) not null,
+	  `name` varchar(255) default null,
+	  `province_eng` varchar(255) default null,
+	  `province_laos` varchar(255) default null,
+	  `district_eng` varchar(50) default null,
+	  `district_laos` varchar(255) default null,
+	  `village` varchar(255) default null,
+	  `type` varchar(255) default null,
+	  `maker` varchar(255) default null,
+	  `model` varchar(255) default null,
+	  `year` varchar(255) default null,
+	  `remark_1` varchar(255) default null COMMENT 'priority 1=P1: CIB 300,000, 2=P2: Yoshi list, 3=P3: Signboard, 4=P4: Village master, 5=P5: G rank, 6=P6: Yellow page',
+	  `remark_2` varchar(255) default null,
+	  `remark_3` varchar(255) default null,
+	  `branch_name` varchar(255) default null,
+	  `status` varchar(255) default null,
+	  `status_updated` varchar(255) default null,
+	  `staff_id` varchar(255) default null,
+	  `pvd_id` varchar(255) default null,
+	  `contact_id` int(11) not null comment 'the phone number without 9020 and 9030',
+	  `reference_id` int(11) not null comment '1=condition 1,2,3,5,6, 2=condition 4,7, 3=condition 8',
+	  primary key (`id`),
+	  key `contact_no` (`contact_no`),
+	  key `fk_file_id` (`file_id`),
+	  key `contact_id` (`contact_id`),
+	  key `reference_id` (`reference_id`),
+	  constraint `contact_for_202308_to_chairman_ibfk_1` foreign key (`file_id`) references `file_details` (`id`)
+) engine=InnoDB auto_increment=1 default CHARSET=utf8mb4 collate utf8mb4_general_ci ;
+
+
+-- 1) CIB 300,000 data (ho have)
+
+-- 2) Yotha
+select cntl.*, fd.category , fd.category2  from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+where fd.category2 = 'MPWT'
+
+insert into contact_for_202308_to_chairman
+select null `id`, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
+	'2' `remark_1`, null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
+	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`, 
+	cntl.id `reference_id`
+-- select count(*) -- 62595
+from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+where fd.category2 = 'MPWT';
+
+-- 3) Signboard project
+select * from signboard_project sp where contact_id not in (select contact_id from contact_numbers_to_lcc cntl where `type` != '④Telecom')
+	and CONCAT(LENGTH(contact_no), left( contact_no, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290208','1290209');
+
+insert into contact_for_202308_to_chairman
+select null `id`, null `file_id`,`contact_no`,`name`, `province_eng`, null `province_laos`, `district_eng`,null `district_laos`, `village`, '③Have address' `type`, null `maker`, null `model`, null `year`, 
+	'3' `remark_1`, null `remark_2`,null `remark_3`, null `branch_name`, null `status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
+	case when left(sp.contact_no,4) = '9020' then right(sp.contact_no,8) when left(sp.contact_no,4) = '9030' then right(sp.contact_no,7) end `contact_id`, 
+	sp.id `reference_id`
+-- select count(*) -- 62595
+from signboard_project sp 
+where contact_id not in (select contact_id from contact_numbers_to_lcc cntl where `type` != '④Telecom')
+	and CONCAT(LENGTH(contact_no), left( contact_no, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290208','1290209');
+
+-- 4) Village master 
+select * from village_master_project vmp; where contact_id not in (select contact_id from contact_numbers_to_lcc cntl where `type` != '④Telecom')
+	and CONCAT(LENGTH(contact_no), left( contact_no, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290208','1290209');
+
+insert into contact_for_202308_to_chairman
+select null `id`, null `file_id`,`contact_no`,`name`, `province_eng`, null `province_laos`, `district_eng`,null `district_laos`, `village`, '③Have address' `type`, null `maker`, null `model`, null `year`, 
+	'4' `remark_1`, null `remark_2`,null `remark_3`, null `branch_name`, null `status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
+	case when left(vmp.contact_no,4) = '9020' then right(vmp.contact_no,8) when left(vmp.contact_no,4) = '9030' then right(vmp.contact_no,7) end `contact_id`, 
+	vmp.id `reference_id`
+-- select count(*) -- 62595
+from village_master_project vmp
+where contact_id not in (select contact_id from contact_numbers_to_lcc cntl where `type` != '④Telecom')
+	and CONCAT(LENGTH(contact_no), left( contact_no, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290208','1290209');
+
+-- 5) G rank
+select * , case when left(contact_no, 4) = '9020' then right(contact_no, 8) when left(contact_no, 4) = '9030' then right(contact_no, 7) end "contact_id"
+from (
+	select null "id",
+		case when left(right (translate (tel, translate(tel, '0123456789', ''), ''), 8), 1)= '0' then concat('903', right (translate (tel, translate(tel, '0123456789', ''), ''), 8))
+			when length( translate (tel, translate(tel, '0123456789', ''), '')) = 7 then concat('9030', right (translate (tel, translate(tel, '0123456789', ''), ''), 8))
+			else concat('9020', right (translate (tel, translate(tel, '0123456789', ''), ''), 8))
+		end "contact_no",
+		translate (concat(firstname, ' ', lastname), '.,:,', '') "name",
+		case when province = 'Attapeu' then 'ATTAPUE'
+			when province = 'Bokeo' then 'BORKEO'
+			when province = 'Bolikhamxai' then 'BORLIKHAMXAY'
+			when province = 'Champasak' then 'CHAMPASACK'
+			when province = 'Houaphan' then 'HUAPHAN'
+			when province = 'Khammouan' then 'KHAMMOUAN'
+			when province = 'Louangphrabang' then 'LUANG PRABANG'
+			when province = 'Louang Namtha' then 'LUANGNAMTHA'
+			when province = 'Oudomxai' then 'OUDOMXAY'
+			when province = 'Phongsali' then 'PHONGSALY'
+			when province = 'Saravan' then 'SALAVANH'
+			when province = 'Savannakhet' then 'SAVANNAKHET'
+			when province = 'Vientiane Cap' then 'VIENTIANE CAPITAL'
+			when province = 'Vientiane province' then 'VIENTIANE PROVINCE'
+			when province = 'Xaignabouri' then 'XAYABOULY'
+			when province = 'Xaisomboun' then 'XAYSOMBOUN'
+			when province = 'Xekong' then 'XEKONG'
+			when province = 'Xiangkhoang' then 'XIENGKHUANG'
+			else null
+		end "province_eng",
+		null "province_laos",
+		translate (district, '.,:,', '') "district_eng",
+		null "district_laos",
+		translate (c.addr , '.,:,`', '') "village",
+		'prospect' "type",
+		translate (maker, '.,:,`', '') "maker",
+		translate (model, '.,:,`', '') "model",
+		"year",
+		5 "remark_1",
+		null "remark_2",
+		'prospect_sabc' "remark_3",
+		null "branch_name",
+		rank1 "status",
+		null "staff_id",
+		tua.new_village_id "pvd_id",
+		c.id `reference_id`
+	from custtbl c left join temp_update_address tua on (c.id = tua.id)
+	where c.rank1 in ('G','G1','G2') 
+	order by inputdate desc ) t
+where concat(length("contact_no"), left( "contact_no", 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290209');
+
+-- 6) Yellow page
+
+
+
+
+
+
+
+
+
+
+
+
+
 
