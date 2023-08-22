@@ -404,7 +404,7 @@ from (
 		rank1 "status",
 		null "staff_id",
 		tua.new_village_id "pvd_id",
-		c.id `reference_id`
+		c.id "reference_id"
 	from custtbl c left join temp_update_address tua on (c.id = tua.id)
 	where c.rank1 in ('G','G1','G2') 
 	order by inputdate desc ) t
