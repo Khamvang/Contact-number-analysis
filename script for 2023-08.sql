@@ -325,12 +325,13 @@ where fd.category2 = 'MPWT'
 
 insert into contact_for_202308_to_chairman
 select null `id`, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
-	'2' `remark_1`, null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
+	case when fd.category2 = 'MPWT' then '2' when fd.category2 = 'Signboard' then '3' when fd.category2 = 'Village_master' then '4' end  `remark_1`, 
+	null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
 	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`, 
 	cntl.id `reference_id`
 -- select count(*) -- 62595
 from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
-where fd.category2 = 'MPWT';
+where fd.category2 in ('MPWT', 'Signboard', 'Village_master');
 
 -- 3) Signboard project
 select * from signboard_project sp where contact_id not in (select contact_id from contact_numbers_to_lcc cntl where `type` != '④Telecom')
