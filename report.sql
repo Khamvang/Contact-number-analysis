@@ -274,12 +274,12 @@ group by `have_car`, `business_owner`, `have_address`, `result`;
 
 
 
--- ____________________________________ Export to report source monthly update 2023-07-30 ____________________________________ -- 
+-- ____________________________________ Export to report source monthly update 2023-08-31 ____________________________________ -- 
 select * , count(*) from 
 	(
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , 
 		case when cntl.`type` = 'prospect' then cntl.status else fd.category2 end `category2`, 
-		case when cntl.`type` = 'prospect' then '2023-07-01' else fd.date_received end `date_received`, 
+		case when cntl.`type` = 'prospect' then '2023-08-01' else fd.date_received end `date_received`, 
 		cntl.remark_1 `priority`, cntl.`condition`,
 		case when cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null then 'have_address' else 'no_address' end `address`,
 		case when fd.category = '①GOVERNMENT' then 'business_owner' else 'no' end `business_owner`,
@@ -328,7 +328,7 @@ select * , count(*) from
 			when cntl.remark_2 = 'lcc' and cntl.status_updated in ('FFF can_not_contact', 'No have in telecom') then 'FFF can_not_contact'
 			else cntl.remark_2 
 		end `new_result`
-	from contact_for_202307_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+	from contact_for_202308_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 	) t
 group by branch_name ,  province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`,`name_info` , `result`, `new_result` ;
 
@@ -349,7 +349,7 @@ group by  province_eng , `type` , category , category2, date_received, `priority
 
 
 
--- ____________________________________ Export to report all valid source update 2023-07-30 ____________________________________ -- 
+-- ____________________________________ Export to report all valid source update 2023-08-31 ____________________________________ -- 
 select * , count(*) from 
 	(
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2, fd.date_received, cntl.remark_1 `priority`, null `condition`,
@@ -390,7 +390,7 @@ group by branch_name , province_eng , `type` , category , category2 , date_recei
 
 
 
--- ____________________________________ Export to report all source update 2023-07-30 ____________________________________ -- 
+-- ____________________________________ Export to report all source update 2023-08-31 ____________________________________ -- 
 select * , count(*) from 
 	(
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2, fd.date_received, cntl.remark_1 `priority`, null `condition`,
