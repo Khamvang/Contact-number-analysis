@@ -174,8 +174,35 @@ from custtbl c left join negtbl n on (c.id = n.custid)
 ) t
 WHERE LENGTH(contact_no) IN (11,12) and date_created >= '2023-07-26'; -- copy last date_created to here
 
+
 -- _____________________________________________________________________ 00 _____________________________________________________________________
--- 4) import data from database lalco_pbx to database contact_data_db
+-- 4) import from database frappe to analysis in database contact_data_db
+select * from (
+select null `id`, 
+	case when customer_tel = '' then ''
+		when (length (regexp_replace(customer_tel , '[^[:digit:]]', '')) = 11 and left (regexp_replace(customer_tel , '[^[:digit:]]', ''),3) = '020')
+			or (length (regexp_replace(customer_tel , '[^[:digit:]]', '')) = 10 and left (regexp_replace(customer_tel , '[^[:digit:]]', ''),2) = '20')
+			or (length (regexp_replace(customer_tel , '[^[:digit:]]', '')) = 8 and left (regexp_replace(customer_tel , '[^[:digit:]]', ''),1) in ('2','5','7','8','9'))
+		then concat('9020',right(regexp_replace(customer_tel , '[^[:digit:]]', ''),8)) -- for 020
+		when (length (regexp_replace(customer_tel , '[^[:digit:]]', '')) = 10 and left (regexp_replace(customer_tel , '[^[:digit:]]', ''),3) = '030')
+			or (length (regexp_replace(customer_tel , '[^[:digit:]]', '')) = 9 and left (regexp_replace(customer_tel , '[^[:digit:]]', ''),2) = '30')
+			or (length (regexp_replace(customer_tel , '[^[:digit:]]', '')) = 7 and left (regexp_replace(customer_tel , '[^[:digit:]]', ''),1) in ('2','4','5','7','9'))
+		then concat('9030',right(regexp_replace(customer_tel , '[^[:digit:]]', ''),7)) -- for 030
+		when left (right (regexp_replace(customer_tel , '[^[:digit:]]', ''),8),1) in ('0','1','') then concat('9030',right(regexp_replace(customer_tel , '[^[:digit:]]', ''),7))
+		when left (right (regexp_replace(customer_tel , '[^[:digit:]]', ''),8),1) in ('2','5','7','8','9')
+		then concat('9020',right(regexp_replace(customer_tel , '[^[:digit:]]', ''),8))
+		else concat('9020',right(regexp_replace(customer_tel , '[^[:digit:]]', ''),8))
+	end `contact_no`, 
+	rank_update `status`, 'prospect_sabc' `priority_type`,
+	date_format(modified, '%Y-%m-%d') `date_created`,
+	date(now()) "date_updated",
+	name `BOP_id`
+from tabSME_BO_and_Plan
+) t
+where length(contact_no) in (11,12) and `date_created` >= '2023-09-29'; 
+
+-- _____________________________________________________________________ 00 _____________________________________________________________________
+-- 5) import data from database lalco_pbx to database contact_data_db
 select * from all_unique_analysis_weekly where priority_type = 'pbx_cdr' order by pbxcdr_id desc;
 
 insert into all_unique_analysis_weekly  
@@ -198,7 +225,7 @@ where -- status = 'ANSWERED' and communication_type = 'Outbound'
 group by callee_number ;
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
--- 5) import data from database callcenterdb and qhcallenter_db to database contact_data_db
+-- 6) import data from database callcenterdb and qhcallenter_db to database contact_data_db
 select c.phone `contact_no`, 
 	case when c.`rank` = 1 then 'S' -- need loan today/tomorrow
 		when c.`rank` = 2 then 'A' -- need loan in this week
