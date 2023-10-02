@@ -274,7 +274,7 @@ group by `have_car`, `business_owner`, `have_address`, `result`;
 
 
 
--- ____________________________________ Export to report source monthly update 2023-08-31 ____________________________________ -- 
+-- ____________________________________ Export to report source monthly update 2023-10-02 ____________________________________ -- 
 select * , count(*) from 
 	(
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , 
@@ -328,7 +328,7 @@ select * , count(*) from
 			when cntl.remark_2 = 'lcc' and cntl.status_updated in ('FFF can_not_contact', 'No have in telecom') then 'FFF can_not_contact'
 			else cntl.remark_2 
 		end `new_result`
-	from contact_for_202308_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+	from contact_for_202309_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 	) t
 group by branch_name ,  province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`,`name_info` , `result`, `new_result` ;
 
@@ -349,7 +349,7 @@ group by  province_eng , `type` , category , category2, date_received, `priority
 
 
 
--- ____________________________________ Export to report all valid source update 2023-08-31 ____________________________________ -- 
+-- ____________________________________ Export to report all valid source update 2023-10-02 ____________________________________ -- 
 select * , count(*) from 
 	(
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2, fd.date_received, cntl.remark_1 `priority`, null `condition`,
@@ -390,7 +390,7 @@ group by branch_name , province_eng , `type` , category , category2 , date_recei
 
 
 
--- ____________________________________ Export to report all source update 2023-08-31 ____________________________________ -- 
+-- ____________________________________ Export to report all source update 2023-10-02 ____________________________________ -- 
 select * , count(*) from 
 	(
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2, fd.date_received, cntl.remark_1 `priority`, null `condition`,
