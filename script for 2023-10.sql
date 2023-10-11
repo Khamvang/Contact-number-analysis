@@ -95,6 +95,18 @@ from contact_for_202309_lcc
 where `type` = 'prospect';
 
 
+-- check and delete the cases that already contracted
+select * from contact_for_202310_lcc
+where `type` = 'prospect' 
+	and ((remark_2 = 'contracted' and status_updated in ('Active', 'Refinance') ) or (remark_2 in ('prospect_sabc') and status_updated in ('X')) ) -- 7747
+
+delete from contact_for_202310_lcc
+where `type` = 'prospect' 
+	and ((remark_2 = 'contracted' and status_updated in ('Active', 'Refinance') ) or (remark_2 in ('prospect_sabc') and status_updated in ('X')) ) -- 7747
+
+
+
+
 # ______________________________________________________ export to create campaign on LCC for contact_for_202310_lcc ______________________________________________________________ #
 
 Branch: 'Attapue','Bokeo','Head Office','Houaphan','LuangNamtha','Luangprabang','Oudomxay','Paksan','Pakse','Salavan','Savannakhet','Thakek','Vientiane province','Xainyabuli','Xiengkhouang'
