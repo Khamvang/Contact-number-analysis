@@ -86,6 +86,15 @@ update contact_for_202310_lcc set branch_name = 'Bokeo' where branch_name is nul
 select count(*) from contact_for_202310_lcc cfl -- 
 
 
+-- 5) prospect customer
+select * from contact_for_202309_lcc cfl where `type` = 'prospect' and remark_2 = 'contracted' and status_updated in ('Active', 'Refinance') -- 7747
+
+insert into contact_for_202310_lcc (`file_id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`,`branch_name`,`status`,`status_updated`,`staff_id`,`pvd_id`,`contact_id`,`condition`,`group`)
+select `file_id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`,`branch_name`,`status`,`status_updated`,`staff_id`,`pvd_id`,`contact_id`,`condition`,`group`
+from contact_for_202309_lcc 
+where `type` = 'prospect';
+
+
 # ______________________________________________________ export to create campaign on LCC for contact_for_202310_lcc ______________________________________________________________ #
 
 Branch: 'Attapue','Bokeo','Head Office','Houaphan','LuangNamtha','Luangprabang','Oudomxay','Paksan','Pakse','Salavan','Savannakhet','Thakek','Vientiane province','Xainyabuli','Xiengkhouang'
