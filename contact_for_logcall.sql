@@ -57,6 +57,14 @@ select '2023-09-30' `date`, `contact_no`, `contact_id`, `remark_2`, `status_upda
 from contact_for_202309_lcc cfl where status_updated is not null;
 
 
+-- ______________________________________________________________ check and update set the condition = call time ______________________________________________________________
+select cfl.contact_id, t.`count_time` from contact_for_202310_lcc cfl
+left join (select contact_id, count(*) `count_time` from contact_for_logcall group by contact_id) t on (cfl.contact_id = t.contact_id)
+
+update contact_for_202310_lcc cfl
+left join (select contact_id, count(*) `count_time` from contact_for_logcall group by contact_id) t on (cfl.contact_id = t.contact_id)
+set cfl.`condition` = t.`count_time`
+
 
 
 
