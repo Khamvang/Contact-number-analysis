@@ -105,6 +105,16 @@ where `type` = 'prospect'
 	and ((remark_2 = 'contracted' and status_updated in ('Active', 'Refinance') ) or (remark_2 in ('prospect_sabc') and status_updated in ('X')) ) -- 7747
 
 
+-- ______________________________________________________ check and update logcall ______________________________________________________
+select cfl.contact_id, t.`count_time` from contact_for_202310_lcc cfl
+left join (select contact_id, count(*) `count_time` from contact_for_logcall group by contact_id) t on (cfl.contact_id = t.contact_id) ;
+
+update contact_for_202310_lcc cfl
+left join (select contact_id, count(*) `count_time` from contact_for_logcall group by contact_id) t on (cfl.contact_id = t.contact_id)
+set cfl.`condition` = t.`count_time` ;
+
+
+
 
 
 # ______________________________________________________ export to create campaign on LCC for contact_for_202310_lcc ______________________________________________________________ #
