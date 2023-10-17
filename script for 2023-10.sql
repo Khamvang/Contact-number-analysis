@@ -113,7 +113,10 @@ update contact_for_202310_lcc cfl
 left join (select contact_id, count(*) `count_time` from contact_for_logcall group by contact_id) t on (cfl.contact_id = t.contact_id)
 set cfl.`condition` = t.`count_time` ;
 
-
+-- update the condition is null
+select * from contact_for_202310_lcc where `condition` is null; -- 1,356,166
+update contact_for_202310_lcc set `condition` = 1 where `condition` is null and status is not null; -- 1,335,744
+update contact_for_202310_lcc set `condition` = 1 where `condition` is null and status is null; -- 422
 
 
 
@@ -145,7 +148,7 @@ where cntl.remark_1 in ('2')
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202310_lcc cntl 
-where cntl.remark_1 in ('3')
+where cntl.remark_1 in ('3') and cntl.`condition` <= 1
 	and branch_name = 'Attapue';
 
 
@@ -154,7 +157,7 @@ where cntl.remark_1 in ('3')
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202310_lcc cntl 
-where cntl.remark_1 in ('4')
+where cntl.remark_1 in ('4') and cntl.`condition` <= 1
 	and branch_name = 'Attapue' ;
 
 
@@ -172,7 +175,7 @@ where cntl.remark_1 in ('5')
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202310_lcc cntl 
-where cntl.remark_1 in ('6')
+where cntl.remark_1 in ('6') and cntl.`condition` = 0
 	and branch_name = 'Attapue' ;
 
 
@@ -181,7 +184,7 @@ where cntl.remark_1 in ('6')
 -- select count(*) -- 1125547
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202310_lcc cntl 
-where cntl.remark_1 in ('6')
+where cntl.remark_1 in ('6') and cntl.`condition` = 0
 	 and branch_name = 'Head Office' -- limit 0, 3 -- mean start from row 0+1 and of row 0+3
 	-- limit 0*75100 , 75100 -- result will be start from 0*75100+1, end 0*75100+75100, limit n+1, n (start from n+1, end of n)
 	-- limit 1*75100, 75100 -- result will be start from 1*75100+1, end at 1*75100+75100
