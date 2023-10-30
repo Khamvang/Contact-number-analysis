@@ -218,7 +218,8 @@ select null id, callee_number 'contact_no',
 	id `pbxcdr_id` ,
 	0 `pbxcdr_called_time` ,
 	0 `contract_id`,
-	0 `lcc_id`
+	0 `lcc_id`,
+	0 `BOP_id`
 from lalco_pbx.pbx_cdr pc 
 where -- status = 'ANSWERED' and communication_type = 'Outbound'
 	   status in ('NO ANSWER', 'FAILED', 'BUSY', 'VOICEMAIL' ) and communication_type = 'Outbound'
