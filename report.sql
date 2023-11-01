@@ -274,7 +274,7 @@ group by `have_car`, `business_owner`, `have_address`, `result`;
 
 
 
--- ____________________________________ Export to report source monthly update 2023-10-02 ____________________________________ -- 
+-- ____________________________________ Export to report source monthly update 2023-11-02 ____________________________________ -- 
 select * , count(*) from 
 	(
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , 
