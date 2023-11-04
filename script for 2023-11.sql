@@ -41,3 +41,40 @@ create table `contact_for_202311_lcc` (
 	  constraint `contact_for_202311_lcc_ibfk_1` foreign key (`file_id`) references `file_details` (`id`)
 ) engine=InnoDB auto_increment=1 default CHARSET=utf8mb4 collate utf8mb4_general_ci ;
 
+
+-- 2) intert data from contact_numbers_to_lcc to table monthly
+insert into contact_for_202311_lcc
+select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
+	case -- when cntl.file_id >= 1207 then '1' -- because there's not new list
+		when cntl.status = '' or cntl.status is null then '1'
+		when cntl.`type` = '①Have Car' then '4'
+		when cntl.`type` = '②Need loan' then '3'
+		when cntl.`type` = '③Have address' then '2'
+		when cntl.`type` = 'prospect' then '5'
+		when cntl.`type` = '④Telecom' then '6'
+	end `remark_1`,
+	null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
+	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`, 
+	null `condition`, 
+	case when cntl.`type` in ('①Have Car', '②Need loan') then 1
+		when cntl.`type` = '③Have address' and fd.category = '①GOVERNMENT' then 1
+		when cntl.`type` = '③Have address' and fd.category != '①GOVERNMENT' then 2
+		when cntl.`type` = '④Telecom' and (cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null ) then 2
+		when cntl.`type` = '④Telecom' then 3
+	end `group`
+-- select count(*) -- 
+from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+where (cntl.remark_3 in ('contracted', 'ringi_not_contract', 'aseet_not_contract') ) -- already register on LMS
+	or (cntl.remark_3 in ('prospect_sabc', 'lcc') and cntl.status in ('X','S','A','B','C', 'FF1 not_answer', 'FF2 power_off') ) -- already register on CRM and LCC
+	or (cntl.remark_3 = 'pbx_cdr' and cntl.status = 'ANSWERED') -- Ever Answered in the past
+	or (cntl.remark_3 = 'Telecom' and cntl.status in ('ETL_active', 'SMS_success') ) -- Ever sent SMS and success
+	or cntl.status is null -- new number
+	or cntl.contact_id in (select contact_id from temp_sms_chairman tean where status = 1 ) -- SMS check
+	or cntl.contact_id in (select contact_id from temp_etl_active_numbers tean2 ) -- ETL active 
+
+
+
+
+
+
+
