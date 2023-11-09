@@ -1,10 +1,17 @@
 /*
+
 @Kham Questions and instructions from the Chairman regarding your report "Call list: remove bad data from call list as Chairman introduced 2023-10-30".
-1) What does "No have in telecom" mean?
+1) What does "No have in telecom" mean? -> when call to that number, there's a respone sound, this number is not in telecom service
 2) There is no need to delete FF1 and FF2.
 3) "Block need to block" and Z1 are targets for calls made by affiliated companies other than LALCO (Money MAX, etc.).
 4) If FFF doesn't connect, delete it once instead of twice (Is it okay if FFF doesn't have a phone contract?)
 5) SP has ranks divided into XYZ, so change the display. (e.g. SP-X, SP-Y, SP-Z, etc.)
+
+So, do "FFF can't contact" and "No have in telecom" mean the same thing?
+-> Same but different because 
+-> No have in telecom service mean it's not register there 100% can't contact before the telecom open that number, No have in telecom mean really sure that number still not register there
+-> FFF can't contact means that the number cannot be reached only this time (as we tested sometime power off the service also has a sound like that), or there is no chance to call at all or sometime the telecom server not sure because this number is not working for long time as we asked telecom last time they said this sound mean the system service is not really sure the reason what's happen for that number
+
 */
 
 
@@ -71,6 +78,51 @@ where (cntl.remark_3 in ('contracted', 'ringi_not_contract', 'aseet_not_contract
 	or cntl.status is null -- new number
 	or cntl.contact_id in (select contact_id from temp_sms_chairman tean where status = 1 ) -- SMS check
 	or cntl.contact_id in (select contact_id from temp_etl_active_numbers tean2 ) -- ETL active 
+
+	
+-- 3) delete the status contracted, inactive number from table monthly
+select count(*)  from contact_for_202311_lcc;  --  number need to delete becaues contracted or invalid number
+
+delete from contact_for_202311_lcc
+where remark_3 = 'contracted' -- contracted
+	or (remark_3 in ('prospect_sabc', 'lcc') and status in ('X') ) -- contracted
+	or (remark_3 = 'lcc' and status = 'Block need_to_block') -- Block need_to_block
+	or (remark_3 = 'lcc' and status in ('FFF can_not_contact', 'No have in telecom')) -- FFF can_not_contact
+	or (remark_3 = 'Telecom' and status in ('ETL_inactive','SMS_Failed')) -- Telecom_inactive
+	or remark_3 = 'blacklist' -- blacklist
+
+-- 4) set branch_name before export
+select branch_name , count(*)  from contact_for_202311_lcc group by branch_name ;
+
+update contact_for_202311_lcc set branch_name = 'Bokeo' where branch_name is null;
+
+select count(*) from contact_for_202311_lcc cfl -- 
+
+-- 5) prospect customer
+ -- > this month not need because we import to frappe table: tabSME_BO_and_Plan  and make them use from there
+
+
+-- ______________________________________________________ check and update logcall ______________________________________________________
+select cfl.contact_id, t.`count_time` from contact_for_202311_lcc cfl
+left join (select contact_id, count(*) `count_time` from contact_for_logcall group by contact_id) t on (cfl.contact_id = t.contact_id) ;
+
+update contact_for_202311_lcc cfl
+left join (select contact_id, count(*) `count_time` from contact_for_logcall group by contact_id) t on (cfl.contact_id = t.contact_id)
+set cfl.`condition` = t.`count_time` ;
+
+-- update the condition is null
+select * from contact_for_202311_lcc where `condition` is null; -- 1,356,166
+update contact_for_202311_lcc set `condition` = 1 where `condition` is null and status is not null; -- 1,335,744
+update contact_for_202311_lcc set `condition` = 1 where `condition` is null and status is null; -- 422
+
+
+
+
+
+
+
+
+
 
 
 
