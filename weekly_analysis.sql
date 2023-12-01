@@ -90,7 +90,7 @@ end `contact_no`,
 FROM tblcontract c left join tblprospect p on (p.id = c.prospect_id)
 left join tblcustomer cu on (cu.id = p.customer_id)
 WHERE c.status in (4,6,7) ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-08-26'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-10-28'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- (2) ringi not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
@@ -117,7 +117,7 @@ end `contact_no`,
 FROM tblcontract c right join tblprospect p on (p.id = c.prospect_id)
 left join tblcustomer cu on (cu.id = p.customer_id)
 WHERE c.status not in (4,6,7) or p.status != 3 ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-08-26'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-10-28'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- (3) asset not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
@@ -152,11 +152,11 @@ left join tblprospect p on (p.id = pa.prospect_id)
 left join tblcustomer cu2 on (p.customer_id = cu2.id)
 WHERE av.status != 2 or p.status != 3 
 ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-08-26'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` >= '2023-10-28'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 3) import from database lalcodb to analysis in database contact_data_db
-select * from all_unique_analysis_weekly where priority_type = 'prospect_sabc' order by custtbl_id desc;
+select * from all_unique_analysis_weekly where priority_type = 'prospect_sabc' order by date_created desc;
 
 SELECT *, case when left(contact_no, 4) = '9020' then right(contact_no, 8) when left(contact_no, 4) = '9030' then right(contact_no, 7) end "contact_id" FROM (
 select '' "id",
@@ -177,6 +177,8 @@ WHERE LENGTH(contact_no) IN (11,12) and date_created >= '2023-08-29'; -- copy la
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 4) import from database frappe to analysis in database contact_data_db
+select * from all_unique_analysis_weekly where priority_type = 'prospect_sabc' order by date_created desc;
+
 select * from (
 select null `id`, 
 	case when customer_tel = '' then ''
@@ -199,11 +201,11 @@ select null `id`,
 	name `BOP_id`
 from tabSME_BO_and_Plan
 ) t
-where length(contact_no) in (11,12) and `date_created` >= '2023-09-29'; 
+where length(contact_no) in (11,12) and `date_created` >= '2023-10-30'; 
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 5) import data from database lalco_pbx to database contact_data_db
-select * from all_unique_analysis_weekly where priority_type = 'pbx_cdr' order by pbxcdr_id desc;
+select * from all_unique_analysis_weekly where priority_type = 'pbx_cdr' order by date_created desc;
 
 insert into all_unique_analysis_weekly  
 select null id, callee_number 'contact_no',
@@ -216,16 +218,19 @@ select null id, callee_number 'contact_no',
 	id `pbxcdr_id` ,
 	0 `pbxcdr_called_time` ,
 	0 `contract_id`,
-	0 `lcc_id`
+	0 `lcc_id`,
+	0 `BOP_id`
 from lalco_pbx.pbx_cdr pc 
-where -- status = 'ANSWERED' and communication_type = 'Outbound'
-	   status in ('NO ANSWER', 'FAILED', 'BUSY', 'VOICEMAIL' ) and communication_type = 'Outbound'
- and date_format(`time`, '%Y-%m-%d') >= '2023-08-28' -- please chcek this date from table all_unique_analysis
+where  status = 'ANSWERED' and communication_type = 'Outbound'
+	  -- status in ('NO ANSWER', 'FAILED', 'BUSY', 'VOICEMAIL' ) and communication_type = 'Outbound'
+ and date_format(`time`, '%Y-%m-%d') >= '2023-10-28' -- please chcek this date from table all_unique_analysis
  and CONCAT(LENGTH(callee_number), left( callee_number, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290209')
 group by callee_number ;
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 6) import data from database callcenterdb and qhcallenter_db to database contact_data_db
+select * from all_unique_analysis_weekly where priority_type = 'lcc' order by date_created desc;
+
 select c.phone `contact_no`, 
 	case when c.`rank` = 1 then 'S' -- need loan today/tomorrow
 		when c.`rank` = 2 then 'A' -- need loan in this week
@@ -249,7 +254,7 @@ select c.phone `contact_no`,
 	c.id `lcc_id`
 -- from hqcallcenter_db.campaign_calls cc inner join hqcallcenter_db.customers c on c.id = cc.customer_id inner join hqcallcenter_db.campaigns on campaigns.id = cc.campaign_id -- HQ
  from callcenter_db.campaign_calls cc inner join callcenter_db.customers c on c.id = cc.customer_id inner join callcenter_db.campaigns on campaigns.id = cc.campaign_id -- BR
-where 1=1 and c.`rank` is not null and c.`rank` != '' and campaigns.created_at >= '2023-07-26' order by cc.created_at desc;
+where 1=1 and c.`rank` is not null and c.`rank` != '' and campaigns.created_at >= '2023-10-28' order by cc.created_at desc;
 
 
 -- _____________________________________________________________________ 0 update contact_no and contact_id 0 _____________________________________________________________________
@@ -282,7 +287,7 @@ update all_unique_analysis_weekly set contact_id = case when left(contact_no,4) 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 6)delete duplicate and check data
 delete from removed_duplicate_2;
-select count(*) from all_unique_analysis_weekly; -- 3460216 >> 
+select count(*) from all_unique_analysis_weekly; -- 1885401 >> 
 insert into removed_duplicate_2 
 select id, row_numbers, now() `time` from ( 
 		select id , row_number() over (partition by contact_id order by field(priority_type, "contracted", "ringi_not_contract", "aseet_not_contract",
@@ -311,6 +316,7 @@ order by field(priority_type, "contracted", "ringi_not_contract", "aseet_not_con
 
 select * from all_unique_analysis_weekly auaw where priority_type = 'prospect_sabc' and status = '';
 update all_unique_analysis_weekly set status = 'F' where status = '' or status is null;
+update all_unique_analysis_weekly set status = 'F' where status in ();
 
 -- _________________________ Export table  _________________________ 
 mysqldump -u root -p -h localhost --port 3306 contact_data_db all_unique_analysis all_unique_analysis_weekly > D:\"OneDrive - LALCO lalcodb1"\"OneDrive - Lao Asean Leasing Co. Ltd"\contact_data_db\all_unique_analysis20230513.sql
@@ -339,10 +345,10 @@ where cntl.id in (select id from temp_update_any );
 select now(); -- datetime on this time
 
 
-select status, status_updated, count(*)  from contact_for_202309_lcc cntl where cntl.id in (select id from temp_update_any)  group by status, status_updated ;
+select status, status_updated, count(*)  from contact_for_202311_lcc cntl where cntl.id in (select id from temp_update_any)  group by status, status_updated ;
 
--- 8)update status in table contact_for_202309_lcc 
-update contact_for_202309_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202311_lcc 
+update contact_for_202311_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any );
 select now(); -- datetime on this time
@@ -368,10 +374,10 @@ where cntl.id in (select id from temp_update_any) and (cntl.status is null or cn
 select now(); -- datetime on this time
 
 
-select status, status_updated, count(*)  from contact_for_202309_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
+select status, status_updated, count(*)  from contact_for_202311_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
 
--- 8)update status in table contact_for_202309_lcc 
-update contact_for_202309_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202311_lcc 
+update contact_for_202311_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted'));
 select now(); -- datetime on this time
@@ -398,8 +404,8 @@ select now(); -- datetime on this time
 
 select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
 
--- 8)update status in table contact_for_202309_lcc 
-update contact_for_202309_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202311_lcc 
+update contact_for_202311_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted'));
 select now(); -- datetime on this time
@@ -437,10 +443,10 @@ set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = 
 where cntl.id in (select id from temp_update_any ) and (cntl.status is null or cntl.remark_3 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract'));
 select now(); -- datetime on this time
 
-select status, status_updated, count(*) from contact_for_202309_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
+select status, status_updated, count(*) from contact_for_202311_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
 
--- 8)update status in table contact_for_202309_lcc 
-update contact_for_202309_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202311_lcc 
+update contact_for_202311_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract'));
 select now(); -- datetime on this time
@@ -477,10 +483,10 @@ set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = 
 where cntl.id in (select id from temp_update_any ) and (cntl.status is null or cntl.remark_3 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract', 'prospect_sabc'));
 select now(); -- datetime on this time
 
-select status, status_updated, count(*) from contact_for_202309_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
+select status, status_updated, count(*) from contact_for_202311_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
 
--- 8)update status in table contact_for_202309_lcc 
-update contact_for_202309_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202311_lcc 
+update contact_for_202311_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract', 'prospect_sabc'));
 select now(); -- datetime on this time
@@ -518,10 +524,10 @@ set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = 
 where cntl.id in (select id from temp_update_any ) and (cntl.status is null or cntl.status in ('SMS_success', 'ETL_active'));
 select now(); -- datetime on this time
 
-select status, status_updated, count(*) from contact_for_202309_lcc cntl where cntl.id in (select id from temp_update_any)  group by status, status_updated ;
+select status, status_updated, count(*) from contact_for_202311_lcc cntl where cntl.id in (select id from temp_update_any)  group by status, status_updated ;
 
--- 8)update status in table contact_for_202309_lcc 
-update contact_for_202309_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202311_lcc 
+update contact_for_202311_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any ) and (cntl.status_updated is null or cntl.status_updated in ('SMS_success', 'ETL_active'));
 select now(); -- datetime on this time
@@ -541,7 +547,7 @@ where aua.priority_type = 'lcc';
 
 
 insert into temp_update_any1
-select `id`, `contact_no`, `remark_3`, `status`, 0 `pbxcdr_time`, `contact_id`  from contact_for_202309_lcc cfl where status_updated = 'NO ANSWER'
+select `id`, `contact_no`, `remark_3`, `status`, 0 `pbxcdr_time`, `contact_id`  from contact_for_202311_lcc cfl where status_updated = 'NO ANSWER'
 
 insert into all_unique_analysis_weekly1 
 select * from all_unique_analysis_weekly where contact_id in (select contact_id from temp_update_any1 )
@@ -568,19 +574,19 @@ where cntl.id in (select id from temp_update_any ) and (cntl.status is null or (
 
 select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id in (select id from temp_update_any) group by remark_3, status;
 
--- 8)update status in table contact_for_202309_lcc 
-update contact_for_202309_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202311_lcc 
+update contact_for_202311_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
--- select cntl.remark_2 , tua.remark_3, cntl.status_updated , tua.status from contact_for_202309_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- select cntl.remark_2 , tua.remark_3, cntl.status_updated , tua.status from contact_for_202311_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 in ('prospect_sabc', 'pbx_cdr', 'lcc')) 
 	and tua.status in ('X','S','A','B','C','F','G','SP will be salespartner') ;
 select now(); -- datetime on this time
 
 
--- 8)update status in table contact_for_202309_lcc 
-update contact_for_202309_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202311_lcc 
+update contact_for_202311_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
--- select cntl.remark_2 , tua.remark_3, cntl.status_updated , tua.status from contact_for_202309_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- select cntl.remark_2 , tua.remark_3, cntl.status_updated , tua.status from contact_for_202311_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or (cntl.remark_2 = 'pbx_cdr' and cntl.status_updated = 'NO ANSWER') or (cntl.remark_2 = 'lcc') )
 	and tua.status in ('Block need_to_block','FF1 not_answer','FF2 power_off','FFF can_not_contact','No have in telecom') ;
 select now(); -- datetime on this time
@@ -614,13 +620,6 @@ alter table contact_numbers_to_lcc add `contact_id` int(11) not null;
 alter table contact_numbers_to_lcc add key `contact_id` (`contact_id`);
 
 update contact_numbers_to_lcc set contact_id = case when left(contact_no,4) = '9020' then right(contact_no,8) when left(contact_no,4) = '9030' then right(contact_no,7) end ;
-
-
-
-
-
-
-
 
 
 
