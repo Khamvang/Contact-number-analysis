@@ -80,6 +80,27 @@ where (cntl.remark_3 in ('contracted', 'ringi_not_contract', 'aseet_not_contract
 	or cntl.contact_id in (select contact_id from temp_etl_active_numbers tean2 ) -- ETL active 
 
 	
+-- 3) delete the status contracted, inactive number from table monthly
+select count(*)  from contact_for_202312_lcc;  --  number need to delete becaues contracted or invalid number
+
+delete from contact_for_202312_lcc
+where remark_3 = 'contracted' -- contracted
+	or (remark_3 in ('prospect_sabc', 'lcc') and status in ('X') ) -- contracted
+	or (remark_3 = 'lcc' and status = 'Block need_to_block') -- Block need_to_block
+	or (remark_3 = 'lcc' and status in ('FFF can_not_contact', 'No have in telecom')) -- FFF can_not_contact
+	or (remark_3 = 'Telecom' and status in ('ETL_inactive','SMS_Failed')) -- Telecom_inactive
+	or remark_3 = 'blacklist' -- blacklist
+
+-- 4) set branch_name before export
+select branch_name , count(*)  from contact_for_202312_lcc group by branch_name ;
+
+update contact_for_202312_lcc set branch_name = 'Bokeo' where branch_name is null;
+
+select count(*) from contact_for_202312_lcc cfl -- 
+
+-- 5) prospect customer
+ -- > this month not need because we import to frappe table: tabSME_BO_and_Plan  and make them use from there
+
 
 
 
