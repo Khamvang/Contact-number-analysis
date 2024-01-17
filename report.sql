@@ -167,10 +167,10 @@ group by telecom;
 
 
 /* ___________________________ Order 2023-01-13 ___________________________ */
--- 1_)
-select id, null 'Branch', null 'Department', null 'Unit', staff_no , staff_name, staff_tel , concat(broker_name, ' ',broker_tel) 'broker_key',  broker_name, broker_tel , `type` , category , date_received, company_name , number_of_original_file,
+-- 1_) Sales partner list
+select id, null 'G-Dept', null 'Branch', null 'Department', null 'Unit', null 'Staff Status', staff_no , staff_name, staff_tel , concat(broker_name, ' ',broker_tel) 'broker_key',  broker_name, broker_tel , `type` , category, category2, date_received, company_name , number_of_original_file,
 	null 'unique_numbers', null 'can_contact_numbers', null ' staff status', null 'Sales/Internal', null 'current_staff_no', null 'current_staff_name'
-from file_details fd ;
+from file_details fd order by id desc;
 
 
 -- 2_)
