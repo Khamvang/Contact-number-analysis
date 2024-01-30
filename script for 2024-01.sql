@@ -102,10 +102,17 @@ select count(*) from contact_for_202401_lcc cfl --
  -- > this month not need because we import to frappe table: tabSME_BO_and_Plan  and make them use from there
 
 
--- ______________________________________________________ check and update logcall ______________________________________________________
+-- 6) insert data from each month into table contact_for_logcall
+insert into contact_for_logcall
+select '2024-01-31' `date`, `contact_no`, `contact_id`, `remark_2`, `status_updated`
+from contact_for_202401_lcc cfl where status_updated is not null;
+
+
+-- 7) check and update logcall 
 select cfl.contact_id, t.`count_time` from contact_for_202401_lcc cfl
 left join (select contact_id, count(*) `count_time` from contact_for_logcall group by contact_id) t on (cfl.contact_id = t.contact_id) ;
 
+-- update
 update contact_for_202401_lcc cfl
 left join (select contact_id, count(*) `count_time` from contact_for_logcall group by contact_id) t on (cfl.contact_id = t.contact_id)
 set cfl.`condition` = t.`count_time` ;
