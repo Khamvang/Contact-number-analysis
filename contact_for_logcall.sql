@@ -61,6 +61,21 @@ insert into contact_for_logcall
 select '2023-10-31' `date`, `contact_no`, `contact_id`, `remark_2`, `status_updated`
 from contact_for_202310_lcc cfl where status_updated is not null;
 
+-- Nov 2023
+insert into contact_for_logcall
+select '2023-11-30' `date`, `contact_no`, `contact_id`, `remark_2`, `status_updated`
+from contact_for_202311_lcc cfl where status_updated is not null;
+
+-- Dec 2023
+insert into contact_for_logcall
+select '2023-12-31' `date`, `contact_no`, `contact_id`, `remark_2`, `status_updated`
+from contact_for_202312_lcc cfl where status_updated is not null;
+
+-- Jan 2024
+insert into contact_for_logcall
+select '2024-01-31' `date`, `contact_no`, `contact_id`, `remark_2`, `status_updated`
+from contact_for_202401_lcc cfl where status_updated is not null;
+
 -- ______________________________________________________________ check and update set the condition = call time ______________________________________________________________
 select cfl.contact_id, t.`count_time` from contact_for_202310_lcc cfl
 left join (select contact_id, count(*) `count_time` from contact_for_logcall group by contact_id) t on (cfl.contact_id = t.contact_id)
