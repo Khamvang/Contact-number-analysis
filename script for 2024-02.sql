@@ -130,66 +130,73 @@ update contact_for_202402_lcc set `condition` = 1 where `condition` is null and 
 Branch: 'Attapue','Bokeo','Head Office','Houaphan','LuangNamtha','Luangprabang','Oudomxay','Paksan','Pakse','Salavan','Savannakhet','Thakek','Vientiane province','Xainyabuli','Xiengkhouang'
 Team: 'ATP Team', 'Bokeo', 'Team2', 'Team3', 'Team4', 'Houaphan Team', 'Luangnamtha', 'LPB Team', 'OUX Team', 'Paksan Team', 'Pakse Team', 'Salavan', 'SVK Team', 'Thakket Team', 'VTP Team', 'XYB Team', 'XKH Team'
 
--- ____________________________________________________ Priority1 ____________________________________________________
--- Campaign name: all_new_ATTAPUE_ATP Team_20240201_p1
+-- ____________________________________________________ Priority1: new number ____________________________________________________
+-- Campaign name: all_new_ATTAPUE_ATP Team_20240201_p1 / all_new_ATTAPUE_ATP Team_20240201_p1-1
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202402_lcc cntl 
-where cntl.remark_1 in ('1') 
-	-- and branch_name = 'Attapue' ; -- not need add branch 
+where cntl.remark_1 in ('1') and cntl.`condition` <= 1
+-- where cntl.remark_1 in ('1') and cntl.`condition` > 1
+	and branch_name = 'Attapue' ; 
 
 
--- ____________________________________________________ Priority2 ____________________________________________________
--- Campaign name: 3_Old_ATTAPUE_ATP Team_20240201_p2
+-- ____________________________________________________ Priority2: Have address ____________________________________________________
+-- Campaign name: 3_Old_ATTAPUE_ATP Team_20240201_p2 / 3_Old_ATTAPUE_ATP Team_20240201_p2-1
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202402_lcc cntl 
-where cntl.remark_1 in ('2')
+where cntl.remark_1 in ('2') and cntl.`condition` <= 1
+-- where cntl.remark_1 in ('2') and cntl.`condition` > 1
 	and branch_name = 'Attapue' ;
 
 
--- ____________________________________________________ Priority3 ____________________________________________________
--- Campaign name: 2_Old_ATTAPUE_ATP Team_20240201_p3
+-- ____________________________________________________ Priority3: Need loan ____________________________________________________
+-- Campaign name: 2_Old_ATTAPUE_ATP Team_20240201_p3 / 2_Old_ATTAPUE_ATP Team_20240201_p3-1
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202402_lcc cntl 
 where cntl.remark_1 in ('3') and cntl.`condition` <= 1
+-- where cntl.remark_1 in ('3') and cntl.`condition` > 1
 	and branch_name = 'Attapue';
 
 
--- ____________________________________________________ Priority4 ____________________________________________________
--- Campaign name: 1_Old_ATTAPUE_ATP Team_20240201_p4
+-- ____________________________________________________ Priority4: Have Car ____________________________________________________
+-- Campaign name: 1_Old_ATTAPUE_ATP Team_20240201_p4  / 1_Old_ATTAPUE_ATP Team_20240201_p4-1
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202402_lcc cntl 
 where cntl.remark_1 in ('4') and cntl.`condition` <= 1
+-- where cntl.remark_1 in ('4') and cntl.`condition` > 1
 	and branch_name = 'Attapue' ;
 
 
--- ____________________________________________________ Priority5 ____________________________________________________
--- Campaign name: p_Old_ATTAPUE_ATP Team_20240201_p5
+-- ____________________________________________________ Priority5: prospect ____________________________________________________
+-- Campaign name: p_Old_ATTAPUE_ATP Team_20240201_p5 / p_Old_ATTAPUE_ATP Team_20240201_p5-1
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202402_lcc cntl 
-where cntl.remark_1 in ('5')
+where cntl.remark_1 in ('5') and cntl.`condition` <= 1
+-- where cntl.remark_1 in ('5') and cntl.`condition` <= 1
 	and branch_name = 'Attapue' ;
 
 
--- ____________________________________________________ Priority6 ____________________________________________________
--- Campaign name: 4_Old_ATTAPUE_ATP Team_20240201_p6
+-- ____________________________________________________ Priority6 BR: Telecom ____________________________________________________
+-- Campaign name: 4_Old_ATTAPUE_ATP Team_20240201_p6  / 4_Old_ATTAPUE_ATP Team_20240201_p6-1
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202402_lcc cntl 
-where cntl.remark_1 in ('6') and cntl.`condition` = 0
+where cntl.remark_1 in ('6') and cntl.`condition` <= 1
+-- where cntl.remark_1 in ('6') and cntl.`condition` > 1
 	and branch_name = 'Attapue' ;
 
 
--- ____________________________________________________ Priority6 ____________________________________________________
--- Campaign name: 4_Old_Head Office_Team2_20240201_p6
+-- ____________________________________________________ Priority6 HO: Telecom ____________________________________________________
+-- Campaign name: 4_Old_Head Office_Team2_20240201_p6 / 4_Old_Head Office_Team2_20240201_p6-1
 -- select count(*) -- 1125547
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202402_lcc cntl 
-where cntl.remark_1 in ('6') and cntl.`condition` = 0
+where cntl.remark_1 in ('6') and cntl.`condition` <= 1
+-- where cntl.remark_1 in ('6') and cntl.`condition` > 1
 	 and branch_name = 'Head Office' -- limit 0, 3 -- mean start from row 0+1 and of row 0+3
 	-- limit 0*75100 , 75100 -- result will be start from 0*75100+1, end 0*75100+75100, limit n+1, n (start from n+1, end of n)
 	-- limit 1*75100, 75100 -- result will be start from 1*75100+1, end at 1*75100+75100
