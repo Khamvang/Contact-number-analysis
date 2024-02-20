@@ -349,11 +349,15 @@ group by branch_name ,  province_eng , `type` , category , category2 , date_rece
 
 
 
--- ____________________________________ Export to report all valid source update 2023-11-02 ____________________________________ -- 
+-- ____________________________________ Export to report all valid source update 2024-02-20 ____________________________________ -- 
 select * , count(*) from 
 	(
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , fd.category2, fd.date_received, cntl.remark_1 `priority`, null `condition`,
-		case when cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null then 'have_address' else 'no_address' end `address`,
+		case when cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null then 'have_address' 
+			when cntl.province_eng is not null and cntl.district_eng is not null then 'only province & district' 
+			when cntl.province_eng is not null then 'only province' 
+			else 'no_address' 
+		end `address`,
 		case when fd.category = '①GOVERNMENT' then 'business_owner' else 'no' end `business_owner`,
 		case when cntl.maker is not null or cntl.model is not null then 'have_car' else 'no_car' end `car_info`,
 		case when cntl.name is not null or cntl.name != '' then 'have_name' else 'no_name' end `name_info`,
