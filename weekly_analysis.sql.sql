@@ -479,7 +479,7 @@ select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id
 -- 8)update status in table contact_numbers_to_lcc 
 update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = date(now())
-where cntl.contact_id in (select contact_id	 from temp_update_any ) and (cntl.status is null or cntl.remark_3 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract', 'prospect_sabc'))
+where cntl.contact_id in (select contact_id from temp_update_any ) and (cntl.status is null or cntl.remark_3 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract', 'prospect_sabc'))
 	and tua.id > 12065144;
 select now(); -- datetime on this time
 
