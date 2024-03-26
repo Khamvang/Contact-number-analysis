@@ -203,3 +203,15 @@ where cntl.remark_1 in ('6') and cntl.`condition` <= 1
 	-- limit 0*75100 , 75100 -- result will be start from 0*75100+1, end 0*75100+75100, limit n+1, n (start from n+1, end of n)
 	-- limit 1*75100, 75100 -- result will be start from 1*75100+1, end at 1*75100+75100
 	 -- limit 2*75100, 75100 -- result will be start from 2*75100+1, end at 2*75100+75100
+
+
+	
+-- ____________________________________________________ WA campaign ____________________________________________________
+select cntl.id `FIRSTNAME`, null `LASTNAME`, null `EMAIL`, concat('+856', right(contact_no, length(contact_no)-2)) `WHATSAPP`, null `SMS`
+from contact_for_202403_lcc cntl 
+where cntl.remark_1 in ('4') and cntl.`condition` <= 1
+-- where cntl.remark_1 in ('4') and cntl.`condition` > 1
+	and CONCAT(LENGTH(contact_no), left( contact_no, 5)) in ('1290202','1290205','1290207','1290208','1290209')
+	and branch_name = 'Head Office' and cntl.id > 4060670
+	limit 200;
+
