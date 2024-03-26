@@ -443,6 +443,18 @@ order by field(remark_2, "contracted", "ringi_not_contract", "aseet_not_contract
 
 
 
+-- COO Yoshi requests How many call time from each number separate by category (0 time, less 5 times, less 10 times, over 10 times)
+select *, count(*) from 
+(
+select fd.`type`, fd.category, fd.category2, 
+	case when cntl.`condition` = 0 then '①0 time'
+		when cntl.`condition` <= 5 then '②less 5 times'
+		when cntl.`condition` <= 10 then '③less 10 times'
+		when cntl.`condition` > 10 then '④over 10 times'
+	end `call_time_type`
+from file_details fd inner join contact_for_202403_lcc cntl on (fd.id = cntl.file_id)
+) t
+group by `type`, category, category2, `call_time_type`;
 
 
 
