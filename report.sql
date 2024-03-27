@@ -457,6 +457,10 @@ from file_details fd inner join contact_for_202403_lcc cntl on (fd.id = cntl.fil
 group by `type`, category, category2, `call_time_type`;
 
 
+select fd.`type`, fd.category, fd.category2, cntl.condition `call_time_type`, count(*) 
+from file_details fd inner join contact_for_202403_lcc cntl on (fd.id = cntl.file_id)
+group by `type`, category, category2, cntl.condition;
+
 
 
 
