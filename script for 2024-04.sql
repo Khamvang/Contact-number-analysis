@@ -137,8 +137,8 @@ Team: 'ATP Team', 'Bokeo', 'Team2', 'Team3', 'Team4', 'Houaphan Team', 'Luangnam
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202404_lcc cntl 
-where cntl.remark_1 in ('1') and cntl.`condition` <= 1
--- where cntl.remark_1 in ('1') and cntl.`condition` > 1
+where cntl.remark_1 in ('1') and cntl.`condition` <= 5
+-- where cntl.remark_1 in ('1') and cntl.`condition` >5
 	and branch_name = 'Attapue' ; 
 
 
@@ -147,8 +147,8 @@ where cntl.remark_1 in ('1') and cntl.`condition` <= 1
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202404_lcc cntl 
-where cntl.remark_1 in ('2') and cntl.`condition` <= 1
--- where cntl.remark_1 in ('2') and cntl.`condition` > 1
+where cntl.remark_1 in ('2') and cntl.`condition` <= 5
+-- where cntl.remark_1 in ('2') and cntl.`condition` > 5
 	and branch_name = 'Attapue' ;
 
 
@@ -157,8 +157,8 @@ where cntl.remark_1 in ('2') and cntl.`condition` <= 1
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202404_lcc cntl 
-where cntl.remark_1 in ('3') and cntl.`condition` <= 1
--- where cntl.remark_1 in ('3') and cntl.`condition` > 1
+where cntl.remark_1 in ('3') and cntl.`condition` <= 5
+-- where cntl.remark_1 in ('3') and cntl.`condition` > 5
 	and branch_name = 'Attapue';
 
 
@@ -167,8 +167,8 @@ where cntl.remark_1 in ('3') and cntl.`condition` <= 1
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202404_lcc cntl 
-where cntl.remark_1 in ('4') and cntl.`condition` <= 1
--- where cntl.remark_1 in ('4') and cntl.`condition` > 1
+where cntl.remark_1 in ('4') and cntl.`condition` <= 5
+-- where cntl.remark_1 in ('4') and cntl.`condition` > 5
 	and branch_name = 'Attapue' ;
 
 
@@ -177,8 +177,8 @@ where cntl.remark_1 in ('4') and cntl.`condition` <= 1
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202404_lcc cntl 
-where cntl.remark_1 in ('5') and cntl.`condition` <= 1
--- where cntl.remark_1 in ('5') and cntl.`condition` <= 1
+where cntl.remark_1 in ('5') and cntl.`condition` <= 5
+-- where cntl.remark_1 in ('5') and cntl.`condition` <= 5
 	and branch_name = 'Attapue' ;
 
 
@@ -187,8 +187,8 @@ where cntl.remark_1 in ('5') and cntl.`condition` <= 1
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202404_lcc cntl 
-where cntl.remark_1 in ('6') and cntl.`condition` <= 1
--- where cntl.remark_1 in ('6') and cntl.`condition` > 1
+where cntl.remark_1 in ('6') and cntl.`condition` <= 5
+-- where cntl.remark_1 in ('6') and cntl.`condition` > 5
 	and branch_name = 'Attapue' ;
 
 
@@ -197,8 +197,8 @@ where cntl.remark_1 in ('6') and cntl.`condition` <= 1
 -- select count(*) -- 1125547
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
 from contact_for_202404_lcc cntl 
-where cntl.remark_1 in ('6') and cntl.`condition` <= 1
--- where cntl.remark_1 in ('6') and cntl.`condition` > 1
+where cntl.remark_1 in ('6') and cntl.`condition` <= 5
+-- where cntl.remark_1 in ('6') and cntl.`condition` > 5
 	 and branch_name = 'Head Office' -- limit 0, 3 -- mean start from row 0+1 and of row 0+3
 	-- limit 0*75100 , 75100 -- result will be start from 0*75100+1, end 0*75100+75100, limit n+1, n (start from n+1, end of n)
 	-- limit 1*75100, 75100 -- result will be start from 1*75100+1, end at 1*75100+75100
@@ -209,8 +209,8 @@ where cntl.remark_1 in ('6') and cntl.`condition` <= 1
 -- ____________________________________________________ WA campaign ____________________________________________________
 select cntl.id `FIRSTNAME`, null `LASTNAME`, null `EMAIL`, concat('+856', right(contact_no, length(contact_no)-2)) `WHATSAPP`, null `SMS`
 from contact_for_202404_lcc cntl 
-where cntl.remark_1 in ('4') and cntl.`condition` <= 1
--- where cntl.remark_1 in ('4') and cntl.`condition` > 1
+where cntl.remark_1 in ('4') and cntl.`condition` <= 5
+-- where cntl.remark_1 in ('4') and cntl.`condition` > 5
 	and CONCAT(LENGTH(contact_no), left( contact_no, 5)) in ('1290202','1290205','1290207','1290208','1290209')
 	and branch_name = 'Head Office' and cntl.id > 4060670
 	limit 200;
