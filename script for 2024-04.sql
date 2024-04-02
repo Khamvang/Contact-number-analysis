@@ -135,7 +135,7 @@ Team: 'ATP Team', 'Bokeo', 'Team2', 'Team3', 'Team4', 'Houaphan Team', 'Luangnam
 -- ____________________________________________________ Priority1: new number ____________________________________________________
 -- Campaign name: all_new_ATTAPUE_ATP Team_20240401_p1 / all_new_ATTAPUE_ATP Team_20240401_p1-1
 -- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202404_lcc cntl 
 where cntl.remark_1 in ('1') and cntl.`condition` <= 5
 -- where cntl.remark_1 in ('1') and cntl.`condition` >5
@@ -145,7 +145,7 @@ where cntl.remark_1 in ('1') and cntl.`condition` <= 5
 -- ____________________________________________________ Priority2: Have address ____________________________________________________
 -- Campaign name: 3_Old_ATTAPUE_ATP Team_20240401_p2 / 3_Old_ATTAPUE_ATP Team_20240401_p2-1
 -- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202404_lcc cntl 
 where cntl.remark_1 in ('2') and cntl.`condition` <= 5
 -- where cntl.remark_1 in ('2') and cntl.`condition` > 5
@@ -155,7 +155,7 @@ where cntl.remark_1 in ('2') and cntl.`condition` <= 5
 -- ____________________________________________________ Priority3: Need loan ____________________________________________________
 -- Campaign name: 2_Old_ATTAPUE_ATP Team_20240401_p3 / 2_Old_ATTAPUE_ATP Team_20240401_p3-1
 -- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202404_lcc cntl 
 where cntl.remark_1 in ('3') and cntl.`condition` <= 5
 -- where cntl.remark_1 in ('3') and cntl.`condition` > 5
@@ -165,7 +165,7 @@ where cntl.remark_1 in ('3') and cntl.`condition` <= 5
 -- ____________________________________________________ Priority4: Have Car ____________________________________________________
 -- Campaign name: 1_Old_ATTAPUE_ATP Team_20240401_p4  / 1_Old_ATTAPUE_ATP Team_20240401_p4-1
 -- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202404_lcc cntl 
 where cntl.remark_1 in ('4') and cntl.`condition` <= 5
 -- where cntl.remark_1 in ('4') and cntl.`condition` > 5
@@ -175,7 +175,7 @@ where cntl.remark_1 in ('4') and cntl.`condition` <= 5
 -- ____________________________________________________ Priority5: prospect ____________________________________________________
 -- Campaign name: p_Old_ATTAPUE_ATP Team_20240401_p5 / p_Old_ATTAPUE_ATP Team_20240401_p5-1
 -- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202404_lcc cntl 
 where cntl.remark_1 in ('5') and cntl.`condition` <= 5
 -- where cntl.remark_1 in ('5') and cntl.`condition` <= 5
@@ -185,7 +185,7 @@ where cntl.remark_1 in ('5') and cntl.`condition` <= 5
 -- ____________________________________________________ Priority6 BR: Telecom ____________________________________________________
 -- Campaign name: 4_Old_ATTAPUE_ATP Team_20240401_p6  / 4_Old_ATTAPUE_ATP Team_20240401_p6-1
 -- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202404_lcc cntl 
 where cntl.remark_1 in ('6') and cntl.`condition` <= 5
 -- where cntl.remark_1 in ('6') and cntl.`condition` > 5
@@ -195,7 +195,7 @@ where cntl.remark_1 in ('6') and cntl.`condition` <= 5
 -- ____________________________________________________ Priority6 HO: Telecom ____________________________________________________
 -- Campaign name: 4_Old_Head Office_Team2_20240401_p6 / 4_Old_Head Office_Team2_20240401_p6-1
 -- select count(*) -- 1125547
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`remark_2`,`remark_3`
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202404_lcc cntl 
 where cntl.remark_1 in ('6') and cntl.`condition` <= 5
 -- where cntl.remark_1 in ('6') and cntl.`condition` > 5
