@@ -139,7 +139,7 @@ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`d
 from contact_for_202404_lcc cntl 
 where cntl.remark_1 in ('1') and cntl.`condition` <= 5
 -- where cntl.remark_1 in ('1') and cntl.`condition` >5
-	and branch_name = 'Attapue' ; 
+	and branch_name = 'Attapue' order by `condition` asc;
 
 
 -- ____________________________________________________ Priority2: Have address ____________________________________________________
@@ -149,7 +149,7 @@ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`d
 from contact_for_202404_lcc cntl 
 where cntl.remark_1 in ('2') and cntl.`condition` <= 5
 -- where cntl.remark_1 in ('2') and cntl.`condition` > 5
-	and branch_name = 'Attapue' ;
+	and branch_name = 'Attapue' order by `condition` asc;
 
 
 -- ____________________________________________________ Priority3: Need loan ____________________________________________________
@@ -159,7 +159,7 @@ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`d
 from contact_for_202404_lcc cntl 
 where cntl.remark_1 in ('3') and cntl.`condition` <= 5
 -- where cntl.remark_1 in ('3') and cntl.`condition` > 5
-	and branch_name = 'Attapue';
+	and branch_name = 'Attapue' order by `condition` asc;
 
 
 -- ____________________________________________________ Priority4: Have Car ____________________________________________________
@@ -169,7 +169,7 @@ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`d
 from contact_for_202404_lcc cntl 
 where cntl.remark_1 in ('4') and cntl.`condition` <= 5
 -- where cntl.remark_1 in ('4') and cntl.`condition` > 5
-	and branch_name = 'Attapue' ;
+	and branch_name = 'Attapue' order by `condition` asc;
 
 
 -- ____________________________________________________ Priority5: prospect ____________________________________________________
@@ -179,7 +179,7 @@ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`d
 from contact_for_202404_lcc cntl 
 where cntl.remark_1 in ('5') and cntl.`condition` <= 5
 -- where cntl.remark_1 in ('5') and cntl.`condition` <= 5
-	and branch_name = 'Attapue' ;
+	and branch_name = 'Attapue' order by `condition` asc;
 
 
 -- ____________________________________________________ Priority6 BR: Telecom ____________________________________________________
@@ -189,7 +189,7 @@ select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`d
 from contact_for_202404_lcc cntl 
 where cntl.remark_1 in ('6') and cntl.`condition` <= 5
 -- where cntl.remark_1 in ('6') and cntl.`condition` > 5
-	and branch_name = 'Attapue' ;
+	and branch_name = 'Attapue' order by `condition` asc;
 
 
 -- ____________________________________________________ Priority6 HO: Telecom ____________________________________________________
