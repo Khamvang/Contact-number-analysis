@@ -221,8 +221,8 @@ select null id, callee_number 'contact_no',
 	0 `lcc_id`,
 	0 `BOP_id`
 from lalco_pbx.pbx_cdr pc 
-where  status = 'ANSWERED' and communication_type = 'Outbound'
-	  -- status in ('NO ANSWER', 'FAILED', 'BUSY', 'VOICEMAIL' ) and communication_type = 'Outbound'
+where -- status = 'ANSWERED' and communication_type = 'Outbound'
+	   status in ('NO ANSWER', 'FAILED', 'BUSY', 'VOICEMAIL' ) and communication_type = 'Outbound'
  and date_format(`time`, '%Y-%m-%d') between '2024-04-29' and '2024-05-28' -- please chcek this date from table all_unique_analysis
  and CONCAT(LENGTH(callee_number), left( callee_number, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290209')
 group by callee_number ;
@@ -480,7 +480,7 @@ select remark_3, status, count(*) from contact_numbers_to_lcc cntl where cntl.id
 update contact_numbers_to_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_3 = tua.remark_3, cntl.status = tua.status, cntl.date_updated = date(now())
 where cntl.contact_id in (select contact_id from temp_update_any ) and (cntl.status is null or cntl.remark_3 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract', 'prospect_sabc'))
-	and tua.id > 12065144;
+	; -- and tua.id > 12065144;
 select now(); -- datetime on this time
 
 select status, status_updated, count(*) from contact_for_202405_lcc cntl where cntl.id in (select id from temp_update_any) group by status, status_updated ;
