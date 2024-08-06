@@ -28,7 +28,20 @@ where cntl.province_eng != '';
 -- Update branch before export 
 update contact_numbers_to_lcc cntl inner join file_details fd on (fd.id = cntl.file_id)
 set cntl.branch_name = 
-	case 	when cntl.province_eng = 'Attapeu' then 'Attapue'
+	case 	when cntl.province_eng = 'Attapeu' and cntl.district_eng = 'Saysetha' then 'Saysetha - Attapeu'
+		when cntl.province_eng = 'Borikhamxay' and cntl.district_eng = 'Khamkeut' then 'Khamkeut - Borikhamxay'
+		when cntl.province_eng = 'Champasack' and cntl.district_eng = 'Paksong' then 'Paksong - Champasack'
+		when cntl.province_eng = 'Champasack' and cntl.district_eng = 'Phonthong' then 'Phonthong - Champasack'
+		when cntl.province_eng = 'Luangprabang' and cntl.district_eng = 'Nam Bak' then 'Nam Bak - Luangprabang'
+		when cntl.province_eng = 'Savanakhet' and cntl.district_eng = 'Songkhone' then 'Songkhone - Savanakhet'
+		when cntl.province_eng = 'Vientiane Capital' and cntl.district_eng = 'Hadxayfong' then 'Hadxayfong - Vientiane Capital'
+		when cntl.province_eng = 'Vientiane Capital' and cntl.district_eng = 'Naxaythong' then 'Naxaythong - Vientiane Capital'
+		when cntl.province_eng = 'Vientiane Capital' and cntl.district_eng = 'Parkngum' then 'Parkngum - Vientiane Capital'
+		when cntl.province_eng = 'Vientiane Capital' and cntl.district_eng = 'Xaythany' then 'Xaythany - Vientiane Capital'
+		when cntl.province_eng = 'Vientiane Province' and cntl.district_eng = 'Vangvieng' then 'Vangvieng - Vientiane Province'
+		when cntl.province_eng = 'Xayaboury' and cntl.district_eng = 'Parklai' then 'Parklai - Xayaboury'
+		when cntl.province_eng = 'Xiengkhuang' and cntl.district_eng = 'Kham' then 'Kham - Xiengkhuang'
+		when cntl.province_eng = 'Attapeu' then 'Attapue'
 		when cntl.province_eng = 'Bokeo' then 'Bokeo'
 		when cntl.province_eng = 'Borikhamxay' then 'Paksan'
 		when cntl.province_eng = 'Champasack' then 'Pakse'
