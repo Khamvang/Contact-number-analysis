@@ -127,11 +127,25 @@ update contact_for_202408_lcc set `condition` = 1 where `condition` is null and 
 update contact_for_202408_lcc set `condition` = 1 where `condition` is null and status is null; -- 422
 
 
+-- run for only Aug 2024
+update contact_for_202408_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+set `remark_1` =
+	case 	when fd.category = '③CAR SHOP' then '1'
+		when fd.category = '④FINANCE∙LEASE' then '2'
+		when fd.category = '②INSURANCE' then '3'
+		when fd.category = '①GOVERNMENT' then '4'
+		when fd.category = '⑦SIGNBOARD' then '5'
+		when fd.category = '⑥OTHERS' then '6'
+		when fd.category = '⑤TELECOM' then '7'
+	end 
+;
+
 
 
 # ______________________________________________________ export to create campaign on LCC for contact_for_202408_lcc ______________________________________________________________ #
 
-Branch: 'Attapue','Bokeo','Head Office','Houaphan','LuangNamtha','Luangprabang','Oudomxay','Paksan','Pakse','Salavan','Savannakhet','Thakek','Vientiane province','Xainyabuli','Xiengkhouang'
+Branch: 'Attapue','Bokeo','Paksan','Pakse','Houaphan','Thakek','Luangnamtha','Luangprabang','Oudomxay','Phongsary','Salavan','Savannakhet','Head office','Vientiane province','Xainyabuli','Xaisomboun','Sekong','Xiengkhouang','Saysetha - Attapeu','Khamkeut - Borikhamxay','Paksong - Champasack','Phonthong - Champasack','Nam Bak - Luangprabang','Songkhone - Savanakhet','Hadxayfong - Vientiane Capital','Naxaythong - Vientiane Capital','Parkngum - Vientiane Capital','Xaythany - Vientiane Capital','Vangvieng - Vientiane Province','Parklai - Xayaboury','Kham - Xiengkhuang'
+
 Team: 'ATP Team', 'Bokeo', 'Team2', 'Team3', 'Team4', 'Houaphan Team', 'Luangnamtha', 'LPB Team', 'OUX Team', 'Paksan Team', 'Pakse Team', 'Salavan', 'SVK Team', 'Thakket Team', 'VTP Team', 'XYB Team', 'XKH Team'
 
 -- ____________________________________________________ Priority1: new number ____________________________________________________
