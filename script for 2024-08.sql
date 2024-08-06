@@ -53,12 +53,14 @@ create table `contact_for_202408_lcc` (
 insert into contact_for_202408_lcc
 select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
 	case -- when cntl.file_id >= 1207 then '1' -- because there's not new list
-		when cntl.status = '' or cntl.status is null then '1'
-		when cntl.`type` = '①Have Car' then '4'
-		when cntl.`type` = '②Need loan' then '3'
-		when cntl.`type` = '③Have address' then '2'
-		when cntl.`type` = 'prospect' then '5'
-		when cntl.`type` = '④Telecom' then '6'
+		-- when cntl.status = '' or cntl.status is null then '1'
+		when fd.category = '③CAR SHOP' then '1'
+		when fd.category = '④FINANCE∙LEASE' then '2'
+		when fd.category = '②INSURANCE' then '3'
+		when fd.category = '①GOVERNMENT' then '4'
+		when fd.category = '⑦SIGNBOARD' then '5'
+		when fd.category = '⑥OTHERS' then '6'
+		when fd.category = '⑤TELECOM' then '7'
 	end `remark_1`,
 	null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
 	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`, 
