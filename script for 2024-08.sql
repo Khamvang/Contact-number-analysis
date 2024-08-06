@@ -232,3 +232,14 @@ where cntl.remark_1 in ('4') and cntl.`condition` <= 5
 	and CONCAT(LENGTH(contact_no), left( contact_no, 5)) in ('1290202','1290205','1290207','1290208','1290209')
 	and branch_name = 'Head Office' and cntl.id > 4060670
 	limit 200;
+
+
+
+-- import Approach list from contact_data_db to frappe
+select id `name`, now() `creation`, 'Administrator' `owner`, contact_no `customer_tel`, name `customer_name`, concat(province_eng, " - ", district_eng) `address_province_and_city`, village `address_village`,
+	`maker`, `model`, `year`, remark_1 `priority`, `branch_name`
+from contact_for_202408_lcc
+where branch_name in ('Phongsary','Xaisomboun','Sekong','Saysetha - Attapeu','Khamkeut - Borikhamxay','Paksong - Champasack','Phonthong - Champasack','Nam Bak - Luangprabang','Songkhone - Savanakhet','Hadxayfong - Vientiane Capital','Naxaythong - Vientiane Capital','Parkngum - Vientiane Capital','Xaythany - Vientiane Capital','Vangvieng - Vientiane Province','Parklai - Xayaboury','Kham - Xiengkhuang'
+) ;
+
+
