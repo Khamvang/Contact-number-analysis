@@ -370,7 +370,7 @@ select * , count(*) from
 			when cntl.remark_2 = 'lcc' and cntl.status_updated in ('FFF can_not_contact', 'No have in telecom') then 'FFF can_not_contact'
 			else cntl.remark_2 
 		end `new_result`
-	from contact_for_202406_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+	from contact_for_202408_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 	) t
 group by branch_name ,  province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`,`name_info` , `result`, `new_result` ;
 
