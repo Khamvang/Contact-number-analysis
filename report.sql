@@ -1,5 +1,30 @@
 
 
+-- Update province name
+update contact_numbers_to_lcc cntl
+set cntl.province_eng = 
+	case	when cntl.province_eng = 'ATTAPUE' then 'Attapeu'
+		when cntl.province_eng = 'BOKEO' then 'Bokeo'
+		when cntl.province_eng = 'BORLIKHAMXAY' then 'Borikhamxay'
+		when cntl.province_eng = 'CHAMPASACK' then 'Champasack'
+		when cntl.province_eng = 'HUAPHAN' then 'Huaphanh'
+		when cntl.province_eng = 'KHAMMOUAN' then 'Khammuane'
+		when cntl.province_eng = 'LUANGNAMTHA' then 'Luangnamtha'
+		when cntl.province_eng = 'LUANG PRABANG' then 'Luangprabang'
+		when cntl.province_eng = 'OUDOMXAY' then 'Oudomxay'
+		when cntl.province_eng = 'PHONGSALY' then 'Phongsaly'
+		when cntl.province_eng = 'SALAVANH' then 'Saravane'
+		when cntl.province_eng = 'SAVANNAKHET' then 'Savanakhet'
+		when cntl.province_eng = 'VIENTIANE CAPITAL' then 'Vientiane Capital'
+		when cntl.province_eng = 'VIENTIANE PROVINCE' then 'Vientiane Province'
+		when cntl.province_eng = 'XAYABOULY' then 'Xayaboury'
+		when cntl.province_eng = 'XAYSOMBOUN' then 'Xaysomboune'
+		when cntl.province_eng = 'XEKONG' then 'Sekong'
+		when cntl.province_eng = 'XIENGKHUANG' then 'Xiengkhuang'
+	end
+where cntl.province_eng != '';
+
+
 -- Update branch before export 
 update contact_numbers_to_lcc cntl inner join file_details fd on (fd.id = cntl.file_id)
 set cntl.branch_name = 
@@ -26,29 +51,6 @@ set cntl.branch_name =
 where cntl.province_eng != '' or cntl.branch_name is null;
 
 
--- Update province name
-update contact_numbers_to_lcc cntl
-set cntl.province_eng = 
-	case	when cntl.province_eng = 'ATTAPUE' then 'Attapeu'
-		when cntl.province_eng = 'BOKEO' then 'Bokeo'
-		when cntl.province_eng = 'BORLIKHAMXAY' then 'Borikhamxay'
-		when cntl.province_eng = 'CHAMPASACK' then 'Champasack'
-		when cntl.province_eng = 'HUAPHAN' then 'Huaphanh'
-		when cntl.province_eng = 'KHAMMOUAN' then 'Khammuane'
-		when cntl.province_eng = 'LUANGNAMTHA' then 'Luangnamtha'
-		when cntl.province_eng = 'LUANG PRABANG' then 'Luangprabang'
-		when cntl.province_eng = 'OUDOMXAY' then 'Oudomxay'
-		when cntl.province_eng = 'PHONGSALY' then 'Phongsaly'
-		when cntl.province_eng = 'SALAVANH' then 'Saravane'
-		when cntl.province_eng = 'SAVANNAKHET' then 'Savanakhet'
-		when cntl.province_eng = 'VIENTIANE CAPITAL' then 'Vientiane Capital'
-		when cntl.province_eng = 'VIENTIANE PROVINCE' then 'Vientiane Province'
-		when cntl.province_eng = 'XAYABOULY' then 'Xayaboury'
-		when cntl.province_eng = 'XAYSOMBOUN' then 'Xaysomboune'
-		when cntl.province_eng = 'XEKONG' then 'Sekong'
-		when cntl.province_eng = 'XIENGKHUANG' then 'Xiengkhuang'
-	end
-where cntl.province_eng != '';
 
 
 -- ____________________________________ Export to report source all that not yet call last month ____________________________________ --
