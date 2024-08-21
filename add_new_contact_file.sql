@@ -20,6 +20,8 @@ id  |file_no|file_name
 -- 5) add new record and update table file_details from sheetname [file_details_database] at google sheet
 select * from file_details fd ;
 
+/*
+-- Then the step update date_created, broker_tel, staff_tel below here need to to do because I set auto update in Trigger 
 update file_details set date_created = unix_timestamp(now()) 
 where id >= 1068 ; -- need to change the new file_no here when add new data
 -- update staff_tel and broker_tel
@@ -62,7 +64,7 @@ update file_details set broker_tel =
 		else concat('9020',right(regexp_replace(staff_tel , '[^[:digit:]]', ''),8))
 	end
 ;
-
+*/
 
 -- 6) import csv file from to table name [contact_numbers] 
 select * from contact_numbers where file_id is null order by id desc;
