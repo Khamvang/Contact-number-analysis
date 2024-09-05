@@ -13,15 +13,11 @@ where branch_name = 'Head Office'
 order by branch_name, province_eng, district_eng
 
 
+-- 'Attapeu - Saysetha','Borikhamxay - Khamkeut','Champasack - Paksong','Champasack - Phonthong','Luangprabang - Nam Bak','Savanakhet - Songkhone','Vientiane Capital - Naxaythong','Vientiane Capital - Xaythany','Vientiane Capital - Hadxayfong','Vientiane Capital - Parkngum','Vientiane Province - Vangvieng','Xayaboury - Parklai','Xiengkhuang - Kham'
 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202406_lcc cntl 
-where branch_name = 'Head Office' and province_eng = 'VIENTIANE CAPITAL' 
--- and district_eng = 'Hadxayfong'
--- and district_eng = 'Naxaythong'
--- and district_eng = 'Parkngum'
- and district_eng = 'Xaythany'
-order by `condition` asc;
+from contact_for_202408_lcc cntl 
+where concat(province_eng, ' - ', district_eng) in ('Attapeu - Saysetha');
 
 
 
@@ -38,7 +34,7 @@ order by campaigncall_id, flag, info;
 
  -- prepare list for new 13 branches
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202406_lcc cntl 
+from contact_for_202408_lcc cntl 
 where concat(province_eng, ' - ', district_eng) in ('Attapeu - Saysetha','Borikhamxay - Khamkeut','Champasack - Paksong','Champasack - Phonthong','Luangprabang - Nam Bak','Savanakhet - Songkhone','Vientiane Capital - Naxaythong','Vientiane Capital - Xaythany','Vientiane Capital - Hadxayfong','Vientiane Capital - Parkngum','Vientiane Province - Vangvieng','Xayaboury - Parklai','Xiengkhuang - Kham'
 )
 order by branch_name, province_eng, district_eng;
