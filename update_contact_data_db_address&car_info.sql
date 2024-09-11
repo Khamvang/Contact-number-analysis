@@ -292,6 +292,41 @@ delete from contact_numbers_to_lcc cntl where id in (select id from contact_for_
 insert into contact_numbers_to_lcc select * from contact_for_updating; -- Query OK, 169111 rows affected (2 hours 45 min 49.68 sec)
 */
 
+-- _____________________________________________________________________ 2024-09-11 update data base on sub table _____________________________________________________________________
+
+I want to update data as column branch_name, province_eng, district_eng on main table name contact_numbers_to_lcc there's 17,000,000 records by using data on sub table name contact_for_202408_lcc
+
+-- Disable Indexes (Optional): If you have lots of indexes, consider temporarily disabling non-critical indexes to speed up the update process.
+ALTER TABLE contact_numbers_to_lcc DISABLE KEYS;
+-- Run your update
+ALTER TABLE contact_numbers_to_lcc ENABLE KEYS;
+
+-- Batch the Update: Instead of updating 17 million records in one go, break the update into smaller batches to avoid long locks and reduce impact on the database
+UPDATE contact_numbers_to_lcc main
+JOIN contact_for_202408_lcc sub
+ON main.id = sub.id
+SET 
+    main.branch_name = sub.branch_name,
+    main.province_eng = sub.province_eng,
+    main.district_eng = sub.district_eng
+WHERE main.id BETWEEN ? AND ?;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
