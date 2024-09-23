@@ -227,6 +227,9 @@ where -- status = 'ANSWERED' and communication_type = 'Outbound'
  and CONCAT(LENGTH(callee_number), left( callee_number, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290209')
 group by callee_number ;
 
+UNLOCK TABLES;
+
+
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 6) import data from database callcenterdb and qhcallenter_db to database contact_data_db
 select * from all_unique_analysis_weekly where priority_type = 'lcc' order by date_created desc;
@@ -253,7 +256,7 @@ select c.phone `contact_no`,
 	case when left(`phone`, 4) = '9020' then right(`phone`, 8) when left(`phone`, 4) = '9030' then right(`phone`, 7) else 0 end `contact_id`,
 	c.id `lcc_id`
 -- from hqcallcenter_db.campaign_calls cc inner join hqcallcenter_db.customers c on c.id = cc.customer_id inner join hqcallcenter_db.campaigns on campaigns.id = cc.campaign_id -- HQ
- from callcenter_db.campaign_calls cc inner join callcenter_db.customers c on c.id = cc.customer_id inner join callcenter_db.campaigns on campaigns.id = cc.campaign_id -- BR
+-- from callcenter_db.campaign_calls cc inner join callcenter_db.customers c on c.id = cc.customer_id inner join callcenter_db.campaigns on campaigns.id = cc.campaign_id -- BR
 where 1=1 and c.`rank` is not null and c.`rank` != '' and campaigns.created_at between '2024-07-30' and '2024-08-31' order by cc.created_at desc;
 
 
