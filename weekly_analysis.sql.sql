@@ -90,7 +90,7 @@ end `contact_no`,
 FROM tblcontract c left join tblprospect p on (p.id = c.prospect_id)
 left join tblcustomer cu on (cu.id = p.customer_id)
 WHERE c.status in (4,6,7) ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` between '2024-07-30' and '2024-08-31'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` between '2024-08-31' and '2024-09-31'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- (2) ringi not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
@@ -117,7 +117,7 @@ end `contact_no`,
 FROM tblcontract c right join tblprospect p on (p.id = c.prospect_id)
 left join tblcustomer cu on (cu.id = p.customer_id)
 WHERE c.status not in (4,6,7) or p.status != 3 ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` between '2024-07-30' and '2024-08-31'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` between '2024-08-31' and '2024-09-31'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- (3) asset not contract: export from database lalco to analysis in database contact_data_db table all_unique_analysis
@@ -152,7 +152,7 @@ left join tblprospect p on (p.id = pa.prospect_id)
 left join tblcustomer cu2 on (p.customer_id = cu2.id)
 WHERE av.status != 2 or p.status != 3 
 ) t
-WHERE LENGTH(contact_no) IN (11,12) and `date_created` between '2024-07-30' and '2024-08-31'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and `date_created` between '2024-08-31' and '2024-09-31'; -- copy last date_created to here
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 3) import from database lalcodb to analysis in database contact_data_db
@@ -172,7 +172,7 @@ select '' "id",
 	c.id "custtbl_id"
 from custtbl c left join negtbl n on (c.id = n.custid)
 ) t
-WHERE LENGTH(contact_no) IN (11,12) and date_created between '2024-07-30' and '2024-08-31'; -- copy last date_created to here
+WHERE LENGTH(contact_no) IN (11,12) and date_created between '2024-08-31' and '2024-09-31'; -- copy last date_created to here
 
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
@@ -201,7 +201,7 @@ select null `id`,
 	name `BOP_id`
 from tabSME_BO_and_Plan
 ) t
-where length(contact_no) in (11,12) and `date_created` between '2024-07-30' and '2024-08-31'; 
+where length(contact_no) in (11,12) and `date_created` between '2024-08-31' and '2024-09-31'; 
 
 -- _____________________________________________________________________ 00 _____________________________________________________________________
 -- 5) import data from database lalco_pbx to database contact_data_db
@@ -223,7 +223,7 @@ select null id, callee_number 'contact_no',
 from lalco_pbx.pbx_cdr pc 
 where -- status = 'ANSWERED' and communication_type = 'Outbound'
 	   status in ('NO ANSWER', 'FAILED', 'BUSY', 'VOICEMAIL' ) and communication_type = 'Outbound'
- and date_format(`time`, '%Y-%m-%d') between '2024-07-30' and '2024-08-31' -- please chcek this date from table all_unique_analysis
+ and date_format(`time`, '%Y-%m-%d') between '2024-08-31' and '2024-09-31' -- please chcek this date from table all_unique_analysis
  and CONCAT(LENGTH(callee_number), left( callee_number, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290209')
 group by callee_number ;
 
@@ -256,8 +256,8 @@ select c.phone `contact_no`,
 	case when left(`phone`, 4) = '9020' then right(`phone`, 8) when left(`phone`, 4) = '9030' then right(`phone`, 7) else 0 end `contact_id`,
 	c.id `lcc_id`
 -- from hqcallcenter_db.campaign_calls cc inner join hqcallcenter_db.customers c on c.id = cc.customer_id inner join hqcallcenter_db.campaigns on campaigns.id = cc.campaign_id -- HQ
--- from callcenter_db.campaign_calls cc inner join callcenter_db.customers c on c.id = cc.customer_id inner join callcenter_db.campaigns on campaigns.id = cc.campaign_id -- BR
-where 1=1 and c.`rank` is not null and c.`rank` != '' and campaigns.created_at between '2024-07-30' and '2024-08-31' order by cc.created_at desc;
+ from callcenter_db.campaign_calls cc inner join callcenter_db.customers c on c.id = cc.customer_id inner join callcenter_db.campaigns on campaigns.id = cc.campaign_id -- BR
+where 1=1 and c.`rank` is not null and c.`rank` != '' and campaigns.created_at between '2024-08-31' and '2024-09-31' order by cc.created_at desc;
 
 
 -- _____________________________________________________________________ 0 update contact_no and contact_id 0 _____________________________________________________________________
@@ -333,7 +333,7 @@ delete from temp_update_any ;
 
 -- 7)insert data to temp_update_any
 insert into temp_update_any 
-select cntl.id, cntl.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
+select cntl.id, cntll.contact_no, aua.priority_type `remark_3`, aua.status, 0 `pbxcdr_time`, cntl.`contact_id`
 from contact_numbers_to_lcc cntl left join all_unique_analysis_weekly  aua on (cntl.contact_id = aua.contact_id)
 where aua.priority_type = 'contracted' ;
 select now(); -- datetime on this time
