@@ -107,7 +107,6 @@ select count(*) from contact_for_202410_lcc cfl --
 -- 6) insert data from each month into table contact_for_logcall
 select * from contact_for_logcall order by `date` desc limit 10;
 
-create index idx_date on contact_for_logcall (date)
 
 insert into contact_for_logcall
 select '2024-09-30' `date`, `contact_no`, `contact_id`, `remark_2`, `status_updated`
@@ -129,7 +128,7 @@ update contact_for_202410_lcc set `condition` = 1 where `condition` is null and 
 update contact_for_202410_lcc set `condition` = 1 where `condition` is null and status is null; -- 422
 
 
--- run for only Aug 2024
+-- run for only Oct 2024
 update contact_for_202410_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 set `remark_1` =
 	case 	when fd.category = '③CAR SHOP' then '1'
