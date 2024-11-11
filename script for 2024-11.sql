@@ -127,7 +127,7 @@ update contact_for_202411_lcc set `condition` = 1 where `condition` is null and 
 update contact_for_202411_lcc set `condition` = 1 where `condition` is null and status is null; -- 422
 
 
--- run for only Aug 2024
+-- run for only Nov 2024
 update contact_for_202411_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 set `remark_1` =
 	case 	when fd.category = '③CAR SHOP' then '1'
