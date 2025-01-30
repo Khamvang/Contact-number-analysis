@@ -110,8 +110,8 @@ select count(*) from contact_for_202502_lcc cfl --
 select * from contact_for_logcall order by `date` desc limit 10;
 
 insert into contact_for_logcall
-select '2024-12-31' `date`, `contact_no`, `contact_id`, `remark_2`, `status_updated`
-from contact_for_202410_lcc cfl where status_updated is not null;
+select '2025-01-31' `date`, `contact_no`, `contact_id`, `remark_2`, `status_updated`
+from contact_for_202501_lcc cfl where status_updated is not null;
 
 
 -- 7) check and update logcall 
