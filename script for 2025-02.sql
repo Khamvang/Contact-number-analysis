@@ -38,9 +38,9 @@ create table `contact_for_202502_lcc` (
 	  `status_updated` varchar(255) default null,
 	  `staff_id` varchar(255) default null,
 	  `pvd_id` varchar(255) default null,
-	  `contact_id` int(11) not null comment 'the phone number without 9020 and 9030',
+	  `contact_id` int(11) not null default 0 comment 'the phone number without 9020 and 9030',
 	  `condition` int(11) default null comment 'number of call time in the past: 0=called 0 time, 1=called 1 time, 2=called 2 times ...',
-	  `group` int(11) not null comment '1=condition 1,2,3,5,6, 2=condition 4,7, 3=condition 8',
+	  `group` int(11) not null default 0 comment '1=condition 1,2,3,5,6, 2=condition 4,7, 3=condition 8',
 	  primary key (`id`),
 	  key `contact_no` (`contact_no`),
 	  key `fk_file_id` (`file_id`),
@@ -154,7 +154,8 @@ select null 'id', customer_tel 'contact_no', customer_name 'name',
 		when contract_status != 'Contracted' and rank_update in ('F', 'FF1', 'FF2', 'FFF') then 'F'
 		when contract_status != 'Contracted' and rank_update in ('G') then 'G'
 	end 'type', 
-	maker, model, `year`, 2 as 'remark_1', null 'remark_2', null 'remark_3'
+	maker, model, `year`, 2 as 'remark_1', null 'remark_2', null 'remark_3',
+	case when left(customer_tel,4) = '9020' then right(customer_tel,8) when left(customer_tel,4) = '9030' then right(customer_tel,7) end `contact_id`
 from tabSME_BO_and_Plan  
 where contract_status != 'Contracted' and address_province_and_city != '' 
 	and (contract_status != 'Contracted' and rank_update in ('G') )
