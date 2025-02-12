@@ -433,7 +433,7 @@ group by  province_eng , `type` , category , category2, date_received, `priority
 
 
 
--- ____________________________________ Export to report source monthly update 2024-03-01 ____________________________________ -- 
+-- ____________________________________ Export to report source monthly update 2025-02-12 ____________________________________ -- 
 select * , count(*) from 
 	(
 	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , 
@@ -486,10 +486,14 @@ select * , count(*) from
 			when cntl.remark_2 = 'lcc' and cntl.status_updated = 'FF2 power_off' then 'FF2 power_off'
 			when cntl.remark_2 = 'lcc' and cntl.status_updated in ('FFF can_not_contact', 'No have in telecom') then 'FFF can_not_contact'
 			else cntl.remark_2 
-		end `new_result`
+		end `new_result`,
+		case when cntl2.date_updated >= '2024-11-01' then '3 months less'
+			else 'over 3 months'
+		end `called_in`
 	from contact_for_202502_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+	left join contact_numbers_to_lcc cntl2 on (cntl2.id = cntl.id)
 	) t
-group by branch_name ,  province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`,`name_info` , `result`, `new_result` ;
+group by branch_name ,  province_eng , `type` , category , category2 , date_received, `priority`, `condition`, `address`, `business_owner`, `car_info`,`name_info` , `result`, `new_result`, `called_in` ;
 
 
 
