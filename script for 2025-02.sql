@@ -41,6 +41,7 @@ create table `contact_for_202502_lcc` (
 	  `contact_id` int(11) not null default 0 comment 'the phone number without 9020 and 9030',
 	  `condition` int(11) default null comment 'number of call time in the past: 0=called 0 time, 1=called 1 time, 2=called 2 times ...',
 	  `group` int(11) not null default 0 comment '1=condition 1,2,3,5,6, 2=condition 4,7, 3=condition 8',
+	  last_call_date date default null comment 'last call date before add to this table',
 	  primary key (`id`),
 	  key `contact_no` (`contact_no`),
 	  key `fk_file_id` (`file_id`),
@@ -67,12 +68,8 @@ select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_l
 	null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
 	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`, 
 	null `condition`, 
-	case when cntl.`type` in ('①Have Car', '②Need loan') then 1
-		when cntl.`type` = '③Have address' and fd.category = '①GOVERNMENT' then 1
-		when cntl.`type` = '③Have address' and fd.category != '①GOVERNMENT' then 2
-		when cntl.`type` = '④Telecom' and (cntl.province_eng is not null and cntl.district_eng is not null and cntl.village is not null ) then 2
-		when cntl.`type` = '④Telecom' then 3
-	end `group`
+	null `group`,
+	cntl.date_updated as `last_call_date`
 -- select count(*) -- 
 from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 where (cntl.remark_3 in ('contracted', 'ringi_not_contract', 'aseet_not_contract') ) -- already register on LMS
@@ -183,7 +180,7 @@ where cntl.remark_1 in ('1')
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202502_lcc cntl 
-where cntl.remark_1 in ('2')
+where cntl.remark_1 in ('2') and cntl.last_call_date < '2024-11-01'
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
