@@ -55,16 +55,16 @@ create table `contact_for_202502_lcc` (
 -- 2) intert data from contact_numbers_to_lcc to table monthly
 insert into contact_for_202502_lcc
 select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
-	case -- when cntl.file_id >= 1207 then '1' -- because there's not new list
-		-- when cntl.status = '' or cntl.status is null then '1'
-		when fd.category = '③CAR SHOP' then '1'
-		when fd.category = '④FINANCE∙LEASE' then '2'
-		when fd.category = '②INSURANCE' then '3'
-		when fd.category = '①GOVERNMENT' then '4'
-		when fd.category = '⑦SIGNBOARD' then '5'
-		when fd.category = '⑥OTHERS' then '6'
-		when fd.category = '⑤TELECOM' then '7'
-	end `remark_1`,
+	case 	when cntl.`condition` = 0 then '1'
+		when cntl.`type` = 'G' then '2'
+		when fd.category = '③CAR SHOP' then '3'
+		when fd.category = '④FINANCE∙LEASE' then '4'
+		when fd.category = '②INSURANCE' then '5'
+		when fd.category = '①GOVERNMENT' then '6'
+		when fd.category = '⑦SIGNBOARD' then '7'
+		when fd.category = '⑥OTHERS' then '8'
+		when fd.category = '⑤TELECOM' then '9'
+	end  `remark_1`,
 	null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
 	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`, 
 	null `condition`, 
@@ -126,16 +126,18 @@ update contact_for_202502_lcc set `condition` = 1 where `condition` is null and 
 update contact_for_202502_lcc set `condition` = 1 where `condition` is null and status is null; -- 422
 
 
--- run for only Nov 2024
+-- Bases on Morikawa suggest in [C:\Users\Lalco_Admin\Downloads\Contact numbers for 2025-02\資料源配布について20250130.docx]
 update contact_for_202502_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 set `remark_1` =
-	case 	when fd.category = '③CAR SHOP' then '1'
-		when fd.category = '④FINANCE∙LEASE' then '2'
-		when fd.category = '②INSURANCE' then '3'
-		when fd.category = '①GOVERNMENT' then '4'
-		when fd.category = '⑦SIGNBOARD' then '5'
-		when fd.category = '⑥OTHERS' then '6'
-		when fd.category = '⑤TELECOM' then '7'
+	case 	when cntl.`condition` = 0 then '1'
+		when cntl.`type` = 'G' then '2'
+		when fd.category = '③CAR SHOP' then '3'
+		when fd.category = '④FINANCE∙LEASE' then '4'
+		when fd.category = '②INSURANCE' then '5'
+		when fd.category = '①GOVERNMENT' then '6'
+		when fd.category = '⑦SIGNBOARD' then '7'
+		when fd.category = '⑥OTHERS' then '8'
+		when fd.category = '⑤TELECOM' then '9'
 	end 
 ;
 
@@ -166,8 +168,10 @@ Branch: 'Attapue','Bokeo','Paksan','Pakse','Houaphan','Thakek','Luangnamtha','Lu
 
 Team: 'ATP Team', 'Bokeo', 'Team2', 'Team3', 'Team4', 'Houaphan Team', 'Luangnamtha', 'LPB Team', 'OUX Team', 'Paksan Team', 'Pakse Team', 'Salavan', 'SVK Team', 'Thakket Team', 'VTP Team', 'XYB Team', 'XKH Team'
 
--- ____________________________________________________ Priority1: ③CAR SHOP ____________________________________________________
--- Campaign name: 1_Old_Attapue_ATP Team_20241001_p1 / 1_Old_Attapue_ATP Team_20241001_p1-1
+
+
+-- ____________________________________________________ Priority1: 0 call ____________________________________________________
+-- Campaign name: 11_Old_Attapue_ATP Team_20250201 / 11_Old_Attapue_ATP Team_20250201
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202502_lcc cntl 
@@ -175,59 +179,92 @@ where cntl.remark_1 in ('1')
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
--- ____________________________________________________ Priority2: ④FINANCE∙LEASE ____________________________________________________
--- Campaign name: 2_Old_Attapue_ATP Team_20241001_p2 / 2_Old_Attapue_ATP Team_20241001_p2-1
+
+-- ____________________________________________________ Priority2: G rank ____________________________________________________
+-- Campaign name: 12_Old_Attapue_ATP Team_20250201 / 12_Old_Attapue_ATP Team_20250201
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202502_lcc cntl 
-where cntl.remark_1 in ('2') and cntl.last_call_date < '2024-11-01'
+where cntl.remark_1 in ('2')
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
--- ____________________________________________________ Priority3: ②INSURANCE ____________________________________________________
--- Campaign name: 3_Old_Attapue_ATP Team_20241001_p3 / 3_Old_Attapue_ATP Team_20241001_p3-1
+-- ____________________________________________________ Priority3: ①GOVERNMENT ____________________________________________________
+-- Campaign name: 13_Old_Attapue_ATP Team_20250201 / 13_Old_Attapue_ATP Team_20250201
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202502_lcc cntl 
-where cntl.remark_1 in ('3')
+where cntl.remark_1 in ('3') and cntl.last_call_date < '2024-11-01' and cntl.condition <= 3
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
--- ____________________________________________________ Priority4: ①GOVERNMENT ____________________________________________________
--- Campaign name: 4_Old_Attapue_ATP Team_20241001_p4 / 4_Old_Attapue_ATP Team_20241001_p4-1
+-- ____________________________________________________ Priority4: ②INSURANCE ____________________________________________________
+-- Campaign name: 14_Old_Attapue_ATP Team_20250201 / 14_Old_Attapue_ATP Team_20250201
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202502_lcc cntl 
-where cntl.remark_1 in ('4')
+where cntl.remark_1 in ('4') and cntl.last_call_date < '2024-11-01' and cntl.condition <= 3
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
--- ____________________________________________________ Priority5: ⑦SIGNBOARD ____________________________________________________
--- Campaign name: 5_Old_Attapue_ATP Team_20241001_p5 / 5_Old_Attapue_ATP Team_20241001_p5-1
+-- ____________________________________________________ Priority5: ④FINANCE∙LEASE ____________________________________________________
+-- Campaign name: 15_Old_Attapue_ATP Team_20250201 / 15_Old_Attapue_ATP Team_20250201
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202502_lcc cntl 
-where cntl.remark_1 in ('5')
+where cntl.remark_1 in ('5') and cntl.last_call_date < '2024-11-01' and cntl.condition <= 3
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
--- ____________________________________________________ Priority6: ⑥OTHERS ____________________________________________________
--- Campaign name: 6_Old_Attapue_ATP Team_20241001_p6 / 6_Old_Attapue_ATP Team_20241001_p6-1
+-- ____________________________________________________ Priority6: ⑤TELECOM ____________________________________________________
+-- Campaign name: 16_Old_Attapue_ATP Team_20250201 / 16_Old_Attapue_ATP Team_20250201
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202502_lcc cntl 
-where cntl.remark_1 in ('6')
+where cntl.remark_1 in ('6') and cntl.last_call_date < '2024-11-01' and cntl.condition <= 3
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
--- ____________________________________________________ Priority7: ⑤TELECOM ____________________________________________________
--- Campaign name: 7_Old_Attapue_ATP Team_20241001_p7 / 7_Old_Attapue_ATP Team_20241001_p7-1
+-- ____________________________________________________ Priority7: ⑥OTHERS ____________________________________________________
+-- Campaign name: 17_Old_Attapue_ATP Team_20250201 / 17_Old_Attapue_ATP Team_20250201
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202502_lcc cntl 
-where cntl.remark_1 in ('7')
+where cntl.remark_1 in ('7') and cntl.last_call_date < '2024-11-01' and cntl.condition <= 3
 	and branch_name = 'Attapue' order by `condition` asc;
 
+
+
+-- ____________________________________________________ Priority8: ⑦SIGNBOARD ____________________________________________________
+-- Campaign name: 18_Old_Attapue_ATP Team_20250201 / 18_Old_Attapue_ATP Team_20250201
+-- select count(*) -- 
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+from contact_for_202502_lcc cntl 
+where cntl.remark_1 in ('8') and cntl.last_call_date < '2024-11-01' and cntl.condition <= 3
+	and branch_name = 'Attapue' order by `condition` asc;
+
+
+
+-- ____________________________________________________ Priority9: ③CAR SHOP ____________________________________________________
+-- Campaign name: 19_Old_Attapue_ATP Team_20250201 / 1_Old_Attapue_ATP Team_20250201
+-- select count(*) -- 
+select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+from contact_for_202502_lcc cntl 
+where cntl.remark_1 in ('9') and cntl.last_call_date < '2024-11-01' and cntl.condition <= 3
+	and branch_name = 'Attapue' order by `condition` asc;
+
+
+
+
+
+
+
+
+
+
+
+
+/* Not use
 
 -- ____________________________________________________ Priority7 HO: Telecom ____________________________________________________
 -- Campaign name: 7_Old_Head Office_Team2_20241001_p7 / 7_Old_Head Office_Team2_20241001_p7-1
@@ -259,3 +296,4 @@ select id `name`, now() `creation`, 'Administrator' `owner`, contact_no `custome
 from contact_for_202502_lcc
 where branch_name in ('Phongsary','Xaisomboun','Sekong','Saysetha - Attapeu','Khamkeut - Borikhamxay','Paksong - Champasack','Phonthong - Champasack','Nam Bak - Luangprabang','Songkhone - Savanakhet','Hadxayfong - Vientiane Capital','Naxaythong - Vientiane Capital','Parkngum - Vientiane Capital','Xaythany - Vientiane Capital','Vangvieng - Vientiane Province','Parklai - Xayaboury','Kham - Xiengkhuang'
 ) ;
+*/
