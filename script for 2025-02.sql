@@ -164,7 +164,8 @@ order by address_province_and_city asc;
 
 # ______________________________________________________ export to create campaign on LCC for contact_for_202502_lcc ______________________________________________________________ #
 
-Branch: 'Attapue','Bokeo','Paksan','Pakse','Houaphan','Thakek','Luangnamtha','Luangprabang','Oudomxay','Phongsary','Salavan','Savannakhet','Head office','Vientiane province','Xainyabuli','Xaisomboun','Sekong','Xiengkhouang','Saysetha - Attapeu','Khamkeut - Borikhamxay','Paksong - Champasack','Phonthong - Champasack','Nam Bak - Luangprabang','Songkhone - Savanakhet','Hadxayfong - Vientiane Capital','Naxaythong - Vientiane Capital','Parkngum - Vientiane Capital','Xaythany - Vientiane Capital','Vangvieng - Vientiane Province','Parklai - Xayaboury','Kham - Xiengkhuang'
+Branch: 'Attapue', 'Bokeo', 'Tonpherng', 'Paksan', 'Pakkading', 'Khamkeuth', 'Pakse', 'Paksxong', 'Chongmeg', 'Sukhuma', 'Khong', 'Houaphan', 'Thakek', 'Nhommalth', 'Luangnamtha', 'Luangprabang', 'Nane', 'Nambak', 'Oudomxay', 'Hoon', 'Phongsary', 'Salavan', 'Khongxedone', 'Savannakhet', 'Atsaphangthong', 'Phine', 'Songkhone', 'Head office', 'Sikhottabong', 'Naxaiythong', 'Xaythany', 'Hadxaifong', 'Mayparkngum', 'Vientiane province', 'Thoulakhom', 'Vangvieng', 'Feuang', 'Xanakharm', 'Xainyabuli', 'Hongsa', 'Parklai', 'Xaisomboun', 'Sekong', 'Xiengkhouang', 'Kham', 'Khoune'
+
 
 Team: 'ATP Team', 'Bokeo', 'Team2', 'Team3', 'Team4', 'Houaphan Team', 'Luangnamtha', 'LPB Team', 'OUX Team', 'Paksan Team', 'Pakse Team', 'Salavan', 'SVK Team', 'Thakket Team', 'VTP Team', 'XYB Team', 'XKH Team'
 
