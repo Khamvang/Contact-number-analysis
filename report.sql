@@ -183,7 +183,7 @@ where cntl.province_eng != '' or cntl.branch_name is null;
 
 
 -- Update branch before export, if the query before now is not working
-update contact_numbers_to_lcc cntl inner join file_details fd on (fd.id = cntl.file_id)
+update contact_for_202502_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 set cntl.branch_name = 
 	case 	WHEN cntl.province_eng = 'Attapeu' AND cntl.district_eng = 'Saysetha' THEN 'Attapue'
 		WHEN cntl.province_eng = 'Attapeu' AND cntl.district_eng = 'Samakkhixay' THEN 'Attapue'
@@ -335,7 +335,7 @@ set cntl.branch_name =
 		WHEN cntl.province_eng = 'Xiengkhuang' AND cntl.district_eng = 'Phaxay' THEN 'Xiengkhouang'
 		else fd.branch_name
 	end
-where cntl.province_eng != '' or cntl.branch_name is null;
+where cntl.`type` = 'G';
 
 
 
