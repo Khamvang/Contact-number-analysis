@@ -256,7 +256,7 @@ select c.phone `contact_no`,
 	case when left(`phone`, 4) = '9020' then right(`phone`, 8) when left(`phone`, 4) = '9030' then right(`phone`, 7) else 0 end `contact_id`,
 	c.id `lcc_id`
 -- from hqcallcenter_db.campaign_calls cc inner join hqcallcenter_db.customers c on c.id = cc.customer_id inner join hqcallcenter_db.campaigns on campaigns.id = cc.campaign_id -- HQ
--- from callcenter_db.campaign_calls cc inner join callcenter_db.customers c on c.id = cc.customer_id inner join callcenter_db.campaigns on campaigns.id = cc.campaign_id -- BR
+ from callcenter_db.campaign_calls cc inner join callcenter_db.customers c on c.id = cc.customer_id inner join callcenter_db.campaigns on campaigns.id = cc.campaign_id -- BR
 where 1=1 and c.`rank` is not null and c.`rank` != '' and campaigns.created_at between '2025-01-25' and '2025-02-27' order by cc.created_at desc;
 
 
@@ -623,7 +623,6 @@ alter table contact_numbers_to_lcc add `contact_id` int(11) not null;
 alter table contact_numbers_to_lcc add key `contact_id` (`contact_id`);
 
 update contact_numbers_to_lcc set contact_id = case when left(contact_no,4) = '9020' then right(contact_no,8) when left(contact_no,4) = '9030' then right(contact_no,7) end ;
-
 
 
 
