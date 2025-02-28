@@ -589,10 +589,11 @@ group by  province_eng , `type` , category , category2, date_received, `priority
 
 
 
--- ____________________________________ Export to report source monthly update 2025-02-12 ____________________________________ -- 
+-- ____________________________________ Export to report source monthly update 2025-02-28 ____________________________________ -- 
 select * , count(*) from 
 	(
-	select  cntl.branch_name , cntl.province_eng , cntl.`type` , fd.category , 
+	select  cntl.branch_name , cntl.province_eng , cntl.`type` , 
+		CASE WHEN cntl.`type` = 'G' THEN 'G rank' ELSE fd.category END AS `category`, 
 		case when cntl.`type` = 'prospect' then cntl.status else fd.category2 end `category2`, 
 		case when cntl.`type` = 'prospect' then '2023-08-01' else fd.date_received end `date_received`, 
 		cntl.remark_1 `priority`, cntl.`condition`,
