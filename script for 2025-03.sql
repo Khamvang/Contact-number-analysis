@@ -46,7 +46,7 @@ create table `contact_for_202503_lcc` (
 	  key `contact_no` (`contact_no`),
 	  key `fk_file_id` (`file_id`),
 	  key `contact_id` (`contact_id`),
-    key `type` (`type`),
+	key `type` (`type`),
 	  constraint `contact_for_202503_lcc_ibfk_1` foreign key (`file_id`) references `file_details` (`id`)
 ) engine=InnoDB auto_increment=1 default CHARSET=utf8mb4 collate utf8mb4_general_ci ;
 
@@ -56,15 +56,16 @@ create table `contact_for_202503_lcc` (
 -- 2) intert data from contact_numbers_to_lcc to table monthly
 insert into contact_for_202503_lcc
 select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
-	case 	when cntl.`condition` = 0 then '1'
+	case 	
+		when cntl.`type` = 'F' then '1'
 		when cntl.`type` = 'G' then '2'
-		when fd.category = '③CAR SHOP' then '3'
-		when fd.category = '④FINANCE∙LEASE' then '4'
-		when fd.category = '②INSURANCE' then '5'
-		when fd.category = '①GOVERNMENT' then '6'
-		when fd.category = '⑦SIGNBOARD' then '7'
-		when fd.category = '⑥OTHERS' then '8'
-		when fd.category = '⑤TELECOM' then '9'
+		when fd.category = '③CAR SHOP' then '9'
+		when fd.category = '④FINANCE∙LEASE' then '5'
+		when fd.category = '②INSURANCE' then '3'
+		when fd.category = '①GOVERNMENT' then '4'
+		when fd.category = '⑦SIGNBOARD' then '8'
+		when fd.category = '⑥OTHERS' then '7'
+		when fd.category = '⑤TELECOM' then '6'
 	end  `remark_1`,
 	null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
 	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`, 
@@ -131,14 +132,15 @@ update contact_for_202503_lcc set `condition` = 1 where `condition` is null and 
 update contact_for_202503_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 set `remark_1` =
 	case 	when cntl.`condition` = 0 then '1'
+		when cntl.`type` = 'F' then '1'
 		when cntl.`type` = 'G' then '2'
-		when fd.category = '③CAR SHOP' then '3'
-		when fd.category = '④FINANCE∙LEASE' then '4'
-		when fd.category = '②INSURANCE' then '5'
-		when fd.category = '①GOVERNMENT' then '6'
-		when fd.category = '⑦SIGNBOARD' then '7'
-		when fd.category = '⑥OTHERS' then '8'
-		when fd.category = '⑤TELECOM' then '9'
+		when fd.category = '③CAR SHOP' then '9'
+		when fd.category = '④FINANCE∙LEASE' then '5'
+		when fd.category = '②INSURANCE' then '3'
+		when fd.category = '①GOVERNMENT' then '4'
+		when fd.category = '⑦SIGNBOARD' then '8'
+		when fd.category = '⑥OTHERS' then '7'
+		when fd.category = '⑤TELECOM' then '6'
 	end 
 ;
 
