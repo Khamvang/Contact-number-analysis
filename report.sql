@@ -766,6 +766,39 @@ group by `type`, category, category2, cntl.condition;
 
 
 
+-- Special update
+-- G rank need to update the status_updated
+select cntl.*
+from contact_for_202502_lcc cntl
+left join contact_numbers_to_lcc cntl2 on (cntl2.id = cntl.id)
+where cntl.remark_1 in ('2')
+	and status_updated is NULL
+
+
+update contact_for_202502_lcc cntl
+left join contact_numbers_to_lcc cntl2 on (cntl2.id = cntl.id)
+set cntl.status_updated = 'ANSWERED'
+where cntl.remark_1 in ('2')
+	and cntl.status_updated is NULL
+
+
+-- ①GOVERNMENT need to update the status_updated
+select cntl.*
+from contact_for_202502_lcc cntl
+left join contact_numbers_to_lcc cntl2 on (cntl2.id = cntl.id)
+where cntl.remark_1 in ('6')
+	and cntl.last_call_date < '2024-11-01' 
+	and cntl.condition <= 3
+	and cntl.status_updated is NULL
+
+
+update contact_for_202502_lcc cntl
+left join contact_numbers_to_lcc cntl2 on (cntl2.id = cntl.id)
+set cntl.status_updated = cntl.status 
+where cntl.remark_1 in ('6')
+	and cntl.last_call_date < '2024-11-01' 
+	and cntl.condition <= 3
+	and cntl.status_updated is NULL
 
 
 
