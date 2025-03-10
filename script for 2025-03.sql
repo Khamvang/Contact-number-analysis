@@ -128,21 +128,10 @@ update contact_for_202503_lcc set `condition` = 1 where `condition` is null and 
 update contact_for_202503_lcc set `condition` = 1 where `condition` is null and status is null; -- 422
 
 
--- Bases on Morikawa suggest in [C:\Users\Lalco_Admin\Downloads\Contact numbers for 2025-02\資料源配布について20250130.docx]
-update contact_for_202503_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
-set `remark_1` =
-	case 	when cntl.`condition` = 0 then '1'
-		when cntl.`type` = 'F' then '1'
-		when cntl.`type` = 'G' then '2'
-		when fd.category = '③CAR SHOP' then '9'
-		when fd.category = '④FINANCE∙LEASE' then '5'
-		when fd.category = '②INSURANCE' then '3'
-		when fd.category = '①GOVERNMENT' then '4'
-		when fd.category = '⑦SIGNBOARD' then '8'
-		when fd.category = '⑥OTHERS' then '7'
-		when fd.category = '⑤TELECOM' then '6'
-	end 
-;
+
+select * from contact_for_202503_lcc order by id desc 51015810;
+
+ALTER TABLE contact_for_202503_lcc AUTO_INCREMENT = 60000000;
 
 
 -- run on Frappe server
@@ -176,6 +165,25 @@ from tabSME_BO_and_Plan
 where contract_status != 'Contracted' and address_province_and_city != '' 
 	and (contract_status != 'Contracted' and rank_update in ('G') )
 order by address_province_and_city asc;
+
+
+
+
+-- Bases on Morikawa suggest in [C:\Users\Lalco_Admin\Downloads\Contact numbers for 2025-02\資料源配布について20250130.docx]
+update contact_for_202503_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+set `remark_1` =
+	case 	when cntl.`condition` = 0 then '1'
+		when cntl.`type` = 'F' then '1'
+		when cntl.`type` = 'G' then '2'
+		when fd.category = '③CAR SHOP' then '9'
+		when fd.category = '④FINANCE∙LEASE' then '5'
+		when fd.category = '②INSURANCE' then '3'
+		when fd.category = '①GOVERNMENT' then '4'
+		when fd.category = '⑦SIGNBOARD' then '8'
+		when fd.category = '⑥OTHERS' then '7'
+		when fd.category = '⑤TELECOM' then '6'
+	end 
+;
 
 
 
