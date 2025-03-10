@@ -70,7 +70,7 @@ select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_l
 	null `remark_2`,`remark_3`,cntl.`branch_name`,cntl.`status`, null `status_updated`, null `staff_id`,null `pvd_id`, 
 	case when left(cntl.contact_no,4) = '9020' then right(cntl.contact_no,8) when left(cntl.contact_no,4) = '9030' then right(cntl.contact_no,7) end `contact_id`, 
 	null `condition`, 
-	null `group`,
+	'0' AS `group`,
 	cntl.date_updated as `last_call_date`
 -- select count(*) -- 
 from contact_numbers_to_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
@@ -336,7 +336,17 @@ where cntl.`type` IN ('F', 'G');
 
 
 
+
+
 # ______________________________________________________ export to create campaign on LCC for contact_for_202503_lcc ______________________________________________________________ #
+
+
+/*
+(1) In Feb-2025, the number created on LCC is 4,027,724 numbers and called 1,017,019 numbers = 25%. Breakdown is as follows: G rank = 100%, ③CAR SHOP = 81%, ④FINANCE∙LEASE = 45%, ⑦SIGNBOARD = 21%, ②INSURANCE = 17%, ①GOVERNMENT = 10%, ⑤TELECOM = 5% and ⑥OTHERS = 5%.
+(2) The High contract rate is ②INSURANCE = 0.5%, G rank = 0.1%, ①GOVERNMENT = 0.1%, ④FINANCE∙LEASE and ⑤TELECOM 
+(3) Based on the results I think we should create campaigns with prospect F rank and G rank. So, March priority will be F rank, G rank, ②INSURANCE, ①GOVERNMENT, ④FINANCE∙LEASE, ⑤TELECOM, ⑥OTHERS, ⑦SIGNBOARD, ③CAR SHOP
+
+*/
 
 Branch: 'Attapue', 'Bokeo', 'Tonpherng', 'Paksan', 'Pakkading', 'Khamkeuth', 'Pakse', 'Paksxong', 'Chongmeg', 'Sukhuma', 'Khong', 'Houaphan', 'Thakek', 'Nhommalth', 'Luangnamtha', 'Luangprabang', 'Nane', 'Nambak', 'Oudomxay', 'Hoon', 'Phongsary', 'Salavan', 'Khongxedone', 'Savannakhet', 'Atsaphangthong', 'Phine', 'Songkhone', 'Head office', 'Sikhottabong', 'Naxaiythong', 'Xaythany', 'Hadxaifong', 'Mayparkngum', 'Vientiane province', 'Thoulakhom', 'Vangvieng', 'Feuang', 'Xanakharm', 'Xainyabuli', 'Hongsa', 'Parklai', 'Xaisomboun', 'Sekong', 'Xiengkhouang', 'Kham', 'Khoune'
 
