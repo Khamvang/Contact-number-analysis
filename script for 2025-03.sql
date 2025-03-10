@@ -188,7 +188,7 @@ set `remark_1` =
 
 
 -- Update branch Name
-update contact_for_202502_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+update contact_for_202503_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 set cntl.branch_name = 
 	case 	WHEN cntl.province_eng = 'Attapeu' AND cntl.district_eng = 'Saysetha' THEN 'Attapue'
 		WHEN cntl.province_eng = 'Attapeu' AND cntl.district_eng = 'Samakkhixay' THEN 'Attapue'
