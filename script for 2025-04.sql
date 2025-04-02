@@ -97,7 +97,7 @@ where remark_3 = 'contracted' -- contracted
 -- 4) set branch_name before export
 select branch_name , count(*)  from contact_for_202504_lcc group by branch_name ;
 
-update contact_for_202504_lcc set branch_name = 'Bokeo' where branch_name is null;
+update contact_for_202504_lcc set branch_name = 'Bokeo' where branch_name is null or branch_name = '';
 
 select count(*) from contact_for_202504_lcc cfl -- 
 
