@@ -136,35 +136,35 @@ ALTER TABLE contact_for_202504_lcc AUTO_INCREMENT = 60000000;
 
 -- run on Frappe server
 -- F rank list for all each province and district
-select null 'id', customer_tel 'contact_no', customer_name 'name', 
-	left(address_province_and_city, locate(' -', address_province_and_city)-1) 'province_eng', null 'province_laos',
-	right(address_province_and_city, (length(address_province_and_city) - locate('- ', address_province_and_city) -1 ) ) 'district_eng', null 'district_laos',
-	address_village 'village', 
-	tb.'type', 
-	maker, model, `year`, 2 as 'remark_1', null 'remark_2', null 'remark_3',
-	case when left(customer_tel,4) = '9020' then right(customer_tel,8) when left(customer_tel,4) = '9030' then right(customer_tel,7) end `contact_id`
-from tabSME_BO_and_Plan  
+select null 'id', bp.customer_tel 'contact_no', bp.customer_name 'name', 
+	left(bp.address_province_and_city, locate(' -', bp.address_province_and_city)-1) 'province_eng', null 'province_laos',
+	right(bp.address_province_and_city, (length(bp.address_province_and_city) - locate('- ', bp.address_province_and_city) -1 ) ) 'district_eng', null 'district_laos',
+	bp.address_village 'village', 
+	tb.`type`, 
+	bp.maker, bp.model, `year`, 2 as 'remark_1', null 'remark_2', null 'remark_3',
+	case when left(bp.customer_tel,4) = '9020' then right(bp.customer_tel,8) when left(bp.customer_tel,4) = '9030' then right(bp.customer_tel,7) end `contact_id`
+from tabSME_BO_and_Plan bp 
 inner join temp_sme_pbx_BO tb on (tb.id = bp.name and tb.`type` in ('F'));
 
 
 
 -- run on Frappe server
 -- G rank list for all each province and district
-select null 'id', customer_tel 'contact_no', customer_name 'name', 
-	left(address_province_and_city, locate(' -', address_province_and_city)-1) 'province_eng', null 'province_laos',
-	right(address_province_and_city, (length(address_province_and_city) - locate('- ', address_province_and_city) -1 ) ) 'district_eng', null 'district_laos',
-	address_village 'village', 
-	case when contract_status = 'Contracted' then 'Contracted'
-		when contract_status != 'Contracted' and rank_update in ('S', 'A', 'B', 'C') then 'SABC'
-		when contract_status != 'Contracted' and rank_update in ('F', 'FF1', 'FF2', 'FFF') then 'F'
-		when contract_status != 'Contracted' and rank_update in ('G') then 'G'
+select null 'id', bp.customer_tel 'contact_no', bp.customer_name 'name', 
+	left(bp.address_province_and_city, locate(' -', bp.address_province_and_city)-1) 'province_eng', null 'province_laos',
+	right(bp.address_province_and_city, (length(bp.address_province_and_city) - locate('- ', bp.address_province_and_city) -1 ) ) 'district_eng', null 'district_laos',
+	bp.address_village 'village', 
+	case when bp.contract_status = 'Contracted' then 'Contracted'
+		when bp.contract_status != 'Contracted' and bp.rank_update in ('S', 'A', 'B', 'C') then 'SABC'
+		when bp.contract_status != 'Contracted' and bp.rank_update in ('F', 'FF1', 'FF2', 'FFF') then 'F'
+		when bp.contract_status != 'Contracted' and bp.rank_update in ('G') then 'G'
 	end 'type', 
-	maker, model, `year`, 2 as 'remark_1', null 'remark_2', null 'remark_3',
-	case when left(customer_tel,4) = '9020' then right(customer_tel,8) when left(customer_tel,4) = '9030' then right(customer_tel,7) end `contact_id`
-from tabSME_BO_and_Plan  
-where contract_status != 'Contracted' and address_province_and_city != '' 
-	and (contract_status != 'Contracted' and rank_update in ('G') )
-order by address_province_and_city asc;
+	bp.maker, bp.model, `year`, 2 as 'remark_1', null 'remark_2', null 'remark_3',
+	case when left(bp.customer_tel,4) = '9020' then right(bp.customer_tel,8) when left(bp.customer_tel,4) = '9030' then right(bp.customer_tel,7) end `contact_id`
+from tabSME_BO_and_Plan bp 
+where bp.contract_status != 'Contracted' and bp.address_province_and_city != '' 
+	and (bp.contract_status != 'Contracted' and bp.rank_update in ('G') )
+order by bp.address_province_and_city asc;
 
 
 
