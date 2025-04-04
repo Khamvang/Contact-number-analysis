@@ -338,11 +338,14 @@ set cntl.branch_name =
 		WHEN cntl.province_eng = 'Xiengkhuang' AND cntl.district_eng = 'Mok' THEN 'Khoune'
 		WHEN cntl.province_eng = 'Xiengkhuang' AND cntl.district_eng = 'Phou Kout' THEN 'Xiengkhouang'
 		WHEN cntl.province_eng = 'Xiengkhuang' AND cntl.district_eng = 'Phaxay' THEN 'Xiengkhouang'
+		WHEN cntl.province_eng = '' AND cntl.district_eng = '' THEN 'Head office'
+		WHEN cntl.province_eng IS NULL AND cntl.district_eng IS NULL THEN 'Head office'
 		else fd.branch_name
 	end
 where cntl.`type` IN ('F', 'G');
 
 
+select * from contact_for_202504_lcc cntl where cntl.`type` IN ('F', 'G');
 
 
 
