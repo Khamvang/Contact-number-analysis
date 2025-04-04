@@ -366,7 +366,7 @@ Team: 'ATP Team', 'Bokeo', 'Team2', 'Team3', 'Team4', 'Houaphan Team', 'Luangnam
 
 
 
--- ____________________________________________________ Priority1: 0 call ____________________________________________________
+-- ____________________________________________________ Priority1: 0 call + F rank ____________________________________________________
 -- Campaign name: 11_Old_Attapue_ATP Team_20250401 / 11_Old_Attapue_ATP Team_20250401
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
