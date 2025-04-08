@@ -390,7 +390,9 @@ where cntl.remark_1 in ('2')
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202504_lcc cntl 
-where cntl.remark_1 in ('3') and cntl.last_call_date < '2024-11-01' and cntl.condition <= 3
+where cntl.remark_1 in ('3') 
+	and cntl.last_call_date < '2025-01-01' -- Last call 
+	and cntl.condition <= 3 -- Call 3 time or less
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
@@ -399,7 +401,9 @@ where cntl.remark_1 in ('3') and cntl.last_call_date < '2024-11-01' and cntl.con
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202504_lcc cntl 
-where cntl.remark_1 in ('4') and cntl.last_call_date < '2024-11-01' and cntl.condition <= 3
+where cntl.remark_1 in ('4') 
+	and cntl.last_call_date < '2025-01-01' -- Last call 
+	and cntl.condition <= 3 -- Call 3 time or less
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
@@ -408,7 +412,9 @@ where cntl.remark_1 in ('4') and cntl.last_call_date < '2024-11-01' and cntl.con
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202504_lcc cntl 
-where cntl.remark_1 in ('5') and cntl.last_call_date < '2024-11-01' and cntl.condition <= 3
+where cntl.remark_1 in ('5') 
+	and cntl.last_call_date < '2025-01-01' -- Last call 
+	and cntl.condition <= 3 -- Call 3 time or less
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
@@ -417,7 +423,9 @@ where cntl.remark_1 in ('5') and cntl.last_call_date < '2024-11-01' and cntl.con
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202504_lcc cntl 
-where cntl.remark_1 in ('6') and cntl.last_call_date < '2024-11-01' and cntl.condition <= 3
+where cntl.remark_1 in ('6') 
+	and cntl.last_call_date < '2025-01-01' -- Last call 
+	and cntl.condition <= 3 -- Call 3 time or less
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
@@ -426,7 +434,9 @@ where cntl.remark_1 in ('6') and cntl.last_call_date < '2024-11-01' and cntl.con
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202504_lcc cntl 
-where cntl.remark_1 in ('7') and cntl.last_call_date < '2024-11-01' and cntl.condition <= 3
+where cntl.remark_1 in ('7') 
+	and cntl.last_call_date < '2025-01-01' -- Last call 
+	and cntl.condition <= 3 -- Call 3 time or less
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
@@ -436,7 +446,9 @@ where cntl.remark_1 in ('7') and cntl.last_call_date < '2024-11-01' and cntl.con
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202504_lcc cntl 
-where cntl.remark_1 in ('8') and cntl.last_call_date < '2024-11-01' and cntl.condition <= 3
+where cntl.remark_1 in ('8') 
+	and cntl.last_call_date < '2025-01-01' -- Last call 
+	and cntl.condition <= 3 -- Call 3 time or less
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
@@ -446,7 +458,9 @@ where cntl.remark_1 in ('8') and cntl.last_call_date < '2024-11-01' and cntl.con
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
 from contact_for_202504_lcc cntl 
-where cntl.remark_1 in ('9') and cntl.last_call_date < '2024-11-01' and cntl.condition <= 3
+where cntl.remark_1 in ('9') a
+	and cntl.last_call_date < '2025-01-01' -- Last call 
+	and cntl.condition <= 3 -- Call 3 time or less
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
