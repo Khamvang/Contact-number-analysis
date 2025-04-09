@@ -224,7 +224,7 @@ from lalco_pbx.pbx_cdr pc
 where -- status = 'ANSWERED' and communication_type = 'Outbound'
 	   status in ('NO ANSWER', 'FAILED', 'BUSY', 'VOICEMAIL' ) and communication_type = 'Outbound'
  and date_format(`time`, '%Y-%m-%d') between '2025-02-27' and '2025-03-30' -- please chcek this date from table all_unique_analysis
- and CONCAT(LENGTH(callee_number), left( callee_number, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290209')
+ and CONCAT(LENGTH(callee_number), left( callee_number, 5)) in ('1190302','1190304','1190305','1190307','1190309','1290202','1290205','1290207','1290208','1290209')
 group by callee_number ;
 
 UNLOCK TABLES;
