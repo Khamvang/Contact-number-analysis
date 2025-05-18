@@ -57,7 +57,7 @@ select id, row_numbers, now() `time` from (
 delete from all_unique_analysis where id in (select id from removed_duplicate_2 );
 
 -- delete before import new
-delete from all_unique_analysis_weekly ;
+TRUNCATE all_unique_analysis_weekly ;
 
 
 -- mysql dump and imprt
