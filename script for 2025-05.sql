@@ -367,106 +367,1395 @@ Branch: 'Attapue', 'Bokeo', 'Tonpherng', 'Paksan', 'Pakkading', 'Khamkeuth', 'Pa
 Team: 'ATP Team', 'Bokeo', 'Team2', 'Team3', 'Team4', 'Houaphan Team', 'Luangnamtha', 'LPB Team', 'OUX Team', 'Paksan Team', 'Pakse Team', 'Salavan', 'SVK Team', 'Thakket Team', 'VTP Team', 'XYB Team', 'XKH Team'
 
 
-
--- ____________________________________________________ Priority1: 0 call + F rank ____________________________________________________
--- Campaign name: 11_Old_Attapue_ATP Team_20250501 / 11_Old_Attapue_ATP Team_20250501
--- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
-where cntl.remark_1 in ('1')
-	and branch_name = 'Attapue' order by `condition` asc;
-
-
-
--- ____________________________________________________ Priority2: G rank ____________________________________________________
--- Campaign name: 12_Old_Attapue_ATP Team_20250501 / 12_Old_Attapue_ATP Team_20250501
--- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
-where cntl.remark_1 in ('2')
-	and branch_name = 'Attapue' order by `condition` asc;
-
-
--- ____________________________________________________ Priority3: ①GOVERNMENT ____________________________________________________
--- Campaign name: 13_Old_Attapue_ATP Team_20250501 / 13_Old_Attapue_ATP Team_20250501
--- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
-where cntl.remark_1 in ('3') 
-	and cntl.last_call_date < '2025-01-01' -- Last call 
-	and cntl.condition <= 3 -- Call 3 time or less
-	and branch_name = 'Attapue' order by `condition` asc;
+-- ____________________________________________________ Head Office ____________________________________________________
+-- Campaign name: 202505_Old_Head_Office_20250529
+-- SELECT count(*) 
+ SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Head Office' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+ LIMIT 0 , 73996 -- result will be start from 0*75100+1, end 0*75100+75100, limit n+1, n (start from n+1, end of n)
+-- LIMIT 73996, 73996 -- result will be start from 1*75100+1, end at 1*75100+75100
+-- LIMIT 147992, 73996 -- result will be start from 2*75100+1, end at 2*75100+75100
+-- limit 221988, 73996
+-- limit 295984, 73996
+-- limit 369980, 73996
 
 
--- ____________________________________________________ Priority4: ②INSURANCE ____________________________________________________
--- Campaign name: 14_Old_Attapue_ATP Team_20250501 / 14_Old_Attapue_ATP Team_20250501
--- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
-where cntl.remark_1 in ('4') 
-	and cntl.last_call_date < '2025-01-01' -- Last call 
-	and cntl.condition <= 3 -- Call 3 time or less
-	and branch_name = 'Attapue' order by `condition` asc;
+SELECT 
+	CEIL(1109927 / (3 * 5) ) * 0 AS `list1`, 
+	CEIL(1109927 / (3 * 5) ) * 1 AS `list2`, 
+	CEIL(1109927 / (3 * 5) ) * 2 AS `list3`,
+	CEIL(1109927 / (3 * 5) ) * 3 AS `list4`,
+	CEIL(1109927 / (3 * 5) ) * 4 AS `list5`,
+	CEIL(1109927 / (3 * 5) ) * 5 AS `list6`
+;
 
 
--- ____________________________________________________ Priority5: ④FINANCE∙LEASE ____________________________________________________
--- Campaign name: 15_Old_Attapue_ATP Team_20250501 / 15_Old_Attapue_ATP Team_20250501
--- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
-where cntl.remark_1 in ('5') 
-	and cntl.last_call_date < '2025-01-01' -- Last call 
-	and cntl.condition <= 3 -- Call 3 time or less
-	and branch_name = 'Attapue' order by `condition` asc;
+-- 2 ____________________________________________________ Savannakhet ____________________________________________________
+-- Campaign name: 202505_Old_Savannakhet_20250529-list1
+-- SELECT count(*) 
+ SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Savannakhet' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 19320
+-- limit 19320, 19320
+ limit 38640, 19320 
+;
 
 
--- ____________________________________________________ Priority6: ⑤TELECOM ____________________________________________________
--- Campaign name: 16_Old_Attapue_ATP Team_20250501 / 16_Old_Attapue_ATP Team_20250501
--- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
-where cntl.remark_1 in ('6') 
-	and cntl.last_call_date < '2025-01-01' -- Last call 
-	and cntl.condition <= 3 -- Call 3 time or less
-	and branch_name = 'Attapue' order by `condition` asc;
+SELECT 
+	CEIL(57960 / 3 ) * 0 AS `list1`, 
+	CEIL(57960 / 3 ) * 1 AS `list2`, 
+	CEIL(57960 / 3 ) * 2 AS `list3`
+;
 
 
--- ____________________________________________________ Priority7: ⑥OTHERS ____________________________________________________
--- Campaign name: 17_Old_Attapue_ATP Team_20250501 / 17_Old_Attapue_ATP Team_20250501
--- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
-where cntl.remark_1 in ('7') 
-	and cntl.last_call_date < '2025-01-01' -- Last call 
-	and cntl.condition <= 3 -- Call 3 time or less
-	and branch_name = 'Attapue' order by `condition` asc;
+-- 3 ____________________________________________________ Pakse ____________________________________________________
+-- Campaign name: 202505_Old_Pakse_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Pakse' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 27614
+-- limit 27614, 27614
+ limit 55228, 27614
+;
 
 
-
--- ____________________________________________________ Priority8: ⑦SIGNBOARD ____________________________________________________
--- Campaign name: 18_Old_Attapue_ATP Team_20250501 / 18_Old_Attapue_ATP Team_20250501
--- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
-where cntl.remark_1 in ('8') 
-	and cntl.last_call_date < '2025-01-01' -- Last call 
-	and cntl.condition <= 3 -- Call 3 time or less
-	and branch_name = 'Attapue' order by `condition` asc;
-
-
-
--- ____________________________________________________ Priority9: ③CAR SHOP ____________________________________________________
--- Campaign name: 19_Old_Attapue_ATP Team_20250501 / 1_Old_Attapue_ATP Team_20250501
--- select count(*) -- 
-select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
-where cntl.remark_1 in ('9') a
-	and cntl.last_call_date < '2025-01-01' -- Last call 
-	and cntl.condition <= 3 -- Call 3 time or less
-	and branch_name = 'Attapue' order by `condition` asc;
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Pakse' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
 
 
+-- 4 ____________________________________________________ Luangprabang ____________________________________________________
+-- Campaign name: 202505_Old_Luangprabang_20250529-list
 
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Luangprabang' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 22395
+-- limit 22395, 22395
+ limit 44790, 22395 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Luangprabang' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+
+-- 5 ____________________________________________________ Oudomxay ____________________________________________________
+-- Campaign name: 202505_Old_Oudomxay_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Oudomxay' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 29342
+-- limit 29342, 29342
+ limit 58684, 29342 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Oudomxay' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+
+-- 6 ____________________________________________________ Vientiane province ____________________________________________________
+-- Campaign name: 202505_Old_Vientiane province_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Vientiane province' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 6954
+-- limit 6954, 6954
+ limit 13908, 6954 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Vientiane province' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+
+-- 7 ____________________________________________________ Sukhuma ____________________________________________________
+-- Campaign name: 202505_Old_Sukhuma_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Sukhuma' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 6954
+-- limit 6954, 6954
+-- limit 13908, 6954 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Sukhuma' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 8 ____________________________________________________ Xainyabuli ____________________________________________________
+-- Campaign name: 202505_Old_Xainyabuli_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Xainyabuli' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 33540
+-- limit 33540, 33540
+-- limit 67080, 33540 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Xainyabuli' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+
+-- 9 ____________________________________________________ Houaphan ____________________________________________________
+-- Campaign name: 202505_Old_Houaphan_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Houaphan' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 25087
+-- limit 25087, 25087
+ limit 50174, 25087 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Houaphan' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+
+-- 10 ____________________________________________________ Xiengkhouang ____________________________________________________
+-- Campaign name: 202505_Old_Xiengkhouang_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Xiengkhouang' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 25087
+-- limit 25087, 25087
+-- limit 50174, 25087 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Xiengkhouang' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+
+-- 11 ____________________________________________________ Paksan ____________________________________________________
+-- Campaign name: 202505_Old_Paksan_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Paksan' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 25087
+-- limit 25087, 25087
+-- limit 50174, 25087 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Paksan' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 12 ____________________________________________________ Paksxong ____________________________________________________
+-- Campaign name: 202505_Old_Paksxong_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Paksxong' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 25087
+-- limit 25087, 25087
+-- limit 50174, 25087 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Paksxong' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 13 ____________________________________________________ Thakek ____________________________________________________
+-- Campaign name: 202505_Old_Thakek_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Thakek' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+ limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Thakek' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 14 ____________________________________________________ Salavan ____________________________________________________
+-- Campaign name: 202505_Old_Salavan_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Salavan' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Salavan' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 15 ____________________________________________________ Attapue ____________________________________________________
+-- Campaign name: 202505_Old_Attapue_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Attapue' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Attapue' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 16 ____________________________________________________ Kham ____________________________________________________
+-- Campaign name: 202505_Old_Kham_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Kham' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Kham' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 17 ____________________________________________________ Phine ____________________________________________________
+-- Campaign name: 202505_Old_Phine_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Phine' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Phine' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 18 ____________________________________________________ Luangnamtha ____________________________________________________
+-- Campaign name: 202505_Old_Luangnamtha_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Luangnamtha' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Luangnamtha' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 19 ____________________________________________________ Vangvieng ____________________________________________________
+-- Campaign name: 202505_Old_Vangvieng_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Vangvieng' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Vangvieng' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 20 ____________________________________________________ Bokeo ____________________________________________________
+-- Campaign name: 202505_Old_Bokeo_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Bokeo' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Bokeo' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 21 ____________________________________________________ Phongsary ____________________________________________________
+-- Campaign name: 202505_Old_Phongsary_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Phongsary' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Phongsary' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 22 ____________________________________________________ Sekong ____________________________________________________
+-- Campaign name: 202505_Old_Sekong_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Sekong' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Sekong' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 23 ____________________________________________________ Xaisomboun ____________________________________________________
+-- Campaign name: 202505_Old_Xaisomboun_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Xaisomboun' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Xaisomboun' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 24 ____________________________________________________ Hadxaifong ____________________________________________________
+-- Campaign name: 202505_Old_Hadxaifong_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Hadxaifong' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Hadxaifong' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 25 ____________________________________________________ Naxaiythong ____________________________________________________
+-- Campaign name: 202505_Old_Naxaiythong_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Naxaiythong' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Naxaiythong' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 26 ____________________________________________________ Mayparkngum ____________________________________________________
+-- Campaign name: 202505_Old_Mayparkngum_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Mayparkngum' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Mayparkngum' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 27 ____________________________________________________ Xaythany ____________________________________________________
+-- Campaign name: 202505_Old_Xaythany_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Xaythany' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Xaythany' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 28 ____________________________________________________ Khamkeuth ____________________________________________________
+-- Campaign name: 202505_Old_Khamkeuth_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Khamkeuth' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Khamkeuth' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 29 ____________________________________________________ Chongmeg ____________________________________________________
+-- Campaign name: 202505_Old_Chongmeg_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Chongmeg' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Chongmeg' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 30 ____________________________________________________ Nambak ____________________________________________________
+-- Campaign name: 202505_Old_Nambak_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Nambak' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Nambak' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 31 ____________________________________________________ Songkhone ____________________________________________________
+-- Campaign name: 202505_Old_Songkhone_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Songkhone' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Songkhone' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 32 ____________________________________________________ Parklai ____________________________________________________
+-- Campaign name: 202505_Old_Parklai_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Parklai' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Parklai' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 33 ____________________________________________________ Sikhottabong ____________________________________________________
+-- Campaign name: 202505_Old_Sikhottabong_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Sikhottabong' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Sikhottabong' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 34 ____________________________________________________ Xanakharm ____________________________________________________
+-- Campaign name: 202505_Old_Xanakharm_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Xanakharm' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Xanakharm' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 35 ____________________________________________________ Feuang ____________________________________________________
+-- Campaign name: 202505_Old_Feuang_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Feuang' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Feuang' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 36 ____________________________________________________ Thoulakhom ____________________________________________________
+-- Campaign name: 202505_Old_Thoulakhom_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Thoulakhom' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Thoulakhom' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 37 ____________________________________________________ Khoune ____________________________________________________
+-- Campaign name: 202505_Old_Khoune_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Khoune' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Khoune' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 38 ____________________________________________________ Pakkading ____________________________________________________
+-- Campaign name: 202505_Old_Pakkading_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Pakkading' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Pakkading' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 39 ____________________________________________________ Khong ____________________________________________________
+-- Campaign name: 202505_Old_Khong_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Khong' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Khong' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 40 ____________________________________________________ Khongxedone ____________________________________________________
+-- Campaign name: 202505_Old_Khongxedone_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Khongxedone' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Khongxedone' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 41 ____________________________________________________ Atsaphangthong ____________________________________________________
+-- Campaign name: 202505_Old_Atsaphangthong_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Atsaphangthong' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Atsaphangthong' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 42 ____________________________________________________ Nhommalth ____________________________________________________
+-- Campaign name: 202505_Old_Nhommalth_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Nhommalth' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Nhommalth' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 43 ____________________________________________________ Nane ____________________________________________________
+-- Campaign name: 202505_Old_Nane_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Nane' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Nane' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 44 ____________________________________________________ Hoon ____________________________________________________
+-- Campaign name: 202505_Old_Hoon_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Hoon' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Hoon' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 45 ____________________________________________________ Hongsa ____________________________________________________
+-- Campaign name: 202505_Old_Hongsa_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Hongsa' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Hongsa' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
+
+-- 46 ____________________________________________________ Tonpherng ____________________________________________________
+-- Campaign name: 202505_Old_Tonpherng_20250529-list
+
+SELECT `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
+FROM contact_for_202505_lcc cntl 
+WHERE 
+	cntl.branch_name = 'Tonpherng' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+ORDER BY cntl.`condition` ASC, cntl.last_call_date ASC 
+-- limit 0, 57859
+-- limit 57859, 57859
+-- limit 115718, 57859 
+;
+
+
+-- check the number of list
+SELECT 
+	count(*) as `total`,
+	CEIL(count(*) / 3 ) * 0 AS `list1`, 
+	CEIL(count(*) / 3 ) * 1 AS `list2`, 
+	CEIL(count(*) / 3 ) * 2 AS `list3`
+FROM contact_for_202505_lcc cntl 
+WHERE cntl.branch_name = 'Tonpherng' -- Branch
+	AND cntl.last_call_date < '2023-05-01' -- Last call 
+	-- AND cntl.remark_1 in ('3') -- priority, 
+	-- AND cntl.condition <= 3 -- Call 3 time or less
+;
 
 
 
