@@ -16,7 +16,7 @@ So, do "FFF can't contact" and "No have in telecom" mean the same thing?
 
 
 -- 1) table contact_for  
-create table `contact_for_202505_lcc` (
+create table `contact_for_202506_lcc` (
 	  `id` int(11) not null auto_increment,
 	`file_id` int(11) default null,
 	`contact_no` varchar(255) not null,
@@ -30,7 +30,7 @@ create table `contact_for_202505_lcc` (
 	`maker` varchar(255) default null,
 	`model` varchar(255) default null,
 	`year` varchar(255) default null,
-	`remark_1` varchar(255) default null COMMENT 'priority 1=P1: New number or never call before, 2=P2: ③Have address called 1 time, 3=P3: ②Need loan called 1 time, 4=P4: ①Have Car called 1 time, 5=P5: ④Telecom called 0 time',
+	`remark_1` varchar(255) default null COMMENT 'priority ',
 	`remark_2` varchar(255) default null,
 	`remark_3` varchar(255) default null,
 	`branch_name` varchar(255) default null,
@@ -49,14 +49,14 @@ create table `contact_for_202505_lcc` (
 	key `type` (`type`),
 	key `condition` (`condition`),
 	key `branch_name` (`branch_name`),
-	constraint `contact_for_202505_lcc_ibfk_1` foreign key (`file_id`) references `file_details` (`id`)
+	constraint `contact_for_202506_lcc_ibfk_1` foreign key (`file_id`) references `file_details` (`id`)
 ) engine=InnoDB auto_increment=1 default CHARSET=utf8mb4 collate utf8mb4_general_ci ;
 
 
 
 
 -- 2) intert data from contact_numbers_to_lcc to table monthly
-insert into contact_for_202505_lcc
+insert into contact_for_202506_lcc
 select cntl.id, cntl.`file_id`,`contact_no`,`name`,cntl.province_eng,`province_laos`,cntl.district_eng,`district_laos`,cntl.`village`,cntl.`type`,`maker`,`model`,`year`, 
 	case 	
 		when cntl.`type` = 'F' then '1'
@@ -86,9 +86,9 @@ where (cntl.remark_3 in ('contracted', 'ringi_not_contract', 'aseet_not_contract
 
 
 -- 3) delete the status contracted, inactive number from table monthly
-select count(*)  from contact_for_202505_lcc;  --  number need to delete becaues contracted or invalid number
+select count(*)  from contact_for_202506_lcc;  --  number need to delete becaues contracted or invalid number
 
-delete from contact_for_202505_lcc
+delete from contact_for_202506_lcc
 where remark_3 = 'contracted' -- contracted
 	or (remark_3 in ('prospect_sabc', 'lcc') and status in ('X') ) -- contracted
 	or (remark_3 = 'lcc' and status = 'Block need_to_block') -- Block need_to_block
@@ -97,11 +97,11 @@ where remark_3 = 'contracted' -- contracted
 	or remark_3 = 'blacklist' -- blacklist
 
 -- 4) set branch_name before export
-select branch_name , count(*)  from contact_for_202505_lcc group by branch_name ;
+select branch_name , count(*)  from contact_for_202506_lcc group by branch_name ;
 
-update contact_for_202505_lcc set branch_name = 'Bokeo' where branch_name is null or branch_name = '';
+update contact_for_202506_lcc set branch_name = 'Bokeo' where branch_name is null or branch_name = '';
 
-select count(*) from contact_for_202505_lcc cfl -- 
+select count(*) from contact_for_202506_lcc cfl -- 
 
 -- 5) prospect customer
  -- > this month not need because we import to frappe table: tabSME_BO_and_Plan  and make them use from there
@@ -111,29 +111,29 @@ select count(*) from contact_for_202505_lcc cfl --
 select * from contact_for_logcall order by `date` desc limit 10;
 
 insert into contact_for_logcall
-select '2025-04-30' `date`, `contact_no`, `contact_id`, `remark_2`, `status_updated`
-from contact_for_202504_lcc cfl where status_updated is not null;
+select '2025-05-31' `date`, `contact_no`, `contact_id`, `remark_2`, `status_updated`
+from contact_for_202506_lcc cfl where status_updated is not null;
 
 
 -- 7) check and update logcall 
-select cfl.contact_id, t.`count_time` from contact_for_202505_lcc cfl
+select cfl.contact_id, t.`count_time` from contact_for_202506_lcc cfl
 left join (select contact_id, count(*) `count_time` from contact_for_logcall group by contact_id) t on (cfl.contact_id = t.contact_id) ;
 
 -- update
-update contact_for_202505_lcc cfl
+update contact_for_202506_lcc cfl
 left join (select contact_id, count(*) `count_time` from contact_for_logcall group by contact_id) t on (cfl.contact_id = t.contact_id)
 set cfl.`condition` = t.`count_time` ;
 
 -- update the condition is null
-select * from contact_for_202505_lcc where `condition` is null; -- 1,356,166
-update contact_for_202505_lcc set `condition` = 1 where `condition` is null and status is not null; -- 1,335,744
-update contact_for_202505_lcc set `condition` = 1 where `condition` is null and status is null; -- 422
+select * from contact_for_202506_lcc where `condition` is null; -- 1,356,166
+update contact_for_202506_lcc set `condition` = 1 where `condition` is null and status is not null; -- 1,335,744
+update contact_for_202506_lcc set `condition` = 1 where `condition` is null and status is null; -- 422
 
 
 
-select * from contact_for_202505_lcc order by id desc 51015810;
+select * from contact_for_202506_lcc order by id desc 51015810;
 
-ALTER TABLE contact_for_202505_lcc AUTO_INCREMENT = 60000000;
+ALTER TABLE contact_for_202506_lcc AUTO_INCREMENT = 60000000;
 
 
 -- run on Frappe server
@@ -170,9 +170,37 @@ order by bp.address_province_and_city asc;
 
 
 
+-- update the contact number
+update contact_for_202506_lcc set contact_no = 
+	case when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '021')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '21' )
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 6)
+		then concat('9021',right(regexp_replace(contact_no , '[^[:digit:]]', ''),6)) -- for 021
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 11 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '020')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 10 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '20')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 8 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),1) in ('2','5','7','8','9'))
+		then concat('9020',right(regexp_replace(contact_no , '[^[:digit:]]', ''),8)) -- for 020
+		when (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 10 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),3) = '030')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 9 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),2) = '30')
+			or (length (regexp_replace(contact_no , '[^[:digit:]]', '')) = 7 and left (regexp_replace(contact_no , '[^[:digit:]]', ''),1) in ('2','4','5','7','9'))
+		then concat('9030',right(regexp_replace(contact_no , '[^[:digit:]]', ''),7)) -- for 030
+		when left (right (regexp_replace(contact_no , '[^[:digit:]]', ''),8),1) in ('0','1','') then concat('9030',right(regexp_replace(contact_no , '[^[:digit:]]', ''),7))
+		when left (right (regexp_replace(contact_no , '[^[:digit:]]', ''),8),1) in ('2','5','7','8','9')
+		then concat('9020',right(regexp_replace(contact_no , '[^[:digit:]]', ''),8))
+		else concat('9020',right(regexp_replace(contact_no , '[^[:digit:]]', ''),8))
+	end
+;
+
+
+-- delete if not correct format
+delete from contact_for_202506_lcc
+where left(`contact_no`, 5) not in ('90202', '90205', '90207', '90208', '90209', 
+	'90302', '90304', '90305', '90307', '90308', '90309')
+;
+
 
 -- Bases on Morikawa suggest in [C:\Users\Lalco_Admin\Downloads\Contact numbers for 2025-02\資料源配布について20250130.docx]
-update contact_for_202505_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+update contact_for_202506_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 set `remark_1` =
 	case 	when cntl.`condition` = 0 then '1'
 		when cntl.`type` = 'F' then '1'
@@ -190,7 +218,7 @@ set `remark_1` =
 
 
 -- Update branch Name
-update contact_for_202505_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
+update contact_for_202506_lcc cntl left join file_details fd on (fd.id = cntl.file_id)
 set cntl.branch_name = 
 	case 	WHEN cntl.province_eng = 'Attapeu' AND cntl.district_eng = 'Saysetha' THEN 'Attapue'
 		WHEN cntl.province_eng = 'Attapeu' AND cntl.district_eng = 'Samakkhixay' THEN 'Attapue'
@@ -347,11 +375,11 @@ set cntl.branch_name =
 where cntl.`type` IN ('F', 'G');
 
 
-select * from contact_for_202505_lcc cntl where cntl.`type` IN ('F', 'G');
+select * from contact_for_202506_lcc cntl where cntl.`type` IN ('F', 'G');
 
 
 
-# ______________________________________________________ export to create campaign on LCC for contact_for_202505_lcc ______________________________________________________________ #
+# ______________________________________________________ export to create campaign on LCC for contact_for_202506_lcc ______________________________________________________________ #
 
 
 /*
@@ -369,29 +397,29 @@ Team: 'ATP Team', 'Bokeo', 'Team2', 'Team3', 'Team4', 'Houaphan Team', 'Luangnam
 
 
 -- ____________________________________________________ Priority1: 0 call + F rank ____________________________________________________
--- Campaign name: 11_Old_Attapue_ATP Team_20250501 / 11_Old_Attapue_ATP Team_20250501
+-- Campaign name: 11_Old_Attapue_ATP Team_20250601 / 11_Old_Attapue_ATP Team_20250601
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
+from contact_for_202506_lcc cntl 
 where cntl.remark_1 in ('1')
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
 
 -- ____________________________________________________ Priority2: G rank ____________________________________________________
--- Campaign name: 12_Old_Attapue_ATP Team_20250501 / 12_Old_Attapue_ATP Team_20250501
+-- Campaign name: 12_Old_Attapue_ATP Team_20250601 / 12_Old_Attapue_ATP Team_20250601
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
+from contact_for_202506_lcc cntl 
 where cntl.remark_1 in ('2')
 	and branch_name = 'Attapue' order by `condition` asc;
 
 
 -- ____________________________________________________ Priority3: ①GOVERNMENT ____________________________________________________
--- Campaign name: 13_Old_Attapue_ATP Team_20250501 / 13_Old_Attapue_ATP Team_20250501
+-- Campaign name: 13_Old_Attapue_ATP Team_20250601 / 13_Old_Attapue_ATP Team_20250601
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
+from contact_for_202506_lcc cntl 
 where cntl.remark_1 in ('3') 
 	and cntl.last_call_date < '2025-01-01' -- Last call 
 	and cntl.condition <= 3 -- Call 3 time or less
@@ -399,10 +427,10 @@ where cntl.remark_1 in ('3')
 
 
 -- ____________________________________________________ Priority4: ②INSURANCE ____________________________________________________
--- Campaign name: 14_Old_Attapue_ATP Team_20250501 / 14_Old_Attapue_ATP Team_20250501
+-- Campaign name: 14_Old_Attapue_ATP Team_20250601 / 14_Old_Attapue_ATP Team_20250601
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
+from contact_for_202506_lcc cntl 
 where cntl.remark_1 in ('4') 
 	and cntl.last_call_date < '2025-01-01' -- Last call 
 	and cntl.condition <= 3 -- Call 3 time or less
@@ -410,10 +438,10 @@ where cntl.remark_1 in ('4')
 
 
 -- ____________________________________________________ Priority5: ④FINANCE∙LEASE ____________________________________________________
--- Campaign name: 15_Old_Attapue_ATP Team_20250501 / 15_Old_Attapue_ATP Team_20250501
+-- Campaign name: 15_Old_Attapue_ATP Team_20250601 / 15_Old_Attapue_ATP Team_20250601
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
+from contact_for_202506_lcc cntl 
 where cntl.remark_1 in ('5') 
 	and cntl.last_call_date < '2025-01-01' -- Last call 
 	and cntl.condition <= 3 -- Call 3 time or less
@@ -421,10 +449,10 @@ where cntl.remark_1 in ('5')
 
 
 -- ____________________________________________________ Priority6: ⑤TELECOM ____________________________________________________
--- Campaign name: 16_Old_Attapue_ATP Team_20250501 / 16_Old_Attapue_ATP Team_20250501
+-- Campaign name: 16_Old_Attapue_ATP Team_20250601 / 16_Old_Attapue_ATP Team_20250601
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
+from contact_for_202506_lcc cntl 
 where cntl.remark_1 in ('6') 
 	and cntl.last_call_date < '2025-01-01' -- Last call 
 	and cntl.condition <= 3 -- Call 3 time or less
@@ -432,10 +460,10 @@ where cntl.remark_1 in ('6')
 
 
 -- ____________________________________________________ Priority7: ⑥OTHERS ____________________________________________________
--- Campaign name: 17_Old_Attapue_ATP Team_20250501 / 17_Old_Attapue_ATP Team_20250501
+-- Campaign name: 17_Old_Attapue_ATP Team_20250601 / 17_Old_Attapue_ATP Team_20250601
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
+from contact_for_202506_lcc cntl 
 where cntl.remark_1 in ('7') 
 	and cntl.last_call_date < '2025-01-01' -- Last call 
 	and cntl.condition <= 3 -- Call 3 time or less
@@ -444,10 +472,10 @@ where cntl.remark_1 in ('7')
 
 
 -- ____________________________________________________ Priority8: ⑦SIGNBOARD ____________________________________________________
--- Campaign name: 18_Old_Attapue_ATP Team_20250501 / 18_Old_Attapue_ATP Team_20250501
+-- Campaign name: 18_Old_Attapue_ATP Team_20250601 / 18_Old_Attapue_ATP Team_20250601
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
+from contact_for_202506_lcc cntl 
 where cntl.remark_1 in ('8') 
 	and cntl.last_call_date < '2025-01-01' -- Last call 
 	and cntl.condition <= 3 -- Call 3 time or less
@@ -456,10 +484,10 @@ where cntl.remark_1 in ('8')
 
 
 -- ____________________________________________________ Priority9: ③CAR SHOP ____________________________________________________
--- Campaign name: 19_Old_Attapue_ATP Team_20250501 / 1_Old_Attapue_ATP Team_20250501
+-- Campaign name: 19_Old_Attapue_ATP Team_20250601 / 1_Old_Attapue_ATP Team_20250601
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
+from contact_for_202506_lcc cntl 
 where cntl.remark_1 in ('9') a
 	and cntl.last_call_date < '2025-01-01' -- Last call 
 	and cntl.condition <= 3 -- Call 3 time or less
@@ -482,7 +510,7 @@ where cntl.remark_1 in ('9') a
 -- Campaign name: 7_Old_Head Office_Team2_20241001_p7 / 7_Old_Head Office_Team2_20241001_p7-1
 -- select count(*) -- 
 select `id`,`contact_no`,`name`,`province_eng`,`province_laos`,`district_eng`,`district_laos`,`village`,`type`,`maker`,`model`,`year`,`remark_1`,`condition` `remark_2`,`remark_3`
-from contact_for_202505_lcc cntl 
+from contact_for_202506_lcc cntl 
 where cntl.remark_1 in ('7')
 	 and branch_name = 'Head Office' -- limit 0, 3 -- mean start from row 0+1 and of row 0+3
 	-- limit 0*75100 , 75100 -- result will be start from 0*75100+1, end 0*75100+75100, limit n+1, n (start from n+1, end of n)
@@ -493,7 +521,7 @@ where cntl.remark_1 in ('7')
 	
 -- ____________________________________________________ WA campaign ____________________________________________________
 select cntl.id `FIRSTNAME`, null `LASTNAME`, null `EMAIL`, concat('+856', right(contact_no, length(contact_no)-2)) `WHATSAPP`, null `SMS`
-from contact_for_202505_lcc cntl 
+from contact_for_202506_lcc cntl 
 where cntl.remark_1 in ('4') and cntl.`condition` <= 5
 -- where cntl.remark_1 in ('4') and cntl.`condition` > 5
 	and CONCAT(LENGTH(contact_no), left( contact_no, 5)) in ('1290202','1290205','1290207','1290208','1290209')
@@ -505,7 +533,7 @@ where cntl.remark_1 in ('4') and cntl.`condition` <= 5
 -- import Approach list from contact_data_db to frappe
 select id `name`, now() `creation`, 'Administrator' `owner`, contact_no `customer_tel`, name `customer_name`, concat(province_eng, " - ", district_eng) `address_province_and_city`, village `address_village`,
 	`maker`, `model`, `year`, remark_1 `priority`, `branch_name`
-from contact_for_202505_lcc
+from contact_for_202506_lcc
 where branch_name in ('Phongsary','Xaisomboun','Sekong','Saysetha - Attapeu','Khamkeut - Borikhamxay','Paksong - Champasack','Phonthong - Champasack','Nam Bak - Luangprabang','Songkhone - Savanakhet','Hadxayfong - Vientiane Capital','Naxaythong - Vientiane Capital','Parkngum - Vientiane Capital','Xaythany - Vientiane Capital','Vangvieng - Vientiane Province','Parklai - Xayaboury','Kham - Xiengkhuang'
 ) ;
 */
