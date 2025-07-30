@@ -353,7 +353,6 @@ where cntl.id in (select id from temp_update_any );
 
 
 
-
 -- 8)update status in table contact_for_202507_lcc 
 update contact_for_202507_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
@@ -475,7 +474,7 @@ where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.stat
 -- 9)delete data from temp_update_any
 delete from temp_update_any ;
 
-
+select status_updated, count(*)  from contact_for_202507_lcc group by status_updated;
 
 -- __________________________________________________ 006 aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER' __________________________________________________
 -- 7)insert data to temp_update_any -- 1st method
