@@ -353,8 +353,8 @@ where cntl.id in (select id from temp_update_any );
 
 
 
--- 8)update status in table contact_for_202507_lcc 
-update contact_for_202507_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202508_lcc 
+update contact_for_202508_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any );
 
@@ -381,8 +381,8 @@ where cntl.id in (select id from temp_update_any) and (cntl.status is null or cn
 
 
 
--- 8)update status in table contact_for_202507_lcc 
-update contact_for_202507_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202508_lcc 
+update contact_for_202508_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted'));
 
@@ -409,8 +409,8 @@ where cntl.id in (select id from temp_update_any) and (cntl.status is null or cn
 
 
 
--- 8)update status in table contact_for_202507_lcc 
-update contact_for_202507_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202508_lcc 
+update contact_for_202508_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted'));
 
@@ -436,8 +436,8 @@ where cntl.id in (select id from temp_update_any ) and (cntl.status is null or c
 
 
 
--- 8)update status in table contact_for_202507_lcc 
-update contact_for_202507_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202508_lcc 
+update contact_for_202508_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract'));
 
@@ -464,8 +464,8 @@ where cntl.contact_id in (select contact_id from temp_update_any ) and (cntl.sta
 
 
 
--- 8)update status in table contact_for_202507_lcc 
-update contact_for_202507_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202508_lcc 
+update contact_for_202508_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 not in ('contracted', 'ringi_not_contract', 'aseet_not_contract', 'prospect_sabc'));
 
@@ -474,7 +474,7 @@ where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.stat
 -- 9)delete data from temp_update_any
 delete from temp_update_any ;
 
-select status_updated, count(*)  from contact_for_202507_lcc group by status_updated;
+select status_updated, count(*)  from contact_for_202508_lcc group by status_updated;
 
 -- __________________________________________________ 006 aua.priority_type = 'pbx_cdr' and aua.status = 'NO ANSWER' and cntl.status != 'NO ANSWER' __________________________________________________
 -- 7)insert data to temp_update_any -- 1st method
@@ -492,8 +492,8 @@ where cntl.id in (select id from temp_update_any ) and (cntl.status is null or c
 
 
 
--- 8)update status in table contact_for_202507_lcc 
-update contact_for_202507_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202508_lcc 
+update contact_for_202508_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
 where cntl.contact_id in (select contact_id from temp_update_any ) and (cntl.status_updated is null or cntl.status_updated in ('SMS_success', 'ETL_active'));
 
@@ -531,20 +531,20 @@ where cntl.id in (select id from temp_update_any ) and (cntl.status is null or (
 ;
 
 
--- 8)update status in table contact_for_202507_lcc 
-update contact_for_202507_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202508_lcc 
+update contact_for_202508_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
--- select cntl.remark_2 , tua.remark_3, cntl.status_updated , tua.status from contact_for_202507_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- select cntl.remark_2 , tua.remark_3, cntl.status_updated , tua.status from contact_for_202508_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or cntl.remark_2 in ('prospect_sabc', 'pbx_cdr', 'lcc')) 
 	and tua.status in ('X','S','A','B','C','F','G','SP will be salespartner') 
 ;
 
 
 
--- 8)update status in table contact_for_202507_lcc 
-update contact_for_202507_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- 8)update status in table contact_for_202508_lcc 
+update contact_for_202508_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 set cntl.remark_2 = tua.remark_3, cntl.status_updated = tua.status
--- select cntl.remark_2 , tua.remark_3, cntl.status_updated , tua.status from contact_for_202507_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
+-- select cntl.remark_2 , tua.remark_3, cntl.status_updated , tua.status from contact_for_202508_lcc cntl left join temp_update_any tua on (cntl.contact_id = tua.contact_id) 
 where cntl.contact_id in (select contact_id from temp_update_any) and (cntl.status_updated is null or (cntl.remark_2 = 'pbx_cdr' and cntl.status_updated = 'NO ANSWER') or (cntl.remark_2 = 'lcc') )
 	and tua.status in ('Block need_to_block','FF1 not_answer','FF2 power_off','FFF can_not_contact','No have in telecom') 
 ;
@@ -555,7 +555,16 @@ delete from temp_update_any ;
 
 
 
-
+-- double check after update
+select 
+	remark_2,
+	status_updated, 
+	count(*) 
+from contact_for_202508_lcc cfl 
+group by 
+	remark_2,
+	status_updated
+;
 
 
 
