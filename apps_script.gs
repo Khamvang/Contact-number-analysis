@@ -32,6 +32,16 @@ function normalizeContactNumber(raw) {
       (length === 7 && ['2', '4', '5', '7', '9'].indexOf(firstDigit) !== -1);
   }
 
+  function hasHeaderRow(rows) {
+    if (!rows.length) return false;
+    var firstText = rows[0][0] === null || rows[0][0] === undefined ? '' : String(rows[0][0]).trim();
+    var firstIsNumeric = /^\d+$/.test(firstText);
+    var secondRowLooksNumeric = rows.length > 1 && /^\d+$/.test(String(rows[1][0]).replace(/\D+/g, ''));
+
+    // Treat as header when the first cell is descriptive text (e.g., "Contact Number") and the next row looks numeric.
+    return (!firstIsNumeric && secondRowLooksNumeric) || /contact/.test(firstText.toLowerCase());
+  }
+
   if (isLandlinePattern(len, digits)) {
     return '9021' + digits.slice(-6);
   }
@@ -69,11 +79,7 @@ function updateNormalizedNumbers() {
   if (!values.length) return;
 
   var targetCol = range.getLastColumn() + 1;
-  var firstCell = values[0][0];
-  var firstText = firstCell === null || firstCell === undefined ? '' : String(firstCell).trim();
-  var firstIsNumeric = /^\d+$/.test(firstText);
-  var secondLooksNumber = values.length > 1 && /^\d+$/.test(String(values[1][0]).replace(/\D+/g, ''));
-  var hasHeader = (!firstIsNumeric && secondLooksNumber) || /contact/.test(firstText.toLowerCase());
+  var hasHeader = hasHeaderRow(values);
   var headerRowIndex = hasHeader ? 0 : -1;
   var normalized = values.map(function (row, index) {
     return [index === headerRowIndex ? 'Normalized Contact Number' : normalizeContactNumber(row[0])];
