@@ -1,31 +1,35 @@
 var NORMALIZED_HEADER = 'Normalized Contact Number';
 var HEADER_KEYWORD_PATTERN = /contact/i; // Keywords that signal a header row in column A.
 
+function cellText(value) {
+  return value === null || value === undefined ? '' : String(value).trim();
+}
+
 function isLandlinePattern(length, value) {
   // Covers 021/21 prefixes and legacy 6-digit landline-style numbers.
-  return (length === 9 && value.indexOf('021') === 0) ||
-    (length === 8 && value.indexOf('21') === 0) ||
+  return (length === 9 && value.startsWith('021')) ||
+    (length === 8 && value.startsWith('21')) ||
     length === 6;
 }
 
 function isMobilePattern(length, value, firstDigit) {
-  return (length === 11 && value.indexOf('020') === 0) ||
-    (length === 10 && value.indexOf('20') === 0) ||
-    (length === 8 && ['2', '5', '7', '8', '9'].indexOf(firstDigit) !== -1);
+  return (length === 11 && value.startsWith('020')) ||
+    (length === 10 && value.startsWith('20')) ||
+    (length === 8 && '25789'.includes(firstDigit));
 }
 
 function is030Pattern(length, value, firstDigit) {
   // Handles 030 numbers and short regional codes that start with 2/4/5/7/9.
-  return (length === 10 && value.indexOf('030') === 0) ||
-    (length === 9 && value.indexOf('30') === 0) ||
-    (length === 7 && ['2', '4', '5', '7', '9'].indexOf(firstDigit) !== -1);
+  return (length === 10 && value.startsWith('030')) ||
+    (length === 9 && value.startsWith('30')) ||
+    (length === 7 && '24579'.includes(firstDigit));
 }
 
 function hasHeaderRow(rows) {
   if (!rows.length) return false;
-  var firstText = rows[0][0] === null || rows[0][0] === undefined ? '' : String(rows[0][0]).trim();
+  var firstText = cellText(rows[0][0]);
   var firstIsNumeric = /^\d+$/.test(firstText);
-  var secondText = rows.length > 1 && rows[1][0] !== null && rows[1][0] !== undefined ? String(rows[1][0]).trim() : '';
+  var secondText = rows.length > 1 ? cellText(rows[1][0]) : '';
   var secondRowLooksNumeric = rows.length > 1 && /^\d+$/.test(secondText);
 
   // Treat as header when the first cell is descriptive text (e.g., "Contact Number") and the next row looks numeric.
