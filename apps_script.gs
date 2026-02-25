@@ -1,3 +1,4 @@
+var NORMALIZED_HEADER = 'Normalized Contact Number';
 var HEADER_KEYWORD_PATTERN = /contact/i; // Keywords that signal a header row in column A.
 
 function isLandlinePattern(length, value) {
@@ -24,7 +25,8 @@ function hasHeaderRow(rows) {
   if (!rows.length) return false;
   var firstText = rows[0][0] === null || rows[0][0] === undefined ? '' : String(rows[0][0]).trim();
   var firstIsNumeric = /^\d+$/.test(firstText);
-  var secondRowLooksNumeric = rows.length > 1 && /^\d+$/.test(String(rows[1][0]).trim());
+  var secondText = rows.length > 1 && rows[1][0] !== null && rows[1][0] !== undefined ? String(rows[1][0]).trim() : '';
+  var secondRowLooksNumeric = rows.length > 1 && /^\d+$/.test(secondText);
 
   // Treat as header when the first cell is descriptive text (e.g., "Contact Number") and the next row looks numeric.
   return (!firstIsNumeric && secondRowLooksNumeric) || HEADER_KEYWORD_PATTERN.test(firstText);
@@ -45,6 +47,7 @@ function normalizeContactNumber(raw) {
   var first = digits.charAt(0);
 
   if (isLandlinePattern(len, digits)) {
+    // 9021 prefix marks normalized landline numbers in downstream tables.
     return '9021' + digits.slice(-6);
   }
 
@@ -84,7 +87,7 @@ function updateNormalizedNumbers() {
   var hasHeader = hasHeaderRow(values);
   var headerRowIndex = hasHeader ? 0 : -1;
   var normalized = values.map(function (row, index) {
-    return [index === headerRowIndex ? 'Normalized Contact Number' : normalizeContactNumber(row[0])];
+    return [index === headerRowIndex ? NORMALIZED_HEADER : normalizeContactNumber(row[0])];
   });
 
   sheet.getRange(1, targetCol, normalized.length, 1).setValues(normalized);
