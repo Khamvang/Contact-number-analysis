@@ -12,35 +12,35 @@ function normalizeContactNumber(raw) {
   var len = digits.length;
   var first = digits.charAt(0);
 
-  function isMobilePattern() {
-    return (len === 11 && digits.indexOf('020') === 0) ||
-      (len === 10 && digits.indexOf('20') === 0) ||
-      (len === 8 && ['2', '5', '7', '8', '9'].indexOf(first) !== -1);
+  function isMobilePattern(length, value, firstDigit) {
+    return (length === 11 && value.indexOf('020') === 0) ||
+      (length === 10 && value.indexOf('20') === 0) ||
+      (length === 8 && ['2', '5', '7', '8', '9'].indexOf(firstDigit) !== -1);
   }
 
-  function is030Pattern() {
+  function is030Pattern(length, value, firstDigit) {
     // Handles 030 numbers and short regional codes that start with 2/4/5/7/9.
-    return (len === 10 && digits.indexOf('030') === 0) ||
-      (len === 9 && digits.indexOf('30') === 0) ||
-      (len === 7 && ['2', '4', '5', '7', '9'].indexOf(first) !== -1);
+    return (length === 10 && value.indexOf('030') === 0) ||
+      (length === 9 && value.indexOf('30') === 0) ||
+      (length === 7 && ['2', '4', '5', '7', '9'].indexOf(firstDigit) !== -1);
   }
 
-  // Landline-style numbers (021/21) become 9021 + last 6 digits.
+  // Landline-style numbers (021/21) and legacy 6-digit numbers become 9021 + last 6 digits.
   if ((len === 9 && digits.indexOf('021') === 0) || (len === 8 && digits.indexOf('21') === 0) || len === 6) {
     return '9021' + digits.slice(-6);
   }
 
   // Mobile-style numbers (020/20) become 9020 + last 8 digits.
-  if (isMobilePattern()) {
+  if (isMobilePattern(len, digits, first)) {
     return '9020' + digits.slice(-8);
   }
 
   // 030-series numbers become 9030 + last 7 digits.
-  if (is030Pattern()) {
+  if (is030Pattern(len, digits, first)) {
     return '9030' + digits.slice(-7);
   }
 
-  // If the first digit of the last 8 is 0 or 1, treat as 030-series.
+  // If the first digit of the last 8 is 0 or 1, treat as 030-series to cover scraped data missing a full prefix.
   if (len >= 8 && len <= 11) {
     var firstOfLastEight = digits.slice(-8).charAt(0);
     if (firstOfLastEight === '0' || firstOfLastEight === '1') {
