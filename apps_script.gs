@@ -18,7 +18,7 @@ function isMobilePattern(length, value, firstDigit) {
     (length === 8 && '25789'.includes(firstDigit));
 }
 
-function is030Pattern(length, value, firstDigit) {
+function isZeroThreeZeroPattern(length, value, firstDigit) {
   // Handles 030 numbers and short regional codes that start with 2/4/5/7/9.
   return (length === 10 && value.startsWith('030')) ||
     (length === 9 && value.startsWith('30')) ||
@@ -61,7 +61,7 @@ function normalizeContactNumber(raw) {
   }
 
   // 030-series numbers become 9030 + last 7 digits.
-  if (is030Pattern(len, digits, first)) {
+  if (isZeroThreeZeroPattern(len, digits, first)) {
     return '9030' + digits.slice(-7);
   }
 
