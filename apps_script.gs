@@ -1,3 +1,5 @@
+var HEADER_KEYWORD_PATTERN = /contact/i; // Keywords that signal a header row in column A.
+
 function isLandlinePattern(length, value) {
   // Covers 021/21 prefixes and legacy 6-digit landline-style numbers.
   return (length === 9 && value.indexOf('021') === 0) ||
@@ -22,10 +24,10 @@ function hasHeaderRow(rows) {
   if (!rows.length) return false;
   var firstText = rows[0][0] === null || rows[0][0] === undefined ? '' : String(rows[0][0]).trim();
   var firstIsNumeric = /^\d+$/.test(firstText);
-  var secondRowLooksNumeric = rows.length > 1 && /^\d+$/.test(String(rows[1][0]).replace(/\D+/g, ''));
+  var secondRowLooksNumeric = rows.length > 1 && /^\d+$/.test(String(rows[1][0]).trim());
 
   // Treat as header when the first cell is descriptive text (e.g., "Contact Number") and the next row looks numeric.
-  return (!firstIsNumeric && secondRowLooksNumeric) || /contact/.test(firstText.toLowerCase());
+  return (!firstIsNumeric && secondRowLooksNumeric) || HEADER_KEYWORD_PATTERN.test(firstText);
 }
 
 /**
