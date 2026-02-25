@@ -12,6 +12,13 @@ function normalizeContactNumber(raw) {
   var len = digits.length;
   var first = digits.charAt(0);
 
+  function isLandlinePattern(length, value) {
+    // Covers 021/21 prefixes and legacy 6-digit landline-style numbers.
+    return (length === 9 && value.indexOf('021') === 0) ||
+      (length === 8 && value.indexOf('21') === 0) ||
+      length === 6;
+  }
+
   function isMobilePattern(length, value, firstDigit) {
     return (length === 11 && value.indexOf('020') === 0) ||
       (length === 10 && value.indexOf('20') === 0) ||
@@ -25,8 +32,7 @@ function normalizeContactNumber(raw) {
       (length === 7 && ['2', '4', '5', '7', '9'].indexOf(firstDigit) !== -1);
   }
 
-  // Landline-style numbers (021/21) and legacy 6-digit numbers become 9021 + last 6 digits.
-  if ((len === 9 && digits.indexOf('021') === 0) || (len === 8 && digits.indexOf('21') === 0) || len === 6) {
+  if (isLandlinePattern(len, digits)) {
     return '9021' + digits.slice(-6);
   }
 
@@ -63,8 +69,10 @@ function updateNormalizedNumbers() {
   if (!values.length) return;
 
   var targetCol = range.getLastColumn() + 1;
+  var hasHeader = values.length && typeof values[0][0] === 'string' && /[A-Za-z]/.test(values[0][0]);
   var normalized = values.map(function (row, index) {
-    return [index === 0 ? 'Normalized Contact Number' : normalizeContactNumber(row[0])];
+    var isHeaderRow = index === 0 && hasHeader;
+    return [isHeaderRow ? 'Normalized Contact Number' : normalizeContactNumber(row[0])];
   });
 
   sheet.getRange(1, targetCol, normalized.length, 1).setValues(normalized);
