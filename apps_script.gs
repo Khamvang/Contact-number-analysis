@@ -69,10 +69,14 @@ function updateNormalizedNumbers() {
   if (!values.length) return;
 
   var targetCol = range.getLastColumn() + 1;
-  var hasHeader = values.length && typeof values[0][0] === 'string' && /[A-Za-z]/.test(values[0][0]);
+  var firstCell = values[0][0];
+  var firstText = firstCell === null || firstCell === undefined ? '' : String(firstCell).trim();
+  var firstIsNumeric = /^\d+$/.test(firstText);
+  var secondLooksNumber = values.length > 1 && /^\d+$/.test(String(values[1][0]).replace(/\D+/g, ''));
+  var hasHeader = (!firstIsNumeric && secondLooksNumber) || /contact/.test(firstText.toLowerCase());
+  var headerRowIndex = hasHeader ? 0 : -1;
   var normalized = values.map(function (row, index) {
-    var isHeaderRow = index === 0 && hasHeader;
-    return [isHeaderRow ? 'Normalized Contact Number' : normalizeContactNumber(row[0])];
+    return [index === headerRowIndex ? 'Normalized Contact Number' : normalizeContactNumber(row[0])];
   });
 
   sheet.getRange(1, targetCol, normalized.length, 1).setValues(normalized);
