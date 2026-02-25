@@ -33,7 +33,7 @@ function hasHeaderRow(rows) {
   var secondRowLooksNumeric = rows.length > 1 && /^\d+$/.test(secondText);
 
   // Treat as header when the first cell is descriptive text (e.g., "Contact Number") and the next row looks numeric.
-  return (!firstCellIsNumeric && secondRowLooksNumeric) || HEADER_KEYWORD_PATTERN.test(firstText);
+  return HEADER_KEYWORD_PATTERN.test(firstText) || (!firstCellIsNumeric && secondRowLooksNumeric);
 }
 
 /**
@@ -66,6 +66,7 @@ function normalizeContactNumber(raw) {
   }
 
   // If the first digit of the last 8 is 0 or 1, treat as 030-series to cover scraped data missing a full prefix.
+  // Use the last 7 digits so the normalized value remains 11 digits long.
   if (len >= 8 && len <= 11) {
     var firstOfLastEight = digits.slice(-8).charAt(0);
     if (firstOfLastEight === '0' || firstOfLastEight === '1') {
@@ -89,9 +90,8 @@ function updateNormalizedNumbers() {
 
   var targetCol = range.getLastColumn() + 1;
   var hasHeader = hasHeaderRow(values);
-  var headerRowIndex = hasHeader ? 0 : -1;
   var normalized = values.map(function (row, index) {
-    return [index === headerRowIndex ? NORMALIZED_HEADER : normalizeContactNumber(row[0])];
+    return [index === 0 && hasHeader ? NORMALIZED_HEADER : normalizeContactNumber(row[0])];
   });
 
   sheet.getRange(1, targetCol, normalized.length, 1).setValues(normalized);
