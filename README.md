@@ -1,2 +1,9 @@
 # Contact-number-analysis
-To repository my sql script
+
+Repository for SQL scripts and related utilities.
+
+## Google Apps Script helper
+Use `apps_script.gs` in a Google Sheet when you need to normalize contact numbers before importing them to MySQL:
+1. In Google Sheets, open **Extensions → Apps Script** and paste the contents of `apps_script.gs`.
+2. Ensure contact numbers are in column A with a header row.
+3. Reload the sheet and run **Contact Tools → Normalize numbers (col A)** to add a “Normalized Contact Number” column.
