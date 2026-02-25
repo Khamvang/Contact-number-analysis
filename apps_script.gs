@@ -74,7 +74,7 @@ function normalizeContactNumber(raw) {
     }
   }
 
-  // Default: use 9020 prefix for remaining 8+ digit numbers; shorter numbers are left as-is.
+  // Default: use 9020 prefix for remaining 8+ digit numbers; shorter numbers are left as-is because we cannot infer a reliable prefix for them.
   return len >= 8 ? '9020' + digits.slice(-8) : digits;
 }
 
