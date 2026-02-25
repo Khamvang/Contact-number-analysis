@@ -1,4 +1,4 @@
-# Contact-number-analysis
+# Contact number analysis
 
 Repository for SQL scripts and related utilities.
 
