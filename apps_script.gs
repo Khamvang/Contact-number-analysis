@@ -11,18 +11,31 @@ function normalizeContactNumber(raw) {
   var len = digits.length;
   var first = digits.charAt(0);
 
+  function isMobilePattern() {
+    return (len === 11 && digits.indexOf('020') === 0) ||
+      (len === 10 && digits.indexOf('20') === 0) ||
+      (len === 8 && digits.indexOf('21') !== 0 && ['2', '5', '7', '8', '9'].indexOf(first) !== -1);
+  }
+
+  function is030Pattern() {
+    // Handles 030 numbers and short regional codes that start with 2/4/5/7/9.
+    return (len === 10 && digits.indexOf('030') === 0) ||
+      (len === 9 && digits.indexOf('30') === 0) ||
+      (len === 7 && ['2', '4', '5', '7', '9'].indexOf(first) !== -1);
+  }
+
   // Landline-style numbers (021/21) become 9021 + last 6 digits.
   if ((len === 9 && digits.indexOf('021') === 0) || (len === 8 && digits.indexOf('21') === 0) || len === 6) {
     return '9021' + digits.slice(-6);
   }
 
   // Mobile-style numbers (020/20) become 9020 + last 8 digits.
-  if ((len === 11 && digits.indexOf('020') === 0) || (len === 10 && digits.indexOf('20') === 0) || (len === 8 && digits.indexOf('21') !== 0 && ['2', '5', '7', '8', '9'].indexOf(first) !== -1)) {
+  if (isMobilePattern()) {
     return '9020' + digits.slice(-8);
   }
 
   // 030-series numbers become 9030 + last 7 digits.
-  if ((len === 10 && digits.indexOf('030') === 0) || (len === 9 && digits.indexOf('30') === 0) || (len === 7 && ['2', '4', '5', '7', '9'].indexOf(first) !== -1)) {
+  if (is030Pattern()) {
     return '9030' + digits.slice(-7);
   }
 
