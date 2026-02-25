@@ -1,5 +1,5 @@
-var NORMALIZED_HEADER = 'Normalized Contact Number';
-var HEADER_KEYWORD_PATTERN = /contact/i; // Keywords that signal a header row in column A.
+const NORMALIZED_HEADER = 'Normalized Contact Number';
+const HEADER_KEYWORD_PATTERN = /contact/i; // Keywords that signal a header row in column A.
 
 function cellText(value) {
   return value === null || value === undefined ? '' : String(value).trim();
@@ -28,12 +28,12 @@ function is030Pattern(length, value, firstDigit) {
 function hasHeaderRow(rows) {
   if (!rows.length) return false;
   var firstText = cellText(rows[0][0]);
-  var firstIsNumeric = /^\d+$/.test(firstText);
+  var firstCellIsNumeric = /^\d+$/.test(firstText);
   var secondText = rows.length > 1 ? cellText(rows[1][0]) : '';
   var secondRowLooksNumeric = rows.length > 1 && /^\d+$/.test(secondText);
 
   // Treat as header when the first cell is descriptive text (e.g., "Contact Number") and the next row looks numeric.
-  return (!firstIsNumeric && secondRowLooksNumeric) || HEADER_KEYWORD_PATTERN.test(firstText);
+  return (!firstCellIsNumeric && secondRowLooksNumeric) || HEADER_KEYWORD_PATTERN.test(firstText);
 }
 
 /**
@@ -44,7 +44,7 @@ function hasHeaderRow(rows) {
 function normalizeContactNumber(raw) {
   if (raw === null || raw === undefined) return '';
 
-  var digits = String(raw).replace(/\D+/g, '');
+  var digits = String(raw).replace(/\D/g, '');
   if (digits === '') return '';
 
   var len = digits.length;
