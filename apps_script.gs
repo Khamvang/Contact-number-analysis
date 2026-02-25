@@ -1,6 +1,7 @@
 /**
  * Normalize Lao contact numbers in the same way our SQL scripts do.
- * Removes non-digits, applies known prefixes, and returns a consistent 11-digit number.
+ * Removes non-digits, applies known prefixes, and returns an 11-digit number where possible.
+ * Numbers shorter than 8 digits are returned unchanged for manual follow-up.
  */
 function normalizeContactNumber(raw) {
   if (raw === null || raw === undefined) return '';
@@ -14,7 +15,7 @@ function normalizeContactNumber(raw) {
   function isMobilePattern() {
     return (len === 11 && digits.indexOf('020') === 0) ||
       (len === 10 && digits.indexOf('20') === 0) ||
-      (len === 8 && digits.indexOf('21') !== 0 && ['2', '5', '7', '8', '9'].indexOf(first) !== -1);
+      (len === 8 && ['2', '5', '7', '8', '9'].indexOf(first) !== -1);
   }
 
   function is030Pattern() {
@@ -40,7 +41,7 @@ function normalizeContactNumber(raw) {
   }
 
   // If the first digit of the last 8 is 0 or 1, treat as 030-series.
-  if (len >= 8) {
+  if (len >= 8 && len <= 11) {
     var firstOfLastEight = digits.slice(-8).charAt(0);
     if (firstOfLastEight === '0' || firstOfLastEight === '1') {
       return '9030' + digits.slice(-7);
